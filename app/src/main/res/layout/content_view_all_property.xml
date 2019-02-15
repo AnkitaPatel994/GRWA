@@ -15,6 +15,7 @@
         android:id="@+id/rvPropertyList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"/>
+        android:layout_margin="5dp"
+        android:layoutAnimation="@anim/layout_animation_left_recyclerview"/>
 
 </LinearLayout>

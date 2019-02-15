@@ -1,5 +1,6 @@
 package com.iteration.grwa;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -50,9 +51,6 @@ public class ViewAllPropertyActivity extends AppCompatActivity
 
         rvPropertyList = (RecyclerView)findViewById(R.id.rvPropertyList);
         rvPropertyList.setHasFixedSize(true);
-
-        /*LayoutAnimationController animationController = AnimationUtils.loadLayoutAnimation(ViewAllPropertyActivity.this,R.anim.layout_animation_recyclerview);
-        rvPropertyList.setLayoutAnimation(animationController);*/
 
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
         rvPropertyList.setLayoutManager(manager);

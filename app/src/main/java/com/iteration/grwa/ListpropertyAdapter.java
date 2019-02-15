@@ -58,15 +58,6 @@ class ListpropertyAdapter extends RecyclerView.Adapter<ListpropertyAdapter.ViewH
         holder.txtPropertyPrice.setText(Price);
         holder.txtPropertyType.setText(Type);
 
-        Animation animation = AnimationUtils.loadAnimation(context, R.anim.item_animation_recyclerview);
-        v.startAnimation(animation);
-        lastPosition = position;
-
-        /*if (position > lastPosition)
-        {
-
-        }*/
-
     }
 
     @Override
