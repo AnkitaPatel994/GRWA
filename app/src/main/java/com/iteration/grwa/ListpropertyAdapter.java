@@ -1,6 +1,7 @@
 package com.iteration.grwa;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,7 +23,6 @@ class ListpropertyAdapter extends RecyclerView.Adapter<ListpropertyAdapter.ViewH
     ArrayList<String> propertyPriceArray;
     ArrayList<String> propertyTypeArray;
     View v;
-    int lastPosition = -1;
 
     public ListpropertyAdapter(Context context, ArrayList<String> propertyImgArray, ArrayList<String> propertyNameArray, ArrayList<String> propertyLocationArray, ArrayList<String> propertyPriceArray, ArrayList<String> propertyTypeArray) {
 
@@ -57,6 +57,14 @@ class ListpropertyAdapter extends RecyclerView.Adapter<ListpropertyAdapter.ViewH
         holder.txtPropertyLocation.setText(Location);
         holder.txtPropertyPrice.setText(Price);
         holder.txtPropertyType.setText(Type);
+
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context,PropertyDetailsActivity.class);
+                context.startActivity(i);
+            }
+        });
 
     }
 

@@ -8,4 +8,5 @@
     <color name="colorGrey">#e6e6e6</color>
     <color name="colorGreyDark">#999898</color>
     <color name="button_pressed">#00574B</color>
+    <color name="colorLL">#2F008577</color>
 </resources>
