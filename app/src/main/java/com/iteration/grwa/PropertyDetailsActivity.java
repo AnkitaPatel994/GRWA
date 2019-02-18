@@ -24,7 +24,7 @@ public class PropertyDetailsActivity extends AppCompatActivity {
     SliderLayout slSlider;
     ArrayList<String> SliderImgArray = new ArrayList<>();
 
-    TextView txtPDPrize;
+    TextView txtPDPrize,txtPDBHK,txtPDType,txtPDCity,txtPDBuiltArea,txtPDYearBuilt,txtPDBedroom,txtPDBathroom,txtPDPCity,txtPDState,txtPDAddress,txtPDPDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,17 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         sliderImg.execute();
 
         txtPDPrize = (TextView)findViewById(R.id.txtPDPrize);
+        txtPDBHK = (TextView)findViewById(R.id.txtPDBHK);
+        txtPDType = (TextView)findViewById(R.id.txtPDType);
+        txtPDCity = (TextView)findViewById(R.id.txtPDCity);
+        txtPDBuiltArea = (TextView)findViewById(R.id.txtPDBuiltArea);
+        txtPDYearBuilt = (TextView)findViewById(R.id.txtPDYearBuilt);
+        txtPDBedroom = (TextView)findViewById(R.id.txtPDBedroom);
+        txtPDBathroom = (TextView)findViewById(R.id.txtPDBathroom);
+        txtPDPCity = (TextView)findViewById(R.id.txtPDPCity);
+        txtPDState = (TextView)findViewById(R.id.txtPDState);
+        txtPDAddress = (TextView)findViewById(R.id.txtPDAddress);
+        txtPDPDescription = (TextView)findViewById(R.id.txtPDPDescription);
 
     }
 

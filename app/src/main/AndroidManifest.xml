@@ -11,7 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity
+            android:name=".AddPropertyActivity"
+            android:label="@string/title_activity_add_property"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.ActionBar">
@@ -21,28 +24,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".LoginActivity"
             android:theme="@style/AppTheme.ActionBar" />
-
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".ViewAllPropertyActivity"
             android:label="@string/title_activity"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".PropertyDetailsActivity"
             android:label=""
-            android:theme="@style/AppTheme.ActionBar">
-
-        </activity>
-
+            android:theme="@style/AppTheme.ActionBar"></activity>
     </application>
 
 </manifest>

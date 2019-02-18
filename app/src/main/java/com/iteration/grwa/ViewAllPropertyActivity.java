@@ -99,7 +99,7 @@ public class ViewAllPropertyActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_add_pro) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 

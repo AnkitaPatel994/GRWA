@@ -14,5 +14,15 @@
 
     <!--============ Property Details ==========-->
     <string name="RS">₹</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="enter_phone">Enter Phone</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="enter_message">Enter Message</string>
+    <string name="inquire">Inquire</string>
+    <string name="title_activity_add_property">AddPropertyActivity</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

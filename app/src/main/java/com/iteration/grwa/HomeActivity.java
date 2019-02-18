@@ -1,11 +1,13 @@
 package com.iteration.grwa;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,14 +24,18 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     RecyclerView rvPropertyTypeList;
-    ArrayList<String> PropertyTypeNameListArray = new ArrayList<>();
-    ArrayList<String> PropertyTypeImgListArray = new ArrayList<>();
+    ArrayList<HashMap<String,String>> PropertyTypeListArray = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +82,9 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
+        if (id == R.id.nav_add_pro) {
+            Intent i = new Intent(HomeActivity.this,AddPropertyActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -97,16 +104,47 @@ public class HomeActivity extends AppCompatActivity
 
 
     private class GetPropertyTypeList extends AsyncTask<String,Void,String> {
+
+        String status,message;
+
         @Override
         protected String doInBackground(String... strings) {
 
-            PropertyTypeNameListArray.add("Flat");
-            PropertyTypeNameListArray.add("House");
-            PropertyTypeNameListArray.add("Plot");
+            JSONObject joUser=new JSONObject();
+            try {
+                Postdata postdata = new Postdata();
+                String pdUser=postdata.post(MainActivity.BASE_URL+"PropertyType.php",joUser.toString());
+                JSONObject j = new JSONObject(pdUser);
+                status=j.getString("status");
+                if(status.equals("1"))
+                {
+                    message=j.getString("message");
+                    JSONArray JsArry=j.getJSONArray("PropertyType");
+                    for (int i=0;i<JsArry.length();i++)
+                    {
+                        JSONObject jo=JsArry.getJSONObject(i);
 
-            PropertyTypeImgListArray.add("https://w.ndtvimg.com/sites/3/2014/02/29125202/Pace-Prana.jpg");
-            PropertyTypeImgListArray.add("http://cdn.woodynody.com/2016/03/12/75-x-125-2-kanal-house-plan-layout-3d-front-elevation.jpg");
-            PropertyTypeImgListArray.add("https://assets.entrepreneur.com/content/3x2/2000/20161005213936-rental-homes-balconies.jpeg?width=700&crop=2:1");
+                        HashMap<String,String > hashMap = new HashMap<>();
+
+                        String id =jo.getString("id");
+                        String PropType =jo.getString("type");
+                        String pImg =jo.getString("img");
+                        String PropImg =MainActivity.BASE_URL+pImg;
+
+                        hashMap.put("id",id);
+                        hashMap.put("PropType",PropType);
+                        hashMap.put("PropImg",PropImg);
+
+                        PropertyTypeListArray.add(hashMap);
+                    }
+                }
+                else
+                {
+                    message=j.getString("message");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             return null;
         }
@@ -115,8 +153,16 @@ public class HomeActivity extends AppCompatActivity
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
-            PropertyTypeListAdapter propertyTypeListAdapter = new PropertyTypeListAdapter(HomeActivity.this,PropertyTypeNameListArray,PropertyTypeImgListArray);
-            rvPropertyTypeList.setAdapter(propertyTypeListAdapter);
+            if(status.equals("1"))
+            {
+                PropertyTypeListAdapter propertyTypeListAdapter = new PropertyTypeListAdapter(HomeActivity.this,PropertyTypeListArray);
+                rvPropertyTypeList.setAdapter(propertyTypeListAdapter);
+            }
+            else
+            {
+                Toast.makeText(HomeActivity.this,message,Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 }
