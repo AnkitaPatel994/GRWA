@@ -10,12 +10,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -23,8 +25,9 @@ public class PropertyDetailsActivity extends AppCompatActivity {
 
     SliderLayout slSlider;
     ArrayList<String> SliderImgArray = new ArrayList<>();
-    TextView txtPDPrize,txtPDBHK,txtPDType,txtPDCity,txtPDBuiltArea,txtPDYearBuilt,txtPDBedroom,txtPDBathroom,txtPDPCity,txtPDState,txtPDAddress,txtPDPDescription;
+    TextView txtPDPrize,txtPDBHK,txtPDType,txtPDUserName,txtPDUserPhone,txtPDCity,txtPDBuiltArea,txtPDYearBuilt,txtPDBedroom,txtPDBathroom,txtPDPCity,txtPDState,txtPDAddress,txtPDPDescription;
     String imgOne,imgTwo,imgThree;
+    ImageView ivImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,9 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         txtPDState = (TextView)findViewById(R.id.txtPDState);
         txtPDAddress = (TextView)findViewById(R.id.txtPDAddress);
         txtPDPDescription = (TextView)findViewById(R.id.txtPDPDescription);
+        txtPDUserName = (TextView)findViewById(R.id.txtPDUserName);
+        txtPDUserPhone = (TextView)findViewById(R.id.txtPDUserPhone);
+        ivImg = (ImageView) findViewById(R.id.ivImg);
 
         String propId = getIntent().getExtras().getString("id");
         String pid = getIntent().getExtras().getString("pid");
@@ -79,6 +85,15 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         txtPDBathroom.setText(pbathroom);
         String pdes = getIntent().getExtras().getString("pdes");
         txtPDPDescription.setText(pdes);
+        String username = getIntent().getExtras().getString("username");
+        txtPDUserName.setText(username);
+        String userpic = getIntent().getExtras().getString("userpic");
+        String userPicUrl = MainActivity.BASE_URL+userpic;
+        Picasso.with(PropertyDetailsActivity.this).load(userPicUrl).into(ivImg);
+
+        String useremail = getIntent().getExtras().getString("useremail");
+        String usermobile = getIntent().getExtras().getString("usermobile");
+        txtPDUserPhone.setText(usermobile);
 
         String pimgOne = getIntent().getExtras().getString("pimgone");
         String pimgTwo = getIntent().getExtras().getString("pimgtwo");

@@ -20,6 +20,7 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText txtUName,txtPassword;
     Button btnLogin;
+    SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,8 @@ public class LoginActivity extends AppCompatActivity {
 
         txtUName = (EditText)findViewById(R.id.txtUName);
         txtPassword = (EditText)findViewById(R.id.txtPassword);
+
+        session = new SessionManager(getApplicationContext());
 
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -44,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private class GetLoginApi extends AsyncTask<String,Void,String> {
 
-        String status,message,lId,lUserName,lPassword;
+        String status,message,UserId,UserName,UserPic,UserEmail,UserMobile,UserPassword;
         ProgressDialog dialog;
 
         @Override
@@ -61,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
 
             JSONObject joUser=new JSONObject();
             try {
-                joUser.put("uname",txtUName.getText().toString());
+                joUser.put("email",txtUName.getText().toString());
                 joUser.put("pass",txtPassword.getText().toString());
                 Postdata postdata = new Postdata();
                 String pdUser=postdata.post(MainActivity.BASE_URL+"Login.php",joUser.toString());
@@ -75,9 +78,12 @@ public class LoginActivity extends AppCompatActivity {
                     {
                         JSONObject jo=JsArry.getJSONObject(i);
 
-                        lId =jo.getString("id");
-                        lUserName =jo.getString("uname");
-                        lPassword =jo.getString("pass");
+                        UserId =jo.getString("id");
+                        UserName =jo.getString("name");
+                        UserPic =jo.getString("pic");
+                        UserEmail =jo.getString("email");
+                        UserMobile =jo.getString("mobile");
+                        UserPassword =jo.getString("pass");
 
                     }
                 }
@@ -97,6 +103,9 @@ public class LoginActivity extends AppCompatActivity {
             dialog.dismiss();
             if(status.equals("1"))
             {
+
+                session.createLoginSession(UserId,UserName,UserPic,UserEmail,UserMobile,UserPassword);
+
                 Intent i = new Intent(getApplicationContext(),HomeActivity.class);
                 startActivity(i);
                 finish();

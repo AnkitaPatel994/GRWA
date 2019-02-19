@@ -58,6 +58,10 @@ class ListpropertyAdapter extends RecyclerView.Adapter<ListpropertyAdapter.ViewH
         final String pbedroom = propertiesListArray.get(position).get("pbedroom");
         final String pbathroom = propertiesListArray.get(position).get("pbathroom");
         final String pdes = propertiesListArray.get(position).get("pdes");
+        final String username = propertiesListArray.get(position).get("username");
+        final String userpic = propertiesListArray.get(position).get("userpic");
+        final String useremail = propertiesListArray.get(position).get("useremail");
+        final String usermobile = propertiesListArray.get(position).get("usermobile");
 
         holder.txtPropertyName.setText(ppbhk+" "+ptname+" "+pcity);
         holder.txtPropertyLocation.setText("Beds: "+pbedroom+"  Baths: "+pbathroom);
@@ -87,6 +91,10 @@ class ListpropertyAdapter extends RecyclerView.Adapter<ListpropertyAdapter.ViewH
                 i.putExtra("pbedroom",pbedroom);
                 i.putExtra("pbathroom",pbathroom);
                 i.putExtra("pdes",pdes);
+                i.putExtra("username",username);
+                i.putExtra("userpic",userpic);
+                i.putExtra("useremail",useremail);
+                i.putExtra("usermobile",usermobile);
                 context.startActivity(i);
             }
         });

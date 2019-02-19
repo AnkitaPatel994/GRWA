@@ -1,6 +1,8 @@
 package com.iteration.grwa;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -17,12 +19,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,11 +35,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     RecyclerView rvPropertyTypeList;
     ArrayList<HashMap<String,String>> PropertyTypeListArray = new ArrayList<>();
+    SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,25 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        session = new SessionManager(getApplicationContext());
+        session.checkLogin();
+
+        HashMap<String,String> user = session.getUserDetails();
+        String user_name = user.get(SessionManager.user_name);
+        String user_email = user.get(SessionManager.user_email);
+        String user_pic = user.get(SessionManager.user_pic);
+        String url_user_pic = MainActivity.BASE_URL+user_pic;
+
+        View headerview = navigationView.getHeaderView(0);
+        CircleImageView ivUserImg = (CircleImageView)headerview.findViewById(R.id.ivUserImg);
+        Picasso.with(HomeActivity.this).load(url_user_pic).into(ivUserImg);
+
+        TextView txtUserName = (TextView)headerview.findViewById(R.id.txtUserName);
+        txtUserName.setText(user_name);
+
+        TextView txtUserEmail = (TextView)headerview.findViewById(R.id.txtUserEmail);
+        txtUserEmail.setText(user_email);
 
         /*================== Property List view ==================*/
 
@@ -85,12 +111,58 @@ public class HomeActivity extends AppCompatActivity
         if (id == R.id.nav_ap)
         {
             Intent i = new Intent(HomeActivity.this,AddPropertyActivity.class);
+            i.putExtra("opt","add");
             startActivity(i);
         }
+        else if (id == R.id.nav_mp)
+        {
+            Intent i = new Intent(HomeActivity.this,MyPropertyActivity.class);
+            startActivity(i);
+        }
+        else if (id == R.id.nav_share)
+        {
+            Intent i=new Intent(Intent.ACTION_SEND);
+            i.setType("text/plain");
+            String body="https://play.google.com/store/apps/details?id=com.iteration.grwa";
+            i.putExtra(Intent.EXTRA_SUBJECT,body);
+            i.putExtra(Intent.EXTRA_TEXT,body);
+            startActivity(Intent.createChooser(i,"Share using"));
+        }
+        else if (id == R.id.nav_rate)
+        {
+            Intent i=new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.iteration.grwa"));
+            if(!MyStartActivity(i))
+            {
+                i.setData(Uri.parse("https://play.google.com/store/apps/details?id=com.iteration.grwa"));
+                if(!MyStartActivity(i))
+                {
+                    Log.d("Like","Could not open browser");
+                }
+            }
+        }
+        else if (id == R.id.nav_logout)
+        {
+            session.logoutUser();
+            finish();
+        }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private boolean MyStartActivity(Intent i) {
+        try
+        {
+            startActivity(i);
+            return true;
+        }
+        catch (ActivityNotFoundException e)
+        {
+            return false;
+        }
     }
 
     private class GetPropertyTypeList extends AsyncTask<String,Void,String> {

@@ -6,12 +6,17 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
+    SessionManager session;
     static String BASE_URL = "http://grwatest.iterationtechnology.com/";
+    int flag = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        session = new SessionManager(getApplicationContext());
+        flag = session.checkLogin();
 
         Thread background = new Thread()
         {
@@ -20,9 +25,18 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     sleep(5*1000);
 
-                    Intent i = new Intent(getApplicationContext(),LoginActivity.class);
-                    startActivity(i);
-                    finish();
+                    if (flag == 1)
+                    {
+                        Intent i = new Intent(getApplicationContext(),HomeActivity.class);
+                        startActivity(i);
+                        finish();
+                    }
+                    else
+                    {
+                        Intent i = new Intent(getApplicationContext(),LoginActivity.class);
+                        startActivity(i);
+                        finish();
+                    }
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();

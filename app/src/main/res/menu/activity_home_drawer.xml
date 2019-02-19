@@ -17,18 +17,6 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="My Property" />
         <item
-            android:id="@+id/nav_vp"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="View Property" />
-        <item
-            android:id="@+id/nav_About"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="About us" />
-        <item
-            android:id="@+id/nav_coutact"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Coutact us" />
-        <item
             android:id="@+id/nav_share"
             android:icon="@drawable/ic_menu_share"
             android:title="Share App"/>

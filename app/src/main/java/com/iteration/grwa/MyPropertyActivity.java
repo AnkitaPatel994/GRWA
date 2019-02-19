@@ -1,7 +1,6 @@
 package com.iteration.grwa;
 
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -20,8 +19,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,18 +33,18 @@ import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ViewAllPropertyActivity extends AppCompatActivity
+public class MyPropertyActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    RecyclerView rvPropertyList;
-    String typeId;
-    ArrayList<HashMap<String,String>> PropertiesListArray = new ArrayList<>();
+    RecyclerView rvMyPropertyList;
     SessionManager session;
+    String user_id;
+    ArrayList<HashMap<String,String>> MyPropertiesListArray = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_all_property);
+        setContentView(R.layout.activity_my_property);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -59,9 +56,9 @@ public class ViewAllPropertyActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
         session = new SessionManager(getApplicationContext());
         HashMap<String,String> user = session.getUserDetails();
+        user_id = user.get(SessionManager.user_id);
         String user_name = user.get(SessionManager.user_name);
         String user_email = user.get(SessionManager.user_email);
         String user_pic = user.get(SessionManager.user_pic);
@@ -69,7 +66,7 @@ public class ViewAllPropertyActivity extends AppCompatActivity
 
         View headerview = navigationView.getHeaderView(0);
         CircleImageView ivUserImg = (CircleImageView)headerview.findViewById(R.id.ivUserImg);
-        Picasso.with(ViewAllPropertyActivity.this).load(url_user_pic).into(ivUserImg);
+        Picasso.with(MyPropertyActivity.this).load(url_user_pic).into(ivUserImg);
 
         TextView txtUserName = (TextView)headerview.findViewById(R.id.txtUserName);
         txtUserName.setText(user_name);
@@ -77,19 +74,14 @@ public class ViewAllPropertyActivity extends AppCompatActivity
         TextView txtUserEmail = (TextView)headerview.findViewById(R.id.txtUserEmail);
         txtUserEmail.setText(user_email);
 
-            /*================== Property List view ==================*/
-
-        rvPropertyList = (RecyclerView)findViewById(R.id.rvPropertyList);
-        rvPropertyList.setHasFixedSize(true);
+        rvMyPropertyList = (RecyclerView)findViewById(R.id.rvMyPropertyList);
+        rvMyPropertyList.setHasFixedSize(true);
 
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
-        rvPropertyList.setLayoutManager(manager);
+        rvMyPropertyList.setLayoutManager(manager);
 
-        typeId = getIntent().getExtras().getString("id");
-
-        GetPropertyList propertyList = new GetPropertyList();
-        propertyList.execute();
-
+        GetMyPropertyList myPropertyList = new GetMyPropertyList();
+        myPropertyList.execute();
 
     }
 
@@ -103,24 +95,6 @@ public class ViewAllPropertyActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.view_all_property, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.menu_search) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -130,18 +104,13 @@ public class ViewAllPropertyActivity extends AppCompatActivity
 
         if (id == R.id.nav_home)
         {
-            Intent i = new Intent(ViewAllPropertyActivity.this,HomeActivity.class);
+            Intent i = new Intent(MyPropertyActivity.this,HomeActivity.class);
             startActivity(i);
         }
         else if (id == R.id.nav_ap)
         {
-            Intent i = new Intent(ViewAllPropertyActivity.this,AddPropertyActivity.class);
+            Intent i = new Intent(MyPropertyActivity.this,AddPropertyActivity.class);
             i.putExtra("opt","add");
-            startActivity(i);
-        }
-        else if (id == R.id.nav_mp)
-        {
-            Intent i = new Intent(ViewAllPropertyActivity.this,MyPropertyActivity.class);
             startActivity(i);
         }
         else if (id == R.id.nav_share)
@@ -189,16 +158,16 @@ public class ViewAllPropertyActivity extends AppCompatActivity
         }
     }
 
-    private class GetPropertyList extends AsyncTask<String,Void,String> {
+    private class GetMyPropertyList extends AsyncTask<String,Void,String> {
         String status,message;
         @Override
         protected String doInBackground(String... strings) {
 
             JSONObject joUser=new JSONObject();
             try {
-                joUser.put("PropertyType",typeId);
+                joUser.put("UserId",user_id);
                 Postdata postdata = new Postdata();
-                String pdUser=postdata.post(MainActivity.BASE_URL+"Properties.php",joUser.toString());
+                String pdUser=postdata.post(MainActivity.BASE_URL+"MyProperty.php",joUser.toString());
                 JSONObject j = new JSONObject(pdUser);
                 status=j.getString("status");
                 if(status.equals("1"))
@@ -253,7 +222,7 @@ public class ViewAllPropertyActivity extends AppCompatActivity
                         hashMap.put("useremail",useremail);
                         hashMap.put("usermobile",usermobile);
 
-                        PropertiesListArray.add(hashMap);
+                        MyPropertiesListArray.add(hashMap);
                     }
                 }
                 else
@@ -273,12 +242,12 @@ public class ViewAllPropertyActivity extends AppCompatActivity
 
             if(status.equals("1"))
             {
-                ListpropertyAdapter listpropertyAdapter = new ListpropertyAdapter(ViewAllPropertyActivity.this,PropertiesListArray);
-                rvPropertyList.setAdapter(listpropertyAdapter);
+                MyPropertyListAdapter myPropertyListAdapter = new MyPropertyListAdapter(MyPropertyActivity.this,MyPropertiesListArray);
+                rvMyPropertyList.setAdapter(myPropertyListAdapter);
             }
             else
             {
-                Toast.makeText(ViewAllPropertyActivity.this,message,Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyPropertyActivity.this,message,Toast.LENGTH_SHORT).show();
             }
         }
     }
