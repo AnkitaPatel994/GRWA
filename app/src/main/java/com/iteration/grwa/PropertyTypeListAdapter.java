@@ -2,24 +2,14 @@ package com.iteration.grwa;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.daimajia.slider.library.Animations.DescriptionAnimation;
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +37,7 @@ class PropertyTypeListAdapter extends RecyclerView.Adapter<PropertyTypeListAdapt
     @Override
     public void onBindViewHolder(ViewHolder holder, int i) {
 
-        String id = propertyTypeListArray.get(i).get("id");
+        final String id = propertyTypeListArray.get(i).get("id");
         String propType = propertyTypeListArray.get(i).get("PropType");
         String propImg = propertyTypeListArray.get(i).get("PropImg");
 
@@ -58,6 +48,7 @@ class PropertyTypeListAdapter extends RecyclerView.Adapter<PropertyTypeListAdapt
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context,ViewAllPropertyActivity.class);
+                i.putExtra("id",id);
                 context.startActivity(i);
             }
         });

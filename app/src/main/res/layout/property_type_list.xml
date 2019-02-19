@@ -16,7 +16,7 @@
             android:layout_height="209dp"
             android:scaleType="fitXY"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/splashnamelogo" />
+            app:srcCompat="@drawable/property" />
 
         <LinearLayout
             android:layout_width="match_parent"

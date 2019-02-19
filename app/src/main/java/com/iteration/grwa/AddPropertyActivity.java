@@ -12,9 +12,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 public class AddPropertyActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    EditText txtAPId,txtAPPrize,txtAPBHK,txtAPArea,txtAPYearBuilt,txtAPPropDes,txtAPBedroom,txtAPCity,txtAPState,txtAPBathroom,txtAPAddress;
+    LinearLayout llImgOne,llImgTwo,llImgThree;
+    ImageView ivImgOne,ivImgTwo,ivImgThree;
+    Spinner spPType;
+    Button btnAddProp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +42,38 @@ public class AddPropertyActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        txtAPId = (EditText)findViewById(R.id.txtAPId);
+
+        llImgOne = (LinearLayout)findViewById(R.id.llImgOne);
+        llImgTwo = (LinearLayout)findViewById(R.id.llImgTwo);
+        llImgThree = (LinearLayout)findViewById(R.id.llImgThree);
+
+        ivImgOne = (ImageView) findViewById(R.id.ivImgOne);
+        ivImgTwo = (ImageView) findViewById(R.id.ivImgTwo);
+        ivImgThree = (ImageView) findViewById(R.id.ivImgThree);
+
+        txtAPPrize = (EditText) findViewById(R.id.txtAPPrize);
+        txtAPBHK = (EditText) findViewById(R.id.txtAPBHK);
+
+        spPType = (Spinner) findViewById(R.id.spPType);
+
+        txtAPArea = (EditText) findViewById(R.id.txtAPArea);
+        txtAPYearBuilt = (EditText) findViewById(R.id.txtAPYearBuilt);
+        txtAPBedroom = (EditText) findViewById(R.id.txtAPBedroom);
+        txtAPBathroom = (EditText) findViewById(R.id.txtAPBathroom);
+        txtAPAddress = (EditText) findViewById(R.id.txtAPAddress);
+        txtAPCity = (EditText) findViewById(R.id.txtAPCity);
+        txtAPState = (EditText) findViewById(R.id.txtAPState);
+        txtAPPropDes = (EditText) findViewById(R.id.txtAPPropDes);
+
+        btnAddProp = (Button)findViewById(R.id.btnAddProp);
+        btnAddProp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
@@ -49,7 +92,7 @@ public class AddPropertyActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_add_pro) {
+        /*if (id == R.id.nav_add_pro) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
@@ -61,7 +104,7 @@ public class AddPropertyActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-        }
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

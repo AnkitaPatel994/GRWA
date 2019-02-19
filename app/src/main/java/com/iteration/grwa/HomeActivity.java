@@ -82,26 +82,16 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_add_pro) {
+        if (id == R.id.nav_ap)
+        {
             Intent i = new Intent(HomeActivity.this,AddPropertyActivity.class);
             startActivity(i);
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
     private class GetPropertyTypeList extends AsyncTask<String,Void,String> {
 

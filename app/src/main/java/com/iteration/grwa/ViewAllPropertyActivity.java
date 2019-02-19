@@ -18,18 +18,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ViewAllPropertyActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     RecyclerView rvPropertyList;
-    ArrayList<String> propertyImgArray = new ArrayList<>();
-    ArrayList<String> propertyNameArray = new ArrayList<>();
-    ArrayList<String> propertyLocationArray = new ArrayList<>();
-    ArrayList<String> propertyPriceArray = new ArrayList<>();
-    ArrayList<String> propertyTypeArray = new ArrayList<>();
+    String typeId;
+    ArrayList<HashMap<String,String>> PropertiesListArray = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,8 @@ public class ViewAllPropertyActivity extends AppCompatActivity
 
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
         rvPropertyList.setLayoutManager(manager);
+
+        typeId = getIntent().getExtras().getString("id");
 
         GetPropertyList propertyList = new GetPropertyList();
         propertyList.execute();
@@ -80,12 +85,9 @@ public class ViewAllPropertyActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.menu_search) {
             return true;
         }
@@ -99,7 +101,7 @@ public class ViewAllPropertyActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_add_pro) {
+        /*if (id == R.id.nav_add_pro) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
@@ -111,7 +113,7 @@ public class ViewAllPropertyActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-        }
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -119,53 +121,71 @@ public class ViewAllPropertyActivity extends AppCompatActivity
     }
 
     private class GetPropertyList extends AsyncTask<String,Void,String> {
+        String status,message;
         @Override
         protected String doInBackground(String... strings) {
 
-            propertyImgArray.add("http://cdn.woodynody.com/2016/03/12/75-x-125-2-kanal-house-plan-layout-3d-front-elevation.jpg");
-            propertyImgArray.add("http://cdn.woodynody.com/2016/03/12/75-x-125-2-kanal-house-plan-layout-3d-front-elevation.jpg");
-            propertyImgArray.add("http://cdn.woodynody.com/2016/03/12/75-x-125-2-kanal-house-plan-layout-3d-front-elevation.jpg");
-            propertyImgArray.add("http://cdn.woodynody.com/2016/03/12/75-x-125-2-kanal-house-plan-layout-3d-front-elevation.jpg");
-            propertyImgArray.add("http://cdn.woodynody.com/2016/03/12/75-x-125-2-kanal-house-plan-layout-3d-front-elevation.jpg");
-            propertyImgArray.add("http://cdn.woodynody.com/2016/03/12/75-x-125-2-kanal-house-plan-layout-3d-front-elevation.jpg");
-            propertyImgArray.add("http://cdn.woodynody.com/2016/03/12/75-x-125-2-kanal-house-plan-layout-3d-front-elevation.jpg");
-            propertyImgArray.add("http://cdn.woodynody.com/2016/03/12/75-x-125-2-kanal-house-plan-layout-3d-front-elevation.jpg");
+            JSONObject joUser=new JSONObject();
+            try {
+                joUser.put("PropertyType",typeId);
+                Postdata postdata = new Postdata();
+                String pdUser=postdata.post(MainActivity.BASE_URL+"Properties.php",joUser.toString());
+                JSONObject j = new JSONObject(pdUser);
+                status=j.getString("status");
+                if(status.equals("1"))
+                {
+                    message=j.getString("message");
+                    JSONArray JsArry=j.getJSONArray("Properties");
+                    for (int i=0;i<JsArry.length();i++)
+                    {
+                        JSONObject jo=JsArry.getJSONObject(i);
 
-            propertyNameArray.add("Kanal House Plan");
-            propertyNameArray.add("Kanal House Plan");
-            propertyNameArray.add("Kanal House Plan");
-            propertyNameArray.add("Kanal House Plan");
-            propertyNameArray.add("Kanal House Plan");
-            propertyNameArray.add("Kanal House Plan");
-            propertyNameArray.add("Kanal House Plan");
-            propertyNameArray.add("Kanal House Plan");
+                        HashMap<String,String > hashMap = new HashMap<>();
 
-            propertyLocationArray.add("Kudasan Gandhinager");
-            propertyLocationArray.add("Kudasan Gandhinager");
-            propertyLocationArray.add("Kudasan Gandhinager");
-            propertyLocationArray.add("Kudasan Gandhinager");
-            propertyLocationArray.add("Kudasan Gandhinager");
-            propertyLocationArray.add("Kudasan Gandhinager");
-            propertyLocationArray.add("Kudasan Gandhinager");
-            propertyLocationArray.add("Kudasan Gandhinager");
+                        String id =jo.getString("id");
+                        String pid =jo.getString("pid");
+                        String pimgone =jo.getString("pimgone");
+                        String pimgtwo =jo.getString("pimgtwo");
+                        String pimgthree =jo.getString("pimgthree");
+                        String pprize =jo.getString("pprize");
+                        String ppbhk =jo.getString("ppbhk");
+                        String ptname =jo.getString("ptname");
+                        String pparea =jo.getString("pparea");
+                        String pyearbuilt =jo.getString("pyearbuilt");
+                        String pstate =jo.getString("pstate");
+                        String pcity =jo.getString("pcity");
+                        String paddress =jo.getString("paddress");
+                        String pbedroom =jo.getString("pbedroom");
+                        String pbathroom =jo.getString("pbathroom");
+                        String pdes =jo.getString("pdes");
 
-            propertyPriceArray.add("₹ 45.8L - 1.28 Cr");
-            propertyPriceArray.add("₹ 45.8L - 1.28 Cr");
-            propertyPriceArray.add("₹ 45.8L - 1.28 Cr");
-            propertyPriceArray.add("₹ 45.8L - 1.28 Cr");
-            propertyPriceArray.add("₹ 45.8L - 1.28 Cr");
-            propertyPriceArray.add("₹ 45.8L - 1.28 Cr");
-            propertyPriceArray.add("₹ 45.8L - 1.28 Cr");
-            propertyPriceArray.add("₹ 45.8L - 1.28 Cr");
+                        hashMap.put("id",id);
+                        hashMap.put("pid",pid);
+                        hashMap.put("pimgone",pimgone);
+                        hashMap.put("pimgtwo",pimgtwo);
+                        hashMap.put("pimgthree",pimgthree);
+                        hashMap.put("pprize",pprize);
+                        hashMap.put("ppbhk",ppbhk);
+                        hashMap.put("ptname",ptname);
+                        hashMap.put("pparea",pparea);
+                        hashMap.put("pyearbuilt",pyearbuilt);
+                        hashMap.put("pstate",pstate);
+                        hashMap.put("pcity",pcity);
+                        hashMap.put("paddress",paddress);
+                        hashMap.put("pbedroom",pbedroom);
+                        hashMap.put("pbathroom",pbathroom);
+                        hashMap.put("pdes",pdes);
 
-            propertyTypeArray.add("5 BHK House");
-            propertyTypeArray.add("5 BHK House");
-            propertyTypeArray.add("5 BHK House");
-            propertyTypeArray.add("5 BHK House");
-            propertyTypeArray.add("5 BHK House");
-            propertyTypeArray.add("5 BHK House");
-            propertyTypeArray.add("5 BHK House");
-            propertyTypeArray.add("5 BHK House");
+                        PropertiesListArray.add(hashMap);
+                    }
+                }
+                else
+                {
+                    message=j.getString("message");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             return null;
         }
@@ -174,8 +194,15 @@ public class ViewAllPropertyActivity extends AppCompatActivity
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
-            ListpropertyAdapter listpropertyAdapter = new ListpropertyAdapter(ViewAllPropertyActivity.this,propertyImgArray,propertyNameArray,propertyLocationArray,propertyPriceArray,propertyTypeArray);
-            rvPropertyList.setAdapter(listpropertyAdapter);
+            if(status.equals("1"))
+            {
+                ListpropertyAdapter listpropertyAdapter = new ListpropertyAdapter(ViewAllPropertyActivity.this,PropertiesListArray);
+                rvPropertyList.setAdapter(listpropertyAdapter);
+            }
+            else
+            {
+                Toast.makeText(ViewAllPropertyActivity.this,message,Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

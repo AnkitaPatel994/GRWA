@@ -8,40 +8,328 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".AddPropertyActivity"
     android:orientation="vertical"
-    android:layout_marginTop="10dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
     tools:showIn="@layout/app_bar_add_property">
 
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginBottom="5dp"
-        android:text="Property Id" />
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/txtAPId"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:hint="Property Id"
-        android:background="@drawable/textbox"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginBottom="5dp"
-        android:text="Property Id" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="Property Id:" />
 
-    <EditText
+            <EditText
+                android:id="@+id/txtAPId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:padding="10dp"
+                android:hint="Property Id"
+                android:background="@drawable/textbox"/>
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:hint="Property Id"
-        android:background="@drawable/textbox"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="Image:" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/llImgOne"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/textbox"
+                    android:gravity="center"
+                    android:layout_marginRight="20dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/ivImgOne"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:src="@drawable/ic_add"
+                        android:tint="#928E8E"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llImgTwo"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/textbox"
+                    android:gravity="center"
+                    android:layout_marginRight="20dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/ivImgTwo"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:src="@drawable/ic_add"
+                        android:tint="#928E8E"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llImgThree"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/textbox"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/ivImgThree"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:src="@drawable/ic_add"
+                        android:tint="#928E8E"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="Property Prize:" />
+
+            <EditText
+                android:id="@+id/txtAPPrize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:padding="10dp"
+                android:hint="Property Prize"
+                android:background="@drawable/textbox"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="Property BHK:" />
+
+            <EditText
+                android:id="@+id/txtAPBHK"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:padding="10dp"
+                android:hint="Property BHK"
+                android:background="@drawable/textbox"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="Property Type:" />
+
+            <Spinner
+                android:id="@+id/spPType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:background="@android:drawable/btn_dropdown" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="Built-up Area:" />
+
+            <EditText
+                android:id="@+id/txtAPArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:padding="10dp"
+                android:hint="Property Built-up Area"
+                android:background="@drawable/textbox"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="Year Built:" />
+
+            <EditText
+                android:id="@+id/txtAPYearBuilt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:padding="10dp"
+                android:hint="Property Year Built"
+                android:background="@drawable/textbox"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="Bedroom:" />
+
+                    <EditText
+                        android:id="@+id/txtAPBedroom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:padding="10dp"
+                        android:hint="Bedroom"
+                        android:background="@drawable/textbox"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="Bathroom:" />
+
+                    <EditText
+                        android:id="@+id/txtAPBathroom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:padding="10dp"
+                        android:hint="Bathroom"
+                        android:background="@drawable/textbox"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="Address:" />
+
+            <EditText
+                android:id="@+id/txtAPAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:padding="10dp"
+                android:hint="Property Address"
+                android:background="@drawable/textbox"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="City:" />
+
+            <EditText
+                android:id="@+id/txtAPCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:padding="10dp"
+                android:hint="City"
+                android:background="@drawable/textbox"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="State:" />
+
+            <EditText
+                android:id="@+id/txtAPState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:padding="10dp"
+                android:hint="State"
+                android:background="@drawable/textbox"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="Property Description:" />
+
+            <EditText
+                android:id="@+id/txtAPPropDes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:padding="10dp"
+                android:hint="State"
+                android:background="@drawable/textbox"/>
+
+            <Button
+                android:id="@+id/btnAddProp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add Prpperty"
+                android:textColor="@color/colorWhite"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/button_bg"/>
+
+        </LinearLayout>
+    </ScrollView>
+
 
 </LinearLayout>

@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
-    static String BASE_URL = "http://devkidswonder.com/GRWA/";
+    static String BASE_URL = "http://grwatest.iterationtechnology.com/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

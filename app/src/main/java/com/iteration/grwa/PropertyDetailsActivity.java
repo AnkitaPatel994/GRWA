@@ -23,8 +23,8 @@ public class PropertyDetailsActivity extends AppCompatActivity {
 
     SliderLayout slSlider;
     ArrayList<String> SliderImgArray = new ArrayList<>();
-
     TextView txtPDPrize,txtPDBHK,txtPDType,txtPDCity,txtPDBuiltArea,txtPDYearBuilt,txtPDBedroom,txtPDBathroom,txtPDPCity,txtPDState,txtPDAddress,txtPDPDescription;
+    String imgOne,imgTwo,imgThree;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +40,6 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         }
 
         slSlider = (SliderLayout)findViewById(R.id.slSlider);
-        GetSliderImg sliderImg = new GetSliderImg();
-        sliderImg.execute();
 
         txtPDPrize = (TextView)findViewById(R.id.txtPDPrize);
         txtPDBHK = (TextView)findViewById(R.id.txtPDBHK);
@@ -55,6 +53,43 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         txtPDState = (TextView)findViewById(R.id.txtPDState);
         txtPDAddress = (TextView)findViewById(R.id.txtPDAddress);
         txtPDPDescription = (TextView)findViewById(R.id.txtPDPDescription);
+
+        String propId = getIntent().getExtras().getString("id");
+        String pid = getIntent().getExtras().getString("pid");
+        String pprize = getIntent().getExtras().getString("pprize");
+        txtPDPrize.setText(pprize);
+        String ppbhk = getIntent().getExtras().getString("ppbhk");
+        txtPDBHK.setText(ppbhk);
+        String ptname = getIntent().getExtras().getString("ptname");
+        txtPDType.setText(ptname);
+        String pparea = getIntent().getExtras().getString("pparea");
+        txtPDBuiltArea.setText(pparea);
+        String pyearbuilt = getIntent().getExtras().getString("pyearbuilt");
+        txtPDYearBuilt.setText(pyearbuilt);
+        String pstate = getIntent().getExtras().getString("pstate");
+        txtPDState.setText(pstate);
+        String pcity = getIntent().getExtras().getString("pcity");
+        txtPDCity.setText(pcity);
+        txtPDPCity.setText(pcity);
+        String paddress = getIntent().getExtras().getString("paddress");
+        txtPDAddress.setText(paddress);
+        String pbedroom = getIntent().getExtras().getString("pbedroom");
+        txtPDBedroom.setText(pbedroom);
+        String pbathroom = getIntent().getExtras().getString("pbathroom");
+        txtPDBathroom.setText(pbathroom);
+        String pdes = getIntent().getExtras().getString("pdes");
+        txtPDPDescription.setText(pdes);
+
+        String pimgOne = getIntent().getExtras().getString("pimgone");
+        String pimgTwo = getIntent().getExtras().getString("pimgtwo");
+        String pimgThree = getIntent().getExtras().getString("pimgthree");
+
+        imgOne = MainActivity.BASE_URL+pimgOne;
+        imgTwo = MainActivity.BASE_URL+pimgTwo;
+        imgThree = MainActivity.BASE_URL+pimgThree;
+
+        GetSliderImg sliderImg = new GetSliderImg();
+        sliderImg.execute();
 
     }
 
@@ -86,10 +121,9 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
 
-            SliderImgArray.add("http://cdn.woodynody.com/2016/03/12/75-x-125-2-kanal-house-plan-layout-3d-front-elevation.jpg");
-            SliderImgArray.add("https://w.ndtvimg.com/sites/3/2014/02/29125202/Pace-Prana.jpg");
-            SliderImgArray.add("https://assets.entrepreneur.com/content/3x2/2000/20161005213936-rental-homes-balconies.jpeg?width=700&crop=2:1");
-            SliderImgArray.add("https://w.ndtvimg.com/sites/3/2014/02/29125202/Pace-Prana.jpg");
+            SliderImgArray.add(imgOne);
+            SliderImgArray.add(imgTwo);
+            SliderImgArray.add(imgThree);
 
             return null;
         }
