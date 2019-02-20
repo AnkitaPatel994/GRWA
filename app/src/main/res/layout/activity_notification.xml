@@ -9,7 +9,7 @@
     tools:openDrawer="start">
 
     <include
-        layout="@layout/app_bar_home"
+        layout="@layout/app_bar_notification"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -19,28 +19,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_home"
-        app:menu="@menu/activity_home_drawer">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:orientation="horizontal"
-        android:padding="16dp">
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginStart="5dp"
-        android:text="© Iteration Technology"
-        android:textColor="@color/colorBlack"
-        android:textSize="10dp"/>
-    </LinearLayout>
-
-</android.support.design.widget.NavigationView>
+        app:headerLayout="@layout/nav_header_notification"
+        app:menu="@menu/activity_notification_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

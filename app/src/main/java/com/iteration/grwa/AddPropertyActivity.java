@@ -30,6 +30,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,12 +66,13 @@ public class AddPropertyActivity extends AppCompatActivity
     ImageView ivImgOne,ivImgTwo,ivImgThree;
     Spinner spPType;
     ArrayList<String> spListTypeArray=new ArrayList<>();
+    ArrayList<String> spListIdTypeArray=new ArrayList<>();
     Button btnAddProp;
     String Prop_Id,Prop_Prize,Prop_BHK,Prop_Type,Prop_Area,Prop_YearBuilt,Prop_Bedroom,Prop_Bathroom,Prop_Address,Prop_City,Prop_State,Prop_PropDes;
     Bitmap bitmap = null;
     String str_imgpath,encodedImgpathOne,encodedImgpathTwo,encodedImgpathThree;
     int REQUEST_CAMERA = 0, SELECT_FILE = 1;
-    String flag;
+    String flag,typeId;
     String propId,pid,pprize,ppbhk,ptname,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,peid,pimgOne,pimgTwo,pimgThree;
 
     @Override
@@ -124,6 +126,19 @@ public class AddPropertyActivity extends AppCompatActivity
         txtAPBHK = (EditText) findViewById(R.id.txtAPBHK);
 
         spPType = (Spinner) findViewById(R.id.spPType);
+        spPType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int pt = spPType.getSelectedItemPosition();
+                typeId = spListIdTypeArray.get(pt);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         txtAPArea = (EditText) findViewById(R.id.txtAPArea);
         txtAPYearBuilt = (EditText) findViewById(R.id.txtAPYearBuilt);
@@ -263,7 +278,7 @@ public class AddPropertyActivity extends AppCompatActivity
                 Prop_Id = txtAPId.getText().toString();
                 Prop_Prize = txtAPPrize.getText().toString();
                 Prop_BHK = txtAPBHK.getText().toString();
-                Prop_Type = spPType.getSelectedItem().toString();
+                Prop_Type = typeId;
                 Prop_Area = txtAPArea.getText().toString();
                 Prop_YearBuilt = txtAPYearBuilt.getText().toString();
                 Prop_Bedroom = txtAPBedroom.getText().toString();
@@ -279,9 +294,8 @@ public class AddPropertyActivity extends AppCompatActivity
                 }
                 else if(flag.equals("edit"))
                 {
-                    /*GetEditProperty editProperty = new GetEditProperty();
-                    editProperty.execute();*/
-                    Toast.makeText(getApplicationContext(),"edit",Toast.LENGTH_SHORT).show();
+                    GetEditProperty editProperty = new GetEditProperty();
+                    editProperty.execute();
                 }
 
 
@@ -600,6 +614,7 @@ public class AddPropertyActivity extends AppCompatActivity
                         String id =jo.getString("id");
                         String PropType =jo.getString("type");
 
+                        spListIdTypeArray.add(id);
                         spListTypeArray.add(PropType);
                     }
                 }

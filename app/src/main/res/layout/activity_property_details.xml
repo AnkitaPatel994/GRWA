@@ -567,6 +567,7 @@
         android:background="@color/colorPrimary">
 
         <LinearLayout
+            android:id="@+id/llPDViewCon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -574,9 +575,9 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_email"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_contact"
                 android:tint="@color/colorWhite"/>
 
             <TextView
@@ -589,6 +590,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llPDSendMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -596,8 +598,8 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:tint="@color/colorWhite"
                 android:src="@drawable/ic_email" />
 
@@ -613,6 +615,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llPDPhone"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:gravity="center"

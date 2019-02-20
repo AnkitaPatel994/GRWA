@@ -102,6 +102,27 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.home, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.menu_notification) {
+            Intent i =new Intent(getApplicationContext(),NotificationActivity.class);
+            startActivity(i);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -117,6 +138,11 @@ public class HomeActivity extends AppCompatActivity
         else if (id == R.id.nav_mp)
         {
             Intent i = new Intent(HomeActivity.this,MyPropertyActivity.class);
+            startActivity(i);
+        }
+        else if (id == R.id.nav_notification)
+        {
+            Intent i = new Intent(HomeActivity.this,NotificationActivity.class);
             startActivity(i);
         }
         else if (id == R.id.nav_share)

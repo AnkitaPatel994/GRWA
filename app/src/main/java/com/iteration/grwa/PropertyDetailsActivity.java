@@ -1,16 +1,22 @@
 package com.iteration.grwa;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -28,6 +34,8 @@ public class PropertyDetailsActivity extends AppCompatActivity {
     TextView txtPDPrize,txtPDBHK,txtPDType,txtPDUserName,txtPDUserPhone,txtPDCity,txtPDBuiltArea,txtPDYearBuilt,txtPDBedroom,txtPDBathroom,txtPDPCity,txtPDState,txtPDAddress,txtPDPDescription;
     String imgOne,imgTwo,imgThree;
     ImageView ivImg;
+    String usermobile;
+    LinearLayout llPDViewCon,llPDSendMessage,llPDPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +100,7 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         Picasso.with(PropertyDetailsActivity.this).load(userPicUrl).into(ivImg);
 
         String useremail = getIntent().getExtras().getString("useremail");
-        String usermobile = getIntent().getExtras().getString("usermobile");
+        usermobile = getIntent().getExtras().getString("usermobile");
         txtPDUserPhone.setText(usermobile);
 
         String pimgOne = getIntent().getExtras().getString("pimgone");
@@ -105,6 +113,34 @@ public class PropertyDetailsActivity extends AppCompatActivity {
 
         GetSliderImg sliderImg = new GetSliderImg();
         sliderImg.execute();
+
+        llPDViewCon = (LinearLayout)findViewById(R.id.llPDViewCon);
+        llPDSendMessage = (LinearLayout)findViewById(R.id.llPDSendMessage);
+        llPDPhone = (LinearLayout)findViewById(R.id.llPDPhone);
+        llPDPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(PropertyDetailsActivity.this,
+                        Manifest.permission.CALL_PHONE)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(PropertyDetailsActivity.this,
+                            Manifest.permission.CALL_PHONE)) {
+
+                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        callIntent.setData(Uri.parse("tel:" + usermobile));
+                        startActivity(callIntent);
+
+                    } else {
+                        ActivityCompat.requestPermissions(PropertyDetailsActivity.this, new String[]{"android.permission.CALL_PHONE",}, 200);
+                    }
+                } else {
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:" + usermobile));
+                    startActivity(callIntent);
+                }
+            }
+        });
 
     }
 
