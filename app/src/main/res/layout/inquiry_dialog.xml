@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:id="@+id/llInquiryDialog"
+    android:background="#6F000000">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_margin="40dp"
+        android:background="@android:drawable/editbox_background"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Inquiry"
+            android:textSize="20dp"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorGreyDark"/>
+
+        <EditText
+            android:id="@+id/txtInName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:drawableLeft="@drawable/ic_account"
+            android:drawablePadding="25dp"
+            android:hint="@string/enter_name"
+            android:background="@drawable/textbox"/>
+
+        <EditText
+            android:id="@+id/txtInPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:drawableLeft="@drawable/ic_phone"
+            android:drawablePadding="25dp"
+            android:hint="@string/enter_phone"
+            android:background="@drawable/textbox"/>
+
+        <EditText
+            android:id="@+id/txtInEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:drawableLeft="@drawable/ic_email"
+            android:drawablePadding="25dp"
+            android:hint="@string/enter_email"
+            android:background="@drawable/textbox"/>
+
+        <EditText
+            android:id="@+id/txtInMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:drawableLeft="@drawable/ic_message"
+            android:drawablePadding="25dp"
+            android:hint="@string/enter_message"
+            android:background="@drawable/textbox"/>
+
+        <Button
+            android:id="@+id/btnInInquire"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:textColor="@color/colorWhite"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:background="@drawable/button_bg"/>
+
+    </LinearLayout>
+
+</LinearLayout>

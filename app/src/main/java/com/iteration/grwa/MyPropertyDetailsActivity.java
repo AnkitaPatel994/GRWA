@@ -1,6 +1,8 @@
 package com.iteration.grwa;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -32,6 +34,7 @@ public class MyPropertyDetailsActivity extends AppCompatActivity {
     ArrayList<String> MySliderImgArray = new ArrayList<>();
     String imgOne,imgTwo,imgThree;
     SessionManager session;
+    Dialog dialog;
     String propId,pid,pprize,ppbhk,ptname,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,user_id;
 
     @Override
@@ -156,8 +159,29 @@ public class MyPropertyDetailsActivity extends AppCompatActivity {
         }
         else if (id == R.id.menu_delete)
         {
-            GetDeleteProperty deleteProperty = new GetDeleteProperty();
-            deleteProperty.execute();
+            dialog = new Dialog(MyPropertyDetailsActivity.this,android.R.style.Theme_Light_NoTitleBar);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            dialog.setContentView(R.layout.delete_dialog);
+            dialog.setCancelable(true);
+
+            TextView txtNo = (TextView)dialog.findViewById(R.id.txtNo);
+            TextView txtYes = (TextView)dialog.findViewById(R.id.txtYes);
+            txtYes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GetDeleteProperty deleteProperty = new GetDeleteProperty();
+                    deleteProperty.execute();
+                }
+            });
+
+            txtNo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -232,6 +256,7 @@ public class MyPropertyDetailsActivity extends AppCompatActivity {
             super.onPostExecute(s);
             if(status.equals("1"))
             {
+                dialog.dismiss();
                 Intent i = new Intent(MyPropertyDetailsActivity.this,MyPropertyActivity.class);
                 startActivity(i);
                 finish();

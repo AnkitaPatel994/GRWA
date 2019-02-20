@@ -3,9 +3,12 @@ package com.iteration.grwa;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -16,11 +19,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class NotificationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     SessionManager session;
+    RecyclerView rvNotification;
+    ArrayList<HashMap<String,String>> NotificationListArray = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +52,15 @@ public class NotificationActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         session = new SessionManager(getApplicationContext());
+
+        rvNotification = (RecyclerView)findViewById(R.id.rvNotification);
+        rvNotification.setHasFixedSize(true);
+
+        RecyclerView.LayoutManager manager = new GridLayoutManager(NotificationActivity.this,1);
+        rvNotification.setLayoutManager(manager);
+
+        GetNotificationList notificationList = new GetNotificationList();
+        notificationList.execute();
     }
 
     @Override
@@ -114,6 +136,72 @@ public class NotificationActivity extends AppCompatActivity
         catch (ActivityNotFoundException e)
         {
             return false;
+        }
+    }
+
+    private class GetNotificationList extends AsyncTask<String,Void,String> {
+
+        String status,message;
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            JSONObject joUser=new JSONObject();
+            try {
+                Postdata postdata = new Postdata();
+                String pdUser=postdata.post(MainActivity.BASE_URL+"ViewInquiry.php",joUser.toString());
+                JSONObject j = new JSONObject(pdUser);
+                status=j.getString("status");
+                if(status.equals("1"))
+                {
+                    message=j.getString("message");
+                    JSONArray JsArry=j.getJSONArray("PropertyType");
+                    for (int i=0;i<JsArry.length();i++)
+                    {
+                        JSONObject jo=JsArry.getJSONObject(i);
+
+                        HashMap<String,String > hashMap = new HashMap<>();
+
+                        String i_id =jo.getString("i_id");
+                        String i_name =jo.getString("i_name");
+                        String i_phone =jo.getString("i_phone");
+                        String i_email =jo.getString("i_email");
+                        String i_message =jo.getString("i_message");
+
+                        hashMap.put("i_id",i_id);
+                        hashMap.put("i_name",i_name);
+                        hashMap.put("i_phone",i_phone);
+                        hashMap.put("i_email",i_email);
+                        hashMap.put("i_message",i_message);
+
+                        NotificationListArray.add(hashMap);
+                    }
+                }
+                else
+                {
+                    message=j.getString("message");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if(status.equals("1"))
+            {
+                NotificationAdapter notificationAdapter = new NotificationAdapter(NotificationActivity.this,NotificationListArray);
+                rvNotification.setAdapter(notificationAdapter);
+            }
+            else
+            {
+                Toast.makeText(NotificationActivity.this,message,Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 }

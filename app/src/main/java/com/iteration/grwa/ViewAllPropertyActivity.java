@@ -177,6 +177,11 @@ public class ViewAllPropertyActivity extends AppCompatActivity
             Intent i = new Intent(ViewAllPropertyActivity.this,MyPropertyActivity.class);
             startActivity(i);
         }
+        else if (id == R.id.nav_notification)
+        {
+            Intent i = new Intent(ViewAllPropertyActivity.this,NotificationActivity.class);
+            startActivity(i);
+        }
         else if (id == R.id.nav_share)
         {
             Intent i=new Intent(Intent.ACTION_SEND);

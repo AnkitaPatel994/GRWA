@@ -20,6 +20,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,8 +42,11 @@ public class MyPropertyActivity extends AppCompatActivity
 
     RecyclerView rvMyPropertyList;
     SessionManager session;
-    String user_id;
+    String user_id,typeId;
+    Spinner spFilterType;
     ArrayList<HashMap<String,String>> MyPropertiesListArray = new ArrayList<>();
+    ArrayList<String> spListTypeArray=new ArrayList<>();
+    ArrayList<String> spListIdTypeArray=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,13 +81,29 @@ public class MyPropertyActivity extends AppCompatActivity
         TextView txtUserEmail = (TextView)headerview.findViewById(R.id.txtUserEmail);
         txtUserEmail.setText(user_email);
 
+        spFilterType = (Spinner)findViewById(R.id.spFilterType);
+        GetFilterTypeList filterTypeList = new GetFilterTypeList();
+        filterTypeList.execute();
+        spFilterType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int pt = spFilterType.getSelectedItemPosition();
+                typeId = spListIdTypeArray.get(pt);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         rvMyPropertyList = (RecyclerView)findViewById(R.id.rvMyPropertyList);
         rvMyPropertyList.setHasFixedSize(true);
 
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
         rvMyPropertyList.setLayoutManager(manager);
 
-        GetMyPropertyList myPropertyList = new GetMyPropertyList();
+        GetMyPropertyList myPropertyList = new GetMyPropertyList(user_id,typeId);
         myPropertyList.execute();
 
     }
@@ -112,6 +134,11 @@ public class MyPropertyActivity extends AppCompatActivity
         {
             Intent i = new Intent(MyPropertyActivity.this,AddPropertyActivity.class);
             i.putExtra("opt","add");
+            startActivity(i);
+        }
+        else if (id == R.id.nav_notification)
+        {
+            Intent i = new Intent(MyPropertyActivity.this,NotificationActivity.class);
             startActivity(i);
         }
         else if (id == R.id.nav_share)
@@ -160,13 +187,19 @@ public class MyPropertyActivity extends AppCompatActivity
     }
 
     private class GetMyPropertyList extends AsyncTask<String,Void,String> {
-        String status,message;
+        String status,message,UserId,TypeId;
+
+        public GetMyPropertyList(String user_id, String typeId) {
+            this.UserId = user_id;
+            this.TypeId = typeId;
+        }
+
         @Override
         protected String doInBackground(String... strings) {
 
             JSONObject joUser=new JSONObject();
             try {
-                joUser.put("UserId",user_id);
+                joUser.put("UserId",UserId);
                 Postdata postdata = new Postdata();
                 String pdUser=postdata.post(MainActivity.BASE_URL+"MyProperty.php",joUser.toString());
                 JSONObject j = new JSONObject(pdUser);
@@ -240,7 +273,7 @@ public class MyPropertyActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
+            Toast.makeText(MyPropertyActivity.this,TypeId,Toast.LENGTH_SHORT).show();
             if(status.equals("1"))
             {
                 MyPropertyListAdapter myPropertyListAdapter = new MyPropertyListAdapter(MyPropertyActivity.this,MyPropertiesListArray);
@@ -250,6 +283,63 @@ public class MyPropertyActivity extends AppCompatActivity
             {
                 Toast.makeText(MyPropertyActivity.this,message,Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    private class GetFilterTypeList extends AsyncTask<String,Void,String> {
+
+        String status,message;
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            JSONObject joUser=new JSONObject();
+            try {
+                Postdata postdata = new Postdata();
+                String pdUser=postdata.post(MainActivity.BASE_URL+"PropertyType.php",joUser.toString());
+                JSONObject j = new JSONObject(pdUser);
+                status=j.getString("status");
+                if(status.equals("1"))
+                {
+                    message=j.getString("message");
+                    JSONArray JsArry=j.getJSONArray("PropertyType");
+                    for (int i=0;i<JsArry.length();i++)
+                    {
+                        JSONObject jo=JsArry.getJSONObject(i);
+
+
+                        String id =jo.getString("id");
+                        String PropType =jo.getString("type");
+
+                        spListIdTypeArray.add(id);
+                        spListTypeArray.add(PropType);
+                    }
+                }
+                else
+                {
+                    message=j.getString("message");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if(status.equals("1"))
+            {
+                ArrayAdapter spinnerArrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, spListTypeArray);
+                spFilterType.setAdapter(spinnerArrayAdapter);
+            }
+            else
+            {
+                Toast.makeText(MyPropertyActivity.this,message,Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 }

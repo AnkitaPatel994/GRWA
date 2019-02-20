@@ -9,7 +9,7 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/Theme.AppCompat.Light">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -29,7 +29,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="5dp" />
+                android:padding="5dp"
+                android:hint="Search..."
+                android:background="@drawable/edittextbox"/>
 
             <ImageView
                 android:id="@+id/ivClose"

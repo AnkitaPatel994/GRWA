@@ -476,6 +476,11 @@ public class AddPropertyActivity extends AppCompatActivity
             Intent i = new Intent(AddPropertyActivity.this,MyPropertyActivity.class);
             startActivity(i);
         }
+        else if (id == R.id.nav_notification)
+        {
+            Intent i = new Intent(AddPropertyActivity.this,NotificationActivity.class);
+            startActivity(i);
+        }
         else if (id == R.id.nav_share)
         {
             Intent i=new Intent(Intent.ACTION_SEND);
@@ -577,10 +582,10 @@ public class AddPropertyActivity extends AppCompatActivity
             dialog.dismiss();
             if(status.equals("1"))
             {
-                /*Intent i = new Intent(getApplicationContext(),MyPropertyActivity.class);
+                Intent i = new Intent(getApplicationContext(),MyPropertyActivity.class);
                 startActivity(i);
-                finish();*/
-                Toast.makeText(AddPropertyActivity.this,message,Toast.LENGTH_SHORT).show();
+                finish();
+                //Toast.makeText(AddPropertyActivity.this,message,Toast.LENGTH_SHORT).show();
             }
             else
             {

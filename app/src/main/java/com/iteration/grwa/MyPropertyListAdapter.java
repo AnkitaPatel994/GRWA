@@ -61,10 +61,10 @@ class MyPropertyListAdapter extends RecyclerView.Adapter<MyPropertyListAdapter.V
         final String useremail = myPropertiesListArray.get(position).get("useremail");
         final String usermobile = myPropertiesListArray.get(position).get("usermobile");
 
-        holder.txtMyPropertyName.setText(ppbhk+" "+ptname+" "+pcity);
+        holder.txtMyPropertyName.setText(ppbhk+" BHK "+ptname+" "+pcity);
         holder.txtMyPropertyLocation.setText("Beds: "+pbedroom+"  Baths: "+pbathroom);
         holder.txtMyPropertyPrice.setText(rs +" "+pprize);
-        holder.txtMyPropertyType.setText(pparea);
+        holder.txtMyPropertyType.setText(pparea+" Sq.Ft");
 
         String imgOne = MainActivity.BASE_URL+pimgone;
         Picasso.with(context).load(imgOne).into(holder.ivMyPropertyImg);

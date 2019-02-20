@@ -10,11 +10,6 @@
     tools:showIn="@layout/app_bar_home"
     android:orientation="vertical">
 
-    <!--<com.daimajia.slider.library.SliderLayout
-        android:id="@+id/slSlider"
-        android:layout_width="fill_parent"
-        android:layout_height="200dp"/>-->
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvPropertyTypeList"
         android:layout_width="match_parent"

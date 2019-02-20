@@ -8,6 +8,13 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".NotificationActivity"
     android:orientation="vertical"
+    android:background="@color/colorGrey"
     tools:showIn="@layout/app_bar_notification">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvNotification"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp"/>
 
 </LinearLayout>
