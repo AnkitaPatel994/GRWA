@@ -6,13 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ViewAllPropertyActivity"
-    tools:showIn="@layout/app_bar_view_all_property"
+    tools:context=".SearchActivity"
     android:orientation="vertical"
-    android:background="@color/colorGrey">
+    tools:showIn="@layout/activity_search">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvPropertyList"
+        android:id="@+id/rvSearchList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="5dp"/>

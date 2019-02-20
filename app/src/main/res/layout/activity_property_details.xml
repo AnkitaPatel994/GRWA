@@ -43,6 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
+        android:paddingBottom="80dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -401,7 +402,7 @@
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:src="@drawable/ic_account"
-                            android:tint="#928E8E"/>
+                            />
 
                     </LinearLayout>
 
@@ -542,7 +543,7 @@
                         android:id="@+id/btnInquire"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/inquire"
+                        android:text="Submit"
                         android:textColor="@color/colorWhite"
                         android:layout_marginTop="20dp"
                         android:layout_marginLeft="50dp"
@@ -554,4 +555,76 @@
             </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_email"
+                android:tint="@color/colorWhite"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/colorWhite"
+                android:text="View Contact"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tint="@color/colorWhite"
+                android:src="@drawable/ic_email" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorWhite"
+                android:layout_marginLeft="10dp"
+                android:textSize="18dp"
+                android:text="Send Message"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:background="@drawable/ic_round"
+        android:layout_marginBottom="16dp"
+        android:layout_gravity="bottom|center">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@color/colorWhite"
+            android:src="@drawable/ic_phone" />
+
+    </LinearLayout>
+
 </android.support.design.widget.CoordinatorLayout>

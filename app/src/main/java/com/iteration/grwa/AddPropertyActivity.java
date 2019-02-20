@@ -2,6 +2,7 @@ package com.iteration.grwa;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,6 +12,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -28,6 +30,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,12 +41,17 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -56,11 +64,14 @@ public class AddPropertyActivity extends AppCompatActivity
     LinearLayout llImgOne,llImgTwo,llImgThree;
     ImageView ivImgOne,ivImgTwo,ivImgThree;
     Spinner spPType;
+    ArrayList<String> spListTypeArray=new ArrayList<>();
     Button btnAddProp;
     String Prop_Id,Prop_Prize,Prop_BHK,Prop_Type,Prop_Area,Prop_YearBuilt,Prop_Bedroom,Prop_Bathroom,Prop_Address,Prop_City,Prop_State,Prop_PropDes;
     Bitmap bitmap = null;
     String str_imgpath,encodedImgpathOne,encodedImgpathTwo,encodedImgpathThree;
     int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    String flag;
+    String propId,pid,pprize,ppbhk,ptname,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,peid,pimgOne,pimgTwo,pimgThree;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +106,9 @@ public class AddPropertyActivity extends AppCompatActivity
 
         TextView txtUserEmail = (TextView)headerview.findViewById(R.id.txtUserEmail);
         txtUserEmail.setText(user_email);
+
+        GetPTypeList pTypeList = new GetPTypeList();
+        pTypeList.execute();
 
         txtAPId = (EditText)findViewById(R.id.txtAPId);
 
@@ -200,7 +214,47 @@ public class AddPropertyActivity extends AppCompatActivity
 
         });
 
-        String opt = getIntent().getExtras().getString("opt");
+        flag = getIntent().getExtras().getString("opt");
+        if(flag.equals("add"))
+        {
+            Toast.makeText(getApplicationContext(),"add",Toast.LENGTH_SHORT).show();
+        }
+        else if(flag.equals("edit"))
+        {
+            Toast.makeText(getApplicationContext(),"edit",Toast.LENGTH_SHORT).show();
+            propId = getIntent().getExtras().getString("propId");
+            pid = getIntent().getExtras().getString("pid");
+            txtAPId.setText(pid);
+            pprize = getIntent().getExtras().getString("pprize");
+            txtAPPrize.setText(pprize);
+            ppbhk = getIntent().getExtras().getString("ppbhk");
+            txtAPBHK.setText(ppbhk);
+            ptname = getIntent().getExtras().getString("ptname");
+
+            pparea = getIntent().getExtras().getString("pparea");
+            txtAPArea.setText(pparea);
+            pyearbuilt = getIntent().getExtras().getString("pyearbuilt");
+            txtAPYearBuilt.setText(pyearbuilt);
+            pstate = getIntent().getExtras().getString("pstate");
+            txtAPState.setText(pstate);
+            pcity = getIntent().getExtras().getString("pcity");
+            txtAPCity.setText(pcity);
+            paddress = getIntent().getExtras().getString("paddress");
+            txtAPAddress.setText(paddress);
+            pbedroom = getIntent().getExtras().getString("pbedroom");
+            txtAPBedroom.setText(pbedroom);
+            pbathroom = getIntent().getExtras().getString("pbathroom");
+            txtAPBathroom.setText(pbathroom);
+            pdes = getIntent().getExtras().getString("pdes");
+            txtAPPropDes.setText(pdes);
+            peid = getIntent().getExtras().getString("peid");
+            pimgOne = getIntent().getExtras().getString("pimgOne");
+            Picasso.with(AddPropertyActivity.this).load(pimgOne).into(ivImgOne);
+            pimgTwo = getIntent().getExtras().getString("pimgTwo");
+            Picasso.with(AddPropertyActivity.this).load(pimgTwo).into(ivImgTwo);
+            pimgThree = getIntent().getExtras().getString("pimgThree");
+            Picasso.with(getApplicationContext()).load(pimgThree).into(ivImgThree);
+        }
 
         btnAddProp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,6 +272,18 @@ public class AddPropertyActivity extends AppCompatActivity
                 Prop_City = txtAPCity.getText().toString();
                 Prop_State = txtAPState.getText().toString();
                 Prop_PropDes = txtAPPropDes.getText().toString();
+
+                if(flag.equals("add"))
+                {
+                    Toast.makeText(getApplicationContext(),"add",Toast.LENGTH_SHORT).show();
+                }
+                else if(flag.equals("edit"))
+                {
+                    /*GetEditProperty editProperty = new GetEditProperty();
+                    editProperty.execute();*/
+                    Toast.makeText(getApplicationContext(),"edit",Toast.LENGTH_SHORT).show();
+                }
+
 
             }
         });
@@ -440,4 +506,128 @@ public class AddPropertyActivity extends AppCompatActivity
         }
     }
 
+    private class GetEditProperty extends AsyncTask<String,Void,String> {
+
+        String status,message;
+        ProgressDialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(AddPropertyActivity.this);
+            dialog.setMessage("Loading...");
+            dialog.setCancelable(true);
+            dialog.show();
+        }
+        @Override
+        protected String doInBackground(String... strings) {
+            JSONObject joUser=new JSONObject();
+            try {
+
+                joUser.put("p_id",propId);
+                joUser.put("p_pid",Prop_Id);
+                joUser.put("p_prize",Prop_Prize);
+                joUser.put("p_bhk",Prop_BHK);
+                joUser.put("p_type_id",Prop_Type);
+                joUser.put("p_area",Prop_Area);
+                joUser.put("p_yearbuilt",Prop_YearBuilt);
+                joUser.put("p_bedroom",Prop_Bedroom);
+                joUser.put("p_bathroom",Prop_Bathroom);
+                joUser.put("p_address",Prop_Address);
+                joUser.put("p_city",Prop_City);
+                joUser.put("p_state",Prop_State);
+                joUser.put("p_pdes",Prop_PropDes);
+                joUser.put("p_e_id",peid);
+
+                Postdata postdata = new Postdata();
+                String pdUser=postdata.post(MainActivity.BASE_URL+"EditProperty.php",joUser.toString());
+                JSONObject j = new JSONObject(pdUser);
+                status=j.getString("status");
+                if(status.equals("1"))
+                {
+                    message=j.getString("message");
+                }
+                else
+                {
+                    message=j.getString("message");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            dialog.dismiss();
+            if(status.equals("1"))
+            {
+                /*Intent i = new Intent(getApplicationContext(),MyPropertyActivity.class);
+                startActivity(i);
+                finish();*/
+                Toast.makeText(AddPropertyActivity.this,message,Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Toast.makeText(AddPropertyActivity.this,message,Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private class GetPTypeList extends AsyncTask<String,Void,String> {
+
+        String status,message;
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            JSONObject joUser=new JSONObject();
+            try {
+                Postdata postdata = new Postdata();
+                String pdUser=postdata.post(MainActivity.BASE_URL+"PropertyType.php",joUser.toString());
+                JSONObject j = new JSONObject(pdUser);
+                status=j.getString("status");
+                if(status.equals("1"))
+                {
+                    message=j.getString("message");
+                    JSONArray JsArry=j.getJSONArray("PropertyType");
+                    for (int i=0;i<JsArry.length();i++)
+                    {
+                        JSONObject jo=JsArry.getJSONObject(i);
+
+
+                        String id =jo.getString("id");
+                        String PropType =jo.getString("type");
+
+                        spListTypeArray.add(PropType);
+                    }
+                }
+                else
+                {
+                    message=j.getString("message");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if(status.equals("1"))
+            {
+                ArrayAdapter spinnerArrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, spListTypeArray);
+                spPType.setAdapter(spinnerArrayAdapter);
+            }
+            else
+            {
+                Toast.makeText(AddPropertyActivity.this,message,Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
 }

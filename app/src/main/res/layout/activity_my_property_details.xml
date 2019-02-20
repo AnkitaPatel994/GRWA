@@ -356,10 +356,11 @@
 
                     <TextView
                         android:id="@+id/txtMyPDPDescription"
-                        android:layout_width="wrap_content"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorBlack"
                         android:layout_marginRight="10dp"
+                        android:textAlignment="inherit"
                         android:textSize="15dp"
                         android:text="Property Name is 3 bhk apartment in Raysan gandhinagar. Its type is apartment On Sell and Quating price of 4800000. Property Address : raysan gandhinagar. Area Locality : 6 km from tcs infocity gandhinagar.City : gandhinagar And State :gujarat. This Propertys Id is : PR3. Property Area is estimated about 1800 sqft, having 3 Bathrooms And 3 Bedrooms.Garage is 1." />
 
@@ -399,8 +400,7 @@
                                 android:id="@+id/ivMyImg"
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
-                                android:src="@drawable/ic_account"
-                                android:tint="#928E8E"/>
+                                android:src="@drawable/ic_account" />
 
                         </LinearLayout>
 

@@ -148,6 +148,10 @@ public class MyPropertyDetailsActivity extends AppCompatActivity {
             i.putExtra("pbedroom",pbedroom);
             i.putExtra("pbathroom",pbathroom);
             i.putExtra("pdes",pdes);
+            i.putExtra("peid",user_id);
+            i.putExtra("pimgOne",imgOne);
+            i.putExtra("pimgTwo",imgTwo);
+            i.putExtra("pimgThree",imgThree);
             startActivity(i);
         }
         else if (id == R.id.menu_delete)

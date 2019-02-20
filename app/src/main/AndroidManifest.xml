@@ -15,9 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".SearchActivity"
+            android:label=""
+            android:theme="@style/AppTheme.ActionBar"/>
+        <activity
             android:name=".MyPropertyDetailsActivity"
             android:label=""
-            android:theme="@style/AppTheme.ActionBar"></activity>
+            android:theme="@style/AppTheme.ActionBar" />
         <activity
             android:name=".MyPropertyActivity"
             android:label="@string/title_activity"

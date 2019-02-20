@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,6 +23,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +46,7 @@ public class ViewAllPropertyActivity extends AppCompatActivity
     String typeId;
     ArrayList<HashMap<String,String>> PropertiesListArray = new ArrayList<>();
     SessionManager session;
+    ImageView ivList,ivGrid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +86,33 @@ public class ViewAllPropertyActivity extends AppCompatActivity
         rvPropertyList = (RecyclerView)findViewById(R.id.rvPropertyList);
         rvPropertyList.setHasFixedSize(true);
 
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+        ivList = (ImageView)findViewById(R.id.ivList);
+        ivGrid = (ImageView)findViewById(R.id.ivGrid);
+
+        ivGrid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ivList.setVisibility(View.VISIBLE);
+                ivGrid.setVisibility(View.GONE);
+                RecyclerView.LayoutManager manager = new GridLayoutManager(getApplicationContext(),2);
+                rvPropertyList.setLayoutManager(manager);
+
+            }
+        });
+
+        ivList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ivGrid.setVisibility(View.VISIBLE);
+                ivList.setVisibility(View.GONE);
+                RecyclerView.LayoutManager manager = new GridLayoutManager(getApplicationContext(),1);
+                rvPropertyList.setLayoutManager(manager);
+
+            }
+        });
+
+        RecyclerView.LayoutManager manager = new GridLayoutManager(getApplicationContext(),1);
         rvPropertyList.setLayoutManager(manager);
 
         typeId = getIntent().getExtras().getString("id");
@@ -116,6 +146,9 @@ public class ViewAllPropertyActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.menu_search) {
+            Intent i =new Intent(getApplicationContext(),SearchActivity.class);
+            i.putExtra("typeId",typeId);
+            startActivity(i);
             return true;
         }
 
