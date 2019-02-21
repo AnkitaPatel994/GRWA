@@ -68,7 +68,6 @@ public class HomeActivity extends AppCompatActivity
     Bitmap bitmap = null;
     String str_imgpath,user_id;
     int REQUEST_CAMERA = 0, SELECT_FILE = 1;
-    CircleImageView ivUserImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +97,7 @@ public class HomeActivity extends AppCompatActivity
         String url_user_pic = MainActivity.BASE_URL+user_pic;
 
         View headerview = navigationView.getHeaderView(0);
-        ivUserImg = (CircleImageView)headerview.findViewById(R.id.ivUserImg);
+        CircleImageView ivUserImg = (CircleImageView)headerview.findViewById(R.id.ivUserImg);
         Picasso.with(HomeActivity.this).load(url_user_pic).into(ivUserImg);
 
         TextView txtUserName = (TextView)headerview.findViewById(R.id.txtUserName);
@@ -106,31 +105,6 @@ public class HomeActivity extends AppCompatActivity
 
         TextView txtUserEmail = (TextView)headerview.findViewById(R.id.txtUserEmail);
         txtUserEmail.setText(user_email);
-        LinearLayout llCovImg = (LinearLayout)headerview.findViewById(R.id.llCovImg);
-        llCovImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(HomeActivity.this,
-
-                        Manifest.permission.CAMERA)
-                        != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(HomeActivity.this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-
-                    // Should we show an explanation?
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this,
-                            Manifest.permission.CAMERA) && ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this,
-                            Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                        selectImage();
-                    } else {
-                        ActivityCompat.requestPermissions(HomeActivity.this, new String[]{"android.permission.CAMERA", "android.permission.READ_EXTERNAL_STORAGE"}, 200);
-                        // No explanation needed, we can request the permission.
-                    }
-                } else {
-                    selectImage();
-                }
-            }
-        });
 
         /*================== Property List view ==================*/
 
@@ -145,142 +119,7 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
-    private void selectImage() {
-        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-        builder.setTitle("Add Photo!");
-        builder.setItems(options, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                if (options[item].equals("Take Photo")) {
 
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent, REQUEST_CAMERA);
-
-                } else if (options[item].equals("Choose from Gallery")) {
-
-                    Intent intent = new Intent(
-                            Intent.ACTION_PICK,
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    intent.setType("image/*");
-                    startActivityForResult(
-                            Intent.createChooser(intent, "Select File"),
-                            SELECT_FILE);
-
-                } else if (options[item].equals("Cancel")) {
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == Activity.RESULT_OK)
-        {
-            if (requestCode == REQUEST_CAMERA)
-            {
-                bitmap = (Bitmap) data.getExtras().get("data");
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-                File destination = new File(Environment.getExternalStorageDirectory(), System.currentTimeMillis() + ".jpg");
-                FileOutputStream fo;
-                try {
-                    destination.createNewFile();
-                    fo = new FileOutputStream(destination);
-                    fo.write(bytes.toByteArray());
-                    fo.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                Uri tempUri = getImageUri(HomeActivity.this, bitmap);
-                str_imgpath = getRealPathFromURI(tempUri);
-
-                byte[] b = bytes.toByteArray();
-                String encodedImgpath = Base64.encodeToString(b, Base64.DEFAULT);
-
-                ivUserImg.setImageBitmap(bitmap);
-
-                /*GetCovImg covImg = new GetCovImg(encodedImgpath);
-                covImg.execute();*/
-            }
-            else if (requestCode == SELECT_FILE)
-            {
-                Uri selectedImageUri = data.getData();
-
-                InputStream in = null;
-                try {
-                    final int IMAGE_MAX_SIZE = 1200000; // 1.2MP
-                    in = HomeActivity.this.getContentResolver().openInputStream(selectedImageUri);
-
-                    // Decode image size
-                    BitmapFactory.Options o = new BitmapFactory.Options();
-                    o.inJustDecodeBounds = true;
-                    BitmapFactory.decodeStream(in, null, o);
-                    try {
-                        in.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    int scale = 1;
-                    while ((o.outWidth * o.outHeight) * (1 / Math.pow(scale, 2)) >
-                            IMAGE_MAX_SIZE) {
-                        scale++;
-
-                    }
-                    in = HomeActivity.this.getContentResolver().openInputStream(selectedImageUri);
-                    if (scale > 1) {
-                        scale--;
-
-                        o = new BitmapFactory.Options();
-                        o.inSampleSize = scale;
-                        bitmap = BitmapFactory.decodeStream(in, null, o);
-
-                        // resize to desired dimensions
-                        int height = bitmap.getHeight();
-                        int width = bitmap.getWidth();
-
-                        double y = Math.sqrt(IMAGE_MAX_SIZE
-                                / (((double) width) / height));
-                        double x = (y / height) * width;
-
-                        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) x,
-                                (int) y, true);
-                        bitmap.recycle();
-                        bitmap = scaledBitmap;
-
-                        System.gc();
-                    } else {
-                        bitmap = BitmapFactory.decodeStream(in);
-                    }
-                    in.close();
-
-                } catch (Exception ignored) {
-
-                }
-
-                Uri tempUri = getImageUri(HomeActivity.this, bitmap);
-                str_imgpath = getRealPathFromURI(tempUri);
-
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-
-                byte[] b = bytes.toByteArray();
-                String encodedImgpath = Base64.encodeToString(b, Base64.DEFAULT);
-                ivUserImg.setImageBitmap(bitmap);
-                /*GetCovImg covImg = new GetCovImg(encodedImgpath);
-                covImg.execute();*/
-
-            }
-        }
-    }
 
     private Uri getImageUri(Context context, Bitmap bitmap) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -457,55 +296,4 @@ public class HomeActivity extends AppCompatActivity
 
         }
     }
-
-    /*private class GetCovImg extends AsyncTask<String,Void,String> {
-
-        String user_id;
-        String status,message,encodedImgpath;
-
-        public GetCovImg(String encodedImgpath) {
-
-            this.encodedImgpath = encodedImgpath;
-
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-
-            JSONObject joUser=new JSONObject();
-            try {
-                joUser.put("e_id",user_id);
-                joUser.put("e_cov_img",encodedImgpath);
-                Postdata postdata = new Postdata();
-                String pdUser=postdata.post(MainActivity.BASE_URL+"editEmploy.php",joUser.toString());
-                JSONObject j = new JSONObject(pdUser);
-                status=j.getString("status");
-                if(status.equals("1"))
-                {
-                    message=j.getString("message");
-                }
-                else
-                {
-                    message=j.getString("message");
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if(status.equals("1"))
-            {
-                Toast.makeText(HomeActivity.this,message,Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
-                Toast.makeText(HomeActivity.this,message,Toast.LENGTH_SHORT).show();
-            }
-        }
-    }*/
 }

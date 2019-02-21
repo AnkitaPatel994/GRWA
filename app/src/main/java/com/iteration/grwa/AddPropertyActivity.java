@@ -91,6 +91,8 @@ public class AddPropertyActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        navigationView.getMenu().getItem(1).setChecked(true);
+
         session = new SessionManager(getApplicationContext());
 
         HashMap<String,String> user = session.getUserDetails();
@@ -207,17 +209,12 @@ public class AddPropertyActivity extends AppCompatActivity
         llImgThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(AddPropertyActivity.this,
-
-                        Manifest.permission.CAMERA)
-                        != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(AddPropertyActivity.this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(AddPropertyActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                        && ContextCompat.checkSelfPermission(AddPropertyActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
                     // Should we show an explanation?
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(AddPropertyActivity.this,
-                            Manifest.permission.CAMERA) && ActivityCompat.shouldShowRequestPermissionRationale(AddPropertyActivity.this,
-                            Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(AddPropertyActivity.this, Manifest.permission.CAMERA)
+                            && ActivityCompat.shouldShowRequestPermissionRationale(AddPropertyActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                         selectImage();
                     } else {
                         ActivityCompat.requestPermissions(AddPropertyActivity.this, new String[]{"android.permission.CAMERA", "android.permission.READ_EXTERNAL_STORAGE"}, 200);
@@ -233,11 +230,11 @@ public class AddPropertyActivity extends AppCompatActivity
         flag = getIntent().getExtras().getString("opt");
         if(flag.equals("add"))
         {
-            Toast.makeText(getApplicationContext(),"add",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),"add",Toast.LENGTH_SHORT).show();
         }
         else if(flag.equals("edit"))
         {
-            Toast.makeText(getApplicationContext(),"edit",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),"edit",Toast.LENGTH_SHORT).show();
             propId = getIntent().getExtras().getString("propId");
             pid = getIntent().getExtras().getString("pid");
             txtAPId.setText(pid);

@@ -19,7 +19,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +30,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NotificationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -51,7 +56,25 @@ public class NotificationActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        navigationView.getMenu().getItem(3).setChecked(true);
+
         session = new SessionManager(getApplicationContext());
+
+        HashMap<String,String> user = session.getUserDetails();
+        String user_name = user.get(SessionManager.user_name);
+        String user_email = user.get(SessionManager.user_email);
+        String user_pic = user.get(SessionManager.user_pic);
+        String url_user_pic = MainActivity.BASE_URL+user_pic;
+
+        View headerview = navigationView.getHeaderView(0);
+        CircleImageView ivUserImg = (CircleImageView)headerview.findViewById(R.id.ivUserImg);
+        Picasso.with(NotificationActivity.this).load(url_user_pic).into(ivUserImg);
+
+        TextView txtUserName = (TextView)headerview.findViewById(R.id.txtUserName);
+        txtUserName.setText(user_name);
+
+        TextView txtUserEmail = (TextView)headerview.findViewById(R.id.txtUserEmail);
+        txtUserEmail.setText(user_email);
 
         rvNotification = (RecyclerView)findViewById(R.id.rvNotification);
         rvNotification.setHasFixedSize(true);

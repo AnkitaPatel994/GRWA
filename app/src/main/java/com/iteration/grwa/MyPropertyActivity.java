@@ -63,6 +63,9 @@ public class MyPropertyActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        navigationView.getMenu().getItem(2).setChecked(true);
+
         session = new SessionManager(getApplicationContext());
         HashMap<String,String> user = session.getUserDetails();
         user_id = user.get(SessionManager.user_id);

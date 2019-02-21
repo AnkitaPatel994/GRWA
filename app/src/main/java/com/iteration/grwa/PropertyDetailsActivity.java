@@ -174,12 +174,9 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         llPDPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(PropertyDetailsActivity.this,
-                        Manifest.permission.CALL_PHONE)
-                        != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(PropertyDetailsActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
 
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(PropertyDetailsActivity.this,
-                            Manifest.permission.CALL_PHONE)) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(PropertyDetailsActivity.this, Manifest.permission.CALL_PHONE)) {
 
                         Intent callIntent = new Intent(Intent.ACTION_CALL);
                         callIntent.setData(Uri.parse("tel:" + usermobile));
