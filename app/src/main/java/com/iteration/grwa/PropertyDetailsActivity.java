@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -49,6 +51,7 @@ public class PropertyDetailsActivity extends AppCompatActivity {
     EditText txtPDIName,txtPDIPhone,txtPDIEmail,txtPDIMessage;
     Button btnInquire;
     TextView txtReadMore;
+    Bitmap bitmapLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,8 +205,29 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         btnInquire.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GetInsertInquire insertInquire = new GetInsertInquire();
-                insertInquire.execute();
+
+                if(txtPDIName.getText().toString().equals("") && txtPDIPhone.getText().toString().equals("") && txtPDIEmail.getText().toString().equals("") && txtPDIMessage.getText().toString().equals(""))
+                {
+                    Toast.makeText(PropertyDetailsActivity.this,"Enter Your Name.",Toast.LENGTH_SHORT).show();
+                }
+                else if (txtPDIPhone.getText().toString().equals("") && txtPDIEmail.getText().toString().equals("") && txtPDIMessage.getText().toString().equals(""))
+                {
+                    Toast.makeText(PropertyDetailsActivity.this,"Enter Your Mobile.",Toast.LENGTH_SHORT).show();
+                }
+                else if (txtPDIEmail.getText().toString().equals("") && txtPDIMessage.getText().toString().equals(""))
+                {
+                    Toast.makeText(PropertyDetailsActivity.this,"Enter Your Email.",Toast.LENGTH_SHORT).show();
+                }
+                else if (txtPDIMessage.getText().toString().equals(""))
+                {
+                    Toast.makeText(PropertyDetailsActivity.this,"Enter Your Message.",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    GetInsertInquire insertInquire = new GetInsertInquire();
+                    insertInquire.execute();
+                }
+
             }
         });
 
@@ -249,7 +273,10 @@ public class PropertyDetailsActivity extends AppCompatActivity {
 
         if (id == R.id.menu_share)
         {
-
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("image/jpeg");
+            share.putExtra(Intent.EXTRA_STREAM, bitmapLayout);
+            startActivity(Intent.createChooser(share, "Share Image"));
         }
 
         return super.onOptionsItemSelected(item);

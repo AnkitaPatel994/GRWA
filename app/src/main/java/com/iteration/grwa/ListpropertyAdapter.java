@@ -101,8 +101,28 @@ class ListpropertyAdapter extends RecyclerView.Adapter<ListpropertyAdapter.ViewH
                     @Override
                     public void onClick(View v) {
 
-                        GetInsInquire insInquire = new GetInsInquire();
-                        insInquire.execute();
+                        if(txtInName.getText().toString().equals("") && txtInPhone.getText().toString().equals("") && txtInEmail.getText().toString().equals("") && txtInMessage.getText().toString().equals(""))
+                        {
+                            Toast.makeText(context,"Enter Your Name.",Toast.LENGTH_SHORT).show();
+                        }
+                        else if (txtInPhone.getText().toString().equals("") && txtInEmail.getText().toString().equals("") && txtInMessage.getText().toString().equals(""))
+                        {
+                            Toast.makeText(context,"Enter Your Mobile.",Toast.LENGTH_SHORT).show();
+                        }
+                        else if (txtInEmail.getText().toString().equals("") && txtInMessage.getText().toString().equals(""))
+                        {
+                            Toast.makeText(context,"Enter Your Email.",Toast.LENGTH_SHORT).show();
+                        }
+                        else if (txtInMessage.getText().toString().equals(""))
+                        {
+                            Toast.makeText(context,"Enter Your Message.",Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            GetInsInquire insInquire = new GetInsInquire();
+                            insInquire.execute();
+                        }
+
                     }
                 });
 

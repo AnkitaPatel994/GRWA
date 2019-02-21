@@ -72,7 +72,7 @@ public class AddPropertyActivity extends AppCompatActivity
     Bitmap bitmap = null;
     String str_imgpath,encodedImgpathOne,encodedImgpathTwo,encodedImgpathThree;
     int REQUEST_CAMERA = 0, SELECT_FILE = 1;
-    String flag,typeId;
+    String flag,typeId,user_id;
     String propId,pid,pprize,ppbhk,ptname,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,peid,pimgOne,pimgTwo,pimgThree;
 
     @Override
@@ -94,6 +94,7 @@ public class AddPropertyActivity extends AppCompatActivity
         session = new SessionManager(getApplicationContext());
 
         HashMap<String,String> user = session.getUserDetails();
+        user_id = user.get(SessionManager.user_id);
         String user_name = user.get(SessionManager.user_name);
         String user_email = user.get(SessionManager.user_email);
         String user_pic = user.get(SessionManager.user_pic);
@@ -290,7 +291,8 @@ public class AddPropertyActivity extends AppCompatActivity
 
                 if(flag.equals("add"))
                 {
-                    Toast.makeText(getApplicationContext(),"add",Toast.LENGTH_SHORT).show();
+                    GetInsertProperty insertProperty = new GetInsertProperty();
+                    insertProperty.execute();
                 }
                 else if(flag.equals("edit"))
                 {
@@ -649,5 +651,74 @@ public class AddPropertyActivity extends AppCompatActivity
             }
 
         }
+    }
+
+    private class GetInsertProperty extends AsyncTask<String,Void,String> {
+
+        String status,message;
+        ProgressDialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(AddPropertyActivity.this);
+            dialog.setMessage("Loading...");
+            dialog.setCancelable(true);
+            dialog.show();
+        }
+        @Override
+        protected String doInBackground(String... strings) {
+
+            JSONObject joUser=new JSONObject();
+            try {
+
+                joUser.put("p_pimg_one",encodedImgpathOne);
+                joUser.put("p_prize",Prop_Prize);
+                joUser.put("p_bhk",Prop_BHK);
+                joUser.put("p_type_id",Prop_Type);
+                joUser.put("p_area",Prop_Area);
+                joUser.put("p_yearbuilt",Prop_YearBuilt);
+                joUser.put("p_bedroom",Prop_Bedroom);
+                joUser.put("p_bathroom",Prop_Bathroom);
+                joUser.put("p_address",Prop_Address);
+                joUser.put("p_city",Prop_City);
+                joUser.put("p_state",Prop_State);
+                joUser.put("p_pdes",Prop_PropDes);
+                joUser.put("p_e_id",user_id);
+
+                Postdata postdata = new Postdata();
+                String pdUser=postdata.post(MainActivity.BASE_URL+"EditProperty.php",joUser.toString());
+                JSONObject j = new JSONObject(pdUser);
+                status=j.getString("status");
+                if(status.equals("1"))
+                {
+                    message=j.getString("message");
+                }
+                else
+                {
+                    message=j.getString("message");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            dialog.dismiss();
+            if(status.equals("1"))
+            {
+                /*Intent i = new Intent(getApplicationContext(),MyPropertyActivity.class);
+                startActivity(i);
+                finish();*/
+                Toast.makeText(AddPropertyActivity.this,message,Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Toast.makeText(AddPropertyActivity.this,message,Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 }
