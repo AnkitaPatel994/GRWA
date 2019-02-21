@@ -42,7 +42,7 @@ public class MyPropertyActivity extends AppCompatActivity
 
     RecyclerView rvMyPropertyList;
     SessionManager session;
-    String user_id,typeId;
+    String user_id;
     Spinner spFilterType;
     ArrayList<HashMap<String,String>> MyPropertiesListArray = new ArrayList<>();
     ArrayList<String> spListTypeArray=new ArrayList<>();
@@ -84,11 +84,21 @@ public class MyPropertyActivity extends AppCompatActivity
         spFilterType = (Spinner)findViewById(R.id.spFilterType);
         GetFilterTypeList filterTypeList = new GetFilterTypeList();
         filterTypeList.execute();
+
+        rvMyPropertyList = (RecyclerView)findViewById(R.id.rvMyPropertyList);
+        rvMyPropertyList.setHasFixedSize(true);
+
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+        rvMyPropertyList.setLayoutManager(manager);
+
         spFilterType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                MyPropertiesListArray.clear();
                 int pt = spFilterType.getSelectedItemPosition();
-                typeId = spListIdTypeArray.get(pt);
+                String typeId = spListIdTypeArray.get(pt);
+                GetMyPropertyList myPropertyList = new GetMyPropertyList(user_id,typeId);
+                myPropertyList.execute();
             }
 
             @Override
@@ -97,14 +107,7 @@ public class MyPropertyActivity extends AppCompatActivity
             }
         });
 
-        rvMyPropertyList = (RecyclerView)findViewById(R.id.rvMyPropertyList);
-        rvMyPropertyList.setHasFixedSize(true);
 
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
-        rvMyPropertyList.setLayoutManager(manager);
-
-        GetMyPropertyList myPropertyList = new GetMyPropertyList(user_id,typeId);
-        myPropertyList.execute();
 
     }
 
@@ -200,6 +203,7 @@ public class MyPropertyActivity extends AppCompatActivity
             JSONObject joUser=new JSONObject();
             try {
                 joUser.put("UserId",UserId);
+                joUser.put("TypeId",TypeId);
                 Postdata postdata = new Postdata();
                 String pdUser=postdata.post(MainActivity.BASE_URL+"MyProperty.php",joUser.toString());
                 JSONObject j = new JSONObject(pdUser);
@@ -273,7 +277,7 @@ public class MyPropertyActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Toast.makeText(MyPropertyActivity.this,TypeId,Toast.LENGTH_SHORT).show();
+
             if(status.equals("1"))
             {
                 MyPropertyListAdapter myPropertyListAdapter = new MyPropertyListAdapter(MyPropertyActivity.this,MyPropertiesListArray);

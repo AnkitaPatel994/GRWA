@@ -3,9 +3,13 @@ package com.iteration.grwa;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -37,8 +41,20 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                GetLoginApi loginApi = new GetLoginApi();
-                loginApi.execute();
+                if(txtUName.getText().toString().equals("") && txtPassword.getText().toString().equals(""))
+                {
+                    Toast.makeText(LoginActivity.this,"Enter valid Username.",Toast.LENGTH_SHORT).show();
+                }
+                else if (txtPassword.getText().toString().equals(""))
+                {
+                    Toast.makeText(LoginActivity.this,"Enter valid Password.",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    GetLoginApi loginApi = new GetLoginApi();
+                    loginApi.execute();
+                }
+
 
             }
         });
@@ -112,6 +128,8 @@ public class LoginActivity extends AppCompatActivity {
             }
             else
             {
+                txtUName.setText("");
+                txtPassword.setText("");
                 Toast.makeText(LoginActivity.this,message,Toast.LENGTH_SHORT).show();
             }
         }

@@ -63,7 +63,6 @@
                 android:paddingRight="10dp"
                 android:orientation="vertical">
 
-
                 <EditText
                     android:id="@+id/txtUName"
                     android:layout_width="match_parent"
