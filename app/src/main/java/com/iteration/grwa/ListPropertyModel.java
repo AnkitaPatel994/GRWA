@@ -2,9 +2,9 @@ package com.iteration.grwa;
 
 class ListPropertyModel {
 
-    String id,pid,pimgone,pimgtwo,pimgthree,pprize,ppbhk,ptname,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,username,userpic,useremail,usermobile,filter;
+    String id,pid,pimgone,pimgtwo,pimgthree,pprize,ppbhk,ptname,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,eid,username,userpic,useremail,usermobile,filter;
 
-    public ListPropertyModel(String id, String pid, String pimgone, String pimgtwo, String pimgthree, String pprize, String ppbhk, String ptname, String pparea, String pyearbuilt, String pstate, String pcity, String paddress, String pbedroom, String pbathroom, String pdes, String username, String userpic, String useremail, String usermobile, String filter) {
+    public ListPropertyModel(String id, String pid, String pimgone, String pimgtwo, String pimgthree, String pprize, String ppbhk, String ptname, String pparea, String pyearbuilt, String pstate, String pcity, String paddress, String pbedroom, String pbathroom, String pdes,String eid, String username, String userpic, String useremail, String usermobile, String filter) {
 
         this.id = id;
         this.pid = pid;
@@ -22,6 +22,7 @@ class ListPropertyModel {
         this.pbedroom = pbedroom;
         this.pbathroom = pbathroom;
         this.pdes = pdes;
+        this.eid = eid;
         this.username = username;
         this.userpic = userpic;
         this.useremail = useremail;
@@ -155,6 +156,14 @@ class ListPropertyModel {
 
     public void setPdes(String pdes) {
         this.pdes = pdes;
+    }
+
+    public String getEid() {
+        return eid;
+    }
+
+    public void setEid(String eid) {
+        this.eid = eid;
     }
 
     public String getUsername() {

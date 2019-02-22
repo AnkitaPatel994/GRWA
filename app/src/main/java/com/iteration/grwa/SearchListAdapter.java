@@ -72,6 +72,7 @@ class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolde
         final String pbedroom = SearchListArray.get(position).getPbedroom();
         final String pbathroom = SearchListArray.get(position).getPbathroom();
         final String pdes = SearchListArray.get(position).getPdes();
+        final String eid = SearchListArray.get(position).getEid();
         final String username = SearchListArray.get(position).getUsername();
         final String userpic = SearchListArray.get(position).getUserpic();
         final String useremail = SearchListArray.get(position).getUseremail();
@@ -122,7 +123,7 @@ class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolde
                         }
                         else
                         {
-                            GetInseInquire inseInquire = new GetInseInquire();
+                            GetInseInquire inseInquire = new GetInseInquire(eid);
                             inseInquire.execute();
                         }
 
@@ -160,6 +161,7 @@ class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolde
                 i.putExtra("pbedroom", pbedroom);
                 i.putExtra("pbathroom", pbathroom);
                 i.putExtra("pdes", pdes);
+                i.putExtra("eid", eid);
                 i.putExtra("username", username);
                 i.putExtra("userpic", userpic);
                 i.putExtra("useremail", useremail);
@@ -234,7 +236,11 @@ class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolde
 
     private class GetInseInquire extends AsyncTask<String,Void,String> {
 
-        String status,message;
+        String status,message,eid;
+
+        public GetInseInquire(String eid) {
+            this.eid = eid;
+        }
 
         @Override
         protected String doInBackground(String... strings) {
@@ -245,6 +251,7 @@ class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolde
                 joUser.put("i_phone",txtInPhone.getText().toString());
                 joUser.put("i_email",txtInEmail.getText().toString());
                 joUser.put("i_message",txtInMessage.getText().toString());
+                joUser.put("i_e_id",eid);
 
                 Postdata postdata = new Postdata();
                 String pdUser=postdata.post(MainActivity.BASE_URL+"insertInquiry.php",joUser.toString());

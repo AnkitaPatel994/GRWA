@@ -45,7 +45,7 @@ public class PropertyDetailsActivity extends AppCompatActivity {
     TextView txtPDPrize,txtPDBHK,txtPDType,txtPDUserName,txtPDUserPhone,txtPDCity,txtPDBuiltArea,txtPDYearBuilt,txtPDBedroom,txtPDBathroom,txtPDPCity,txtPDState,txtPDAddress,txtPDPDescription;
     String imgOne,imgTwo,imgThree;
     ImageView ivImg;
-    String userPicUrl,usermobile,useremail,username,pdes;
+    String userPicUrl,usermobile,useremail,username,pdes,eid;
     LinearLayout llPDViewCon,llPDSendMessage,llPDPhone;
     Dialog dialog,dialog_rm;
     EditText txtPDIName,txtPDIPhone,txtPDIEmail,txtPDIMessage;
@@ -114,10 +114,32 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         String userpic = getIntent().getExtras().getString("userpic");
         userPicUrl = MainActivity.BASE_URL+userpic;
         Picasso.with(PropertyDetailsActivity.this).load(userPicUrl).into(ivImg);
-
+        eid = getIntent().getExtras().getString("eid");
         useremail = getIntent().getExtras().getString("useremail");
         usermobile = getIntent().getExtras().getString("usermobile");
         txtPDUserPhone.setText(usermobile);
+        txtPDUserPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(PropertyDetailsActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(PropertyDetailsActivity.this, Manifest.permission.CALL_PHONE)) {
+
+                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        callIntent.setData(Uri.parse("tel:" + usermobile));
+                        startActivity(callIntent);
+
+                    } else {
+                        ActivityCompat.requestPermissions(PropertyDetailsActivity.this, new String[]{"android.permission.CALL_PHONE",}, 200);
+                    }
+                } else {
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:" + usermobile));
+                    startActivity(callIntent);
+                }
+            }
+        });
+
 
         String pimgOne = getIntent().getExtras().getString("pimgone");
         String pimgTwo = getIntent().getExtras().getString("pimgtwo");
@@ -221,7 +243,7 @@ public class PropertyDetailsActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    GetInsertInquire insertInquire = new GetInsertInquire();
+                    GetInsertInquire insertInquire = new GetInsertInquire(eid);
                     insertInquire.execute();
                 }
 
@@ -253,12 +275,12 @@ public class PropertyDetailsActivity extends AppCompatActivity {
     }
 
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.pdshare, menu);
         return true;
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -268,13 +290,13 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         if(id == android.R.id.home)
             finish();
 
-        if (id == R.id.menu_share)
+        /*if (id == R.id.menu_share)
         {
             Intent share = new Intent(Intent.ACTION_SEND);
             share.setType("image/jpeg");
             share.putExtra(Intent.EXTRA_STREAM, bitmapLayout);
             startActivity(Intent.createChooser(share, "Share Image"));
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -317,8 +339,12 @@ public class PropertyDetailsActivity extends AppCompatActivity {
 
     private class GetInsertInquire extends AsyncTask<String,Void,String> {
 
-        String status,message;
+        String status,message,eid;
         ProgressDialog dialog;
+
+        public GetInsertInquire(String eid) {
+            this.eid = eid;
+        }
 
         @Override
         protected void onPreExecute() {
@@ -337,6 +363,7 @@ public class PropertyDetailsActivity extends AppCompatActivity {
                 joUser.put("i_phone",txtPDIPhone.getText().toString());
                 joUser.put("i_email",txtPDIEmail.getText().toString());
                 joUser.put("i_message",txtPDIMessage.getText().toString());
+                joUser.put("i_e_id",eid);
 
                 Postdata postdata = new Postdata();
                 String pdUser=postdata.post(MainActivity.BASE_URL+"insertInquiry.php",joUser.toString());

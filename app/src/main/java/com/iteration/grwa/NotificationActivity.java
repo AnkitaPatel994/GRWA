@@ -38,6 +38,7 @@ public class NotificationActivity extends AppCompatActivity
 
     SessionManager session;
     RecyclerView rvNotification;
+    String eid;
     ArrayList<HashMap<String,String>> NotificationListArray = new ArrayList<>();
 
     @Override
@@ -61,6 +62,7 @@ public class NotificationActivity extends AppCompatActivity
         session = new SessionManager(getApplicationContext());
 
         HashMap<String,String> user = session.getUserDetails();
+        eid = user.get(SessionManager.user_id);
         String user_name = user.get(SessionManager.user_name);
         String user_email = user.get(SessionManager.user_email);
         String user_pic = user.get(SessionManager.user_pic);
@@ -171,6 +173,7 @@ public class NotificationActivity extends AppCompatActivity
 
             JSONObject joUser=new JSONObject();
             try {
+                joUser.put("UserId",eid);
                 Postdata postdata = new Postdata();
                 String pdUser=postdata.post(MainActivity.BASE_URL+"ViewInquiry.php",joUser.toString());
                 JSONObject j = new JSONObject(pdUser);
@@ -178,7 +181,7 @@ public class NotificationActivity extends AppCompatActivity
                 if(status.equals("1"))
                 {
                     message=j.getString("message");
-                    JSONArray JsArry=j.getJSONArray("PropertyType");
+                    JSONArray JsArry=j.getJSONArray("Inquiry");
                     for (int i=0;i<JsArry.length();i++)
                     {
                         JSONObject jo=JsArry.getJSONObject(i);
