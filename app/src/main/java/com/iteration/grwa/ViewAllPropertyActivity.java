@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,12 +69,22 @@ public class ViewAllPropertyActivity extends AppCompatActivity
         HashMap<String,String> user = session.getUserDetails();
         String user_name = user.get(SessionManager.user_name);
         String user_email = user.get(SessionManager.user_email);
-        String user_pic = user.get(SessionManager.user_pic);
-        String url_user_pic = MainActivity.BASE_URL+user_pic;
+        String user_id = user.get(SessionManager.user_id);
 
         View headerview = navigationView.getHeaderView(0);
         CircleImageView ivUserImg = (CircleImageView)headerview.findViewById(R.id.ivUserImg);
-        Picasso.with(ViewAllPropertyActivity.this).load(url_user_pic).into(ivUserImg);
+
+        GetProfilePic profilePic = new GetProfilePic(ViewAllPropertyActivity.this,user_id,ivUserImg);
+        profilePic.execute();
+
+        LinearLayout llNavProfile = (LinearLayout)headerview.findViewById(R.id.llNavProfile);
+        llNavProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ViewAllPropertyActivity.this,ProfileActivity.class);
+                startActivity(i);
+            }
+        });
 
         TextView txtUserName = (TextView)headerview.findViewById(R.id.txtUserName);
         txtUserName.setText(user_name);
@@ -265,6 +276,7 @@ public class ViewAllPropertyActivity extends AppCompatActivity
                         String pbedroom =jo.getString("pbedroom");
                         String pbathroom =jo.getString("pbathroom");
                         String pdes =jo.getString("pdes");
+                        String eid =jo.getString("userid");
                         String username =jo.getString("username");
                         String userpic =jo.getString("userpic");
                         String useremail =jo.getString("useremail");
@@ -286,6 +298,7 @@ public class ViewAllPropertyActivity extends AppCompatActivity
                         hashMap.put("pbedroom",pbedroom);
                         hashMap.put("pbathroom",pbathroom);
                         hashMap.put("pdes",pdes);
+                        hashMap.put("eid",eid);
                         hashMap.put("username",username);
                         hashMap.put("userpic",userpic);
                         hashMap.put("useremail",useremail);

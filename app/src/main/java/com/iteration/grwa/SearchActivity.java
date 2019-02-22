@@ -128,6 +128,7 @@ public class SearchActivity extends AppCompatActivity {
                         String pbedroom =jo.getString("pbedroom");
                         String pbathroom =jo.getString("pbathroom");
                         String pdes =jo.getString("pdes");
+                        String eid =jo.getString("userid");
                         String username =jo.getString("username");
                         String userpic =jo.getString("userpic");
                         String useremail =jo.getString("useremail");
@@ -135,7 +136,7 @@ public class SearchActivity extends AppCompatActivity {
 
                         String filter = pcity+""+pprize;
 
-                        ListPropertyModel listPropertyModel = new ListPropertyModel(id,pid,pimgone,pimgtwo,pimgthree,pprize,ppbhk,ptname,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,username,userpic,useremail,usermobile,filter);
+                        ListPropertyModel listPropertyModel = new ListPropertyModel(id,pid,pimgone,pimgtwo,pimgthree,pprize,ppbhk,ptname,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,eid,username,userpic,useremail,usermobile,filter);
                         SearchListArray.add(listPropertyModel);
 
                     }

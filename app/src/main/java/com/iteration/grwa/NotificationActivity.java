@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class NotificationActivity extends AppCompatActivity
 
     SessionManager session;
     RecyclerView rvNotification;
+    String eid;
     ArrayList<HashMap<String,String>> NotificationListArray = new ArrayList<>();
 
     @Override
@@ -61,14 +63,25 @@ public class NotificationActivity extends AppCompatActivity
         session = new SessionManager(getApplicationContext());
 
         HashMap<String,String> user = session.getUserDetails();
+        eid = user.get(SessionManager.user_id);
         String user_name = user.get(SessionManager.user_name);
         String user_email = user.get(SessionManager.user_email);
         String user_pic = user.get(SessionManager.user_pic);
-        String url_user_pic = MainActivity.BASE_URL+user_pic;
 
         View headerview = navigationView.getHeaderView(0);
         CircleImageView ivUserImg = (CircleImageView)headerview.findViewById(R.id.ivUserImg);
-        Picasso.with(NotificationActivity.this).load(url_user_pic).into(ivUserImg);
+
+        GetProfilePic profilePic = new GetProfilePic(NotificationActivity.this,eid,ivUserImg);
+        profilePic.execute();
+
+        LinearLayout llNavProfile = (LinearLayout)headerview.findViewById(R.id.llNavProfile);
+        llNavProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(NotificationActivity.this,ProfileActivity.class);
+                startActivity(i);
+            }
+        });
 
         TextView txtUserName = (TextView)headerview.findViewById(R.id.txtUserName);
         txtUserName.setText(user_name);
@@ -171,6 +184,7 @@ public class NotificationActivity extends AppCompatActivity
 
             JSONObject joUser=new JSONObject();
             try {
+                joUser.put("UserId",eid);
                 Postdata postdata = new Postdata();
                 String pdUser=postdata.post(MainActivity.BASE_URL+"ViewInquiry.php",joUser.toString());
                 JSONObject j = new JSONObject(pdUser);
@@ -178,7 +192,7 @@ public class NotificationActivity extends AppCompatActivity
                 if(status.equals("1"))
                 {
                     message=j.getString("message");
-                    JSONArray JsArry=j.getJSONArray("PropertyType");
+                    JSONArray JsArry=j.getJSONArray("Inquiry");
                     for (int i=0;i<JsArry.length();i++)
                     {
                         JSONObject jo=JsArry.getJSONObject(i);
