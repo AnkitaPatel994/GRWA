@@ -62,7 +62,7 @@ public class AddPropertyActivity extends AppCompatActivity
 
     SessionManager session;
     EditText txtAPId,txtAPPrize,txtAPBHK,txtAPArea,txtAPYearBuilt,txtAPPropDes,txtAPBedroom,txtAPCity,txtAPState,txtAPBathroom,txtAPAddress;
-    LinearLayout llImgOne,llImgTwo,llImgThree;
+    LinearLayout llImgOne,llImgTwo,llImgThree,llAPImg;
     ImageView ivImgOne,ivImgTwo,ivImgThree;
     Spinner spPType;
     ArrayList<String> spListTypeArray=new ArrayList<>();
@@ -73,7 +73,7 @@ public class AddPropertyActivity extends AppCompatActivity
     String str_imgpath,encodedImgpathOne,encodedImgpathTwo,encodedImgpathThree;
     int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     String flag,typeId,user_id;
-    String propId,pid,pprize,ppbhk,ptname,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,peid,pimgOne,pimgTwo,pimgThree;
+    String propId,pid,pprize,ppbhk,ptname,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,peid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +120,8 @@ public class AddPropertyActivity extends AppCompatActivity
         llImgOne = (LinearLayout)findViewById(R.id.llImgOne);
         llImgTwo = (LinearLayout)findViewById(R.id.llImgTwo);
         llImgThree = (LinearLayout)findViewById(R.id.llImgThree);
+
+        llAPImg = (LinearLayout)findViewById(R.id.llAPImg);
 
         ivImgOne = (ImageView) findViewById(R.id.ivImgOne);
         ivImgTwo = (ImageView) findViewById(R.id.ivImgTwo);
@@ -231,10 +233,13 @@ public class AddPropertyActivity extends AppCompatActivity
         if(flag.equals("add"))
         {
             //Toast.makeText(getApplicationContext(),"add",Toast.LENGTH_SHORT).show();
+            llAPImg.setVisibility(View.VISIBLE);
         }
         else if(flag.equals("edit"))
         {
             //Toast.makeText(getApplicationContext(),"edit",Toast.LENGTH_SHORT).show();
+
+            llAPImg.setVisibility(View.GONE);
             propId = getIntent().getExtras().getString("propId");
             pid = getIntent().getExtras().getString("pid");
             txtAPId.setText(pid);
@@ -261,12 +266,7 @@ public class AddPropertyActivity extends AppCompatActivity
             pdes = getIntent().getExtras().getString("pdes");
             txtAPPropDes.setText(pdes);
             peid = getIntent().getExtras().getString("peid");
-            pimgOne = getIntent().getExtras().getString("pimgOne");
-            Picasso.with(AddPropertyActivity.this).load(pimgOne).into(ivImgOne);
-            pimgTwo = getIntent().getExtras().getString("pimgTwo");
-            Picasso.with(AddPropertyActivity.this).load(pimgTwo).into(ivImgTwo);
-            pimgThree = getIntent().getExtras().getString("pimgThree");
-            Picasso.with(getApplicationContext()).load(pimgThree).into(ivImgThree);
+
         }
 
         btnAddProp.setOnClickListener(new View.OnClickListener() {
