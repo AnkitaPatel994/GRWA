@@ -100,11 +100,21 @@ public class AddPropertyActivity extends AppCompatActivity
         String user_name = user.get(SessionManager.user_name);
         String user_email = user.get(SessionManager.user_email);
         String user_pic = user.get(SessionManager.user_pic);
-        String url_user_pic = MainActivity.BASE_URL+user_pic;
 
         View headerview = navigationView.getHeaderView(0);
         CircleImageView ivUserImg = (CircleImageView)headerview.findViewById(R.id.ivUserImg);
-        Picasso.with(AddPropertyActivity.this).load(url_user_pic).into(ivUserImg);
+
+        GetProfilePic profilePic = new GetProfilePic(AddPropertyActivity.this,user_id,ivUserImg);
+        profilePic.execute();
+
+        LinearLayout llNavProfile = (LinearLayout)headerview.findViewById(R.id.llNavProfile);
+        llNavProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(AddPropertyActivity.this,ProfileActivity.class);
+                startActivity(i);
+            }
+        });
 
         TextView txtUserName = (TextView)headerview.findViewById(R.id.txtUserName);
         txtUserName.setText(user_name);
