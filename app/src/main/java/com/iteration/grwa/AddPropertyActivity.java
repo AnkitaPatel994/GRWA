@@ -76,6 +76,10 @@ public class AddPropertyActivity extends AppCompatActivity
     String encodedImgpath="";
     int REQUEST_CAMERA = 0, SELECT_FILE = 1;
 
+    Bitmap bitmapOne = null,bitmapTwo = null,bitmapThree = null;
+    String encodedImgOne="",encodedImgTwo="",encodedImgThree="";
+    int SELECT_FILE_ONE = 2,SELECT_FILE_TWO = 3,SELECT_FILE_THREE = 4;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -186,7 +190,19 @@ public class AddPropertyActivity extends AppCompatActivity
         llImgOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(AddPropertyActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE))
+                    {
+                        ImageFromGallleryOne();
+                    }
+                    else
+                    {
+                        ActivityCompat.requestPermissions(AddPropertyActivity.this, new String[]{"android.permission.READ_EXTERNAL_STORAGE"}, 200);
+                    }
+                } else {
+                    ImageFromGallleryOne();
+                }
             }
 
         });
@@ -194,7 +210,19 @@ public class AddPropertyActivity extends AppCompatActivity
         llImgTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(AddPropertyActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE))
+                    {
+                        ImageFromGallleryTwo();
+                    }
+                    else
+                    {
+                        ActivityCompat.requestPermissions(AddPropertyActivity.this, new String[]{"android.permission.READ_EXTERNAL_STORAGE"}, 200);
+                    }
+                } else {
+                    ImageFromGallleryTwo();
+                }
             }
 
         });
@@ -202,7 +230,19 @@ public class AddPropertyActivity extends AppCompatActivity
         llImgThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(AddPropertyActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE))
+                    {
+                        ImageFromGallleryThree();
+                    }
+                    else
+                    {
+                        ActivityCompat.requestPermissions(AddPropertyActivity.this, new String[]{"android.permission.READ_EXTERNAL_STORAGE"}, 200);
+                    }
+                } else {
+                    ImageFromGallleryThree();
+                }
             }
 
         });
@@ -310,6 +350,24 @@ public class AddPropertyActivity extends AppCompatActivity
         builder.show();
     }
 
+    private void ImageFromGallleryOne() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE_ONE);
+    }
+
+    private void ImageFromGallleryTwo() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE_TWO);
+    }
+
+    private void ImageFromGallleryThree() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE_THREE);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -348,6 +406,57 @@ public class AddPropertyActivity extends AppCompatActivity
 
                 GetSendImg sendImg = new GetSendImg(AddPropertyActivity.this,user_id,encodedImgpath);
                 sendImg.execute();
+
+            }
+            else if (requestCode == SELECT_FILE_ONE)
+            {
+                Uri uri = data.getData();
+                try {
+                    bitmapOne = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                bitmapOne.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+                byte[] b = bytes.toByteArray();
+                encodedImgOne = Base64.encodeToString(b, Base64.DEFAULT);
+
+                ivImgOne.setImageBitmap(bitmapOne);
+
+            }
+            else if (requestCode == SELECT_FILE_TWO)
+            {
+                Uri uri = data.getData();
+                try {
+                    bitmapTwo = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                bitmapTwo.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+                byte[] b = bytes.toByteArray();
+                encodedImgTwo = Base64.encodeToString(b, Base64.DEFAULT);
+
+                ivImgTwo.setImageBitmap(bitmapTwo);
+
+            }
+            else if (requestCode == SELECT_FILE_THREE)
+            {
+                Uri uri = data.getData();
+                try {
+                    bitmapThree = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                bitmapThree.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+                byte[] b = bytes.toByteArray();
+                encodedImgThree = Base64.encodeToString(b, Base64.DEFAULT);
+
+                ivImgThree.setImageBitmap(bitmapThree);
 
             }
         }
@@ -579,7 +688,9 @@ public class AddPropertyActivity extends AppCompatActivity
             JSONObject joUser=new JSONObject();
             try {
 
-                //joUser.put("p_pimg_one",encodedImgpathOne);
+                joUser.put("p_pimg_one",encodedImgOne);
+                joUser.put("p_pimg_two",encodedImgTwo);
+                joUser.put("p_pimg_three",encodedImgThree);
                 joUser.put("p_prize",Prop_Prize);
                 joUser.put("p_bhk",Prop_BHK);
                 joUser.put("p_type_id",Prop_Type);
@@ -594,7 +705,7 @@ public class AddPropertyActivity extends AppCompatActivity
                 joUser.put("p_e_id",user_id);
 
                 Postdata postdata = new Postdata();
-                String pdUser=postdata.post(MainActivity.BASE_URL+"EditProperty.php",joUser.toString());
+                String pdUser=postdata.post(MainActivity.BASE_URL+"InsertProperty.php",joUser.toString());
                 JSONObject j = new JSONObject(pdUser);
                 status=j.getString("status");
                 if(status.equals("1"))
