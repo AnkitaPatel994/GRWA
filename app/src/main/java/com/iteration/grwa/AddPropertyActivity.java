@@ -69,11 +69,12 @@ public class AddPropertyActivity extends AppCompatActivity
     ArrayList<String> spListIdTypeArray=new ArrayList<>();
     Button btnAddProp;
     String Prop_Id,Prop_Prize,Prop_BHK,Prop_Type,Prop_Area,Prop_YearBuilt,Prop_Bedroom,Prop_Bathroom,Prop_Address,Prop_City,Prop_State,Prop_PropDes;
-    Bitmap bitmap = null;
-    String str_imgpath,encodedImgpathOne,encodedImgpathTwo,encodedImgpathThree;
-    int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     String flag,typeId,user_id;
     String propId,pid,pprize,ppbhk,ptname,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,peid;
+    CircleImageView ivUserImg;
+    Bitmap bitmap = null;
+    String encodedImgpath="";
+    int REQUEST_CAMERA = 0, SELECT_FILE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +103,7 @@ public class AddPropertyActivity extends AppCompatActivity
         String user_pic = user.get(SessionManager.user_pic);
 
         View headerview = navigationView.getHeaderView(0);
-        CircleImageView ivUserImg = (CircleImageView)headerview.findViewById(R.id.ivUserImg);
+        ivUserImg = (CircleImageView)headerview.findViewById(R.id.ivUserImg);
 
         GetProfilePic profilePic = new GetProfilePic(AddPropertyActivity.this,user_id,ivUserImg);
         profilePic.execute();
@@ -111,8 +112,24 @@ public class AddPropertyActivity extends AppCompatActivity
         llNavProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(AddPropertyActivity.this,ProfileActivity.class);
-                startActivity(i);
+                if (ContextCompat.checkSelfPermission(getApplicationContext(),
+                        Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getApplicationContext(),
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    // Should we show an explanation?
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(AddPropertyActivity.this,
+                            Manifest.permission.CAMERA) && ActivityCompat.shouldShowRequestPermissionRationale(AddPropertyActivity.this,
+                            Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        selectImage();
+                    } else {
+                        ActivityCompat.requestPermissions(AddPropertyActivity.this, new String[]{"android.permission.CAMERA", "android.permission.READ_EXTERNAL_STORAGE"}, 200);
+                        // No explanation needed, we can request the permission.
+                    }
+                } else {
+                    selectImage();
+                }
             }
         });
 
@@ -169,25 +186,7 @@ public class AddPropertyActivity extends AppCompatActivity
         llImgOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(AddPropertyActivity.this,
 
-                        Manifest.permission.CAMERA)
-                        != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(AddPropertyActivity.this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-
-                    // Should we show an explanation?
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(AddPropertyActivity.this,
-                            Manifest.permission.CAMERA) && ActivityCompat.shouldShowRequestPermissionRationale(AddPropertyActivity.this,
-                            Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                        selectImage();
-                    } else {
-                        ActivityCompat.requestPermissions(AddPropertyActivity.this, new String[]{"android.permission.CAMERA", "android.permission.READ_EXTERNAL_STORAGE"}, 200);
-                        // No explanation needed, we can request the permission.
-                    }
-                } else {
-                    selectImage();
-                }
             }
 
         });
@@ -195,25 +194,7 @@ public class AddPropertyActivity extends AppCompatActivity
         llImgTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(AddPropertyActivity.this,
 
-                        Manifest.permission.CAMERA)
-                        != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(AddPropertyActivity.this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-
-                    // Should we show an explanation?
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(AddPropertyActivity.this,
-                            Manifest.permission.CAMERA) && ActivityCompat.shouldShowRequestPermissionRationale(AddPropertyActivity.this,
-                            Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                        selectImage();
-                    } else {
-                        ActivityCompat.requestPermissions(AddPropertyActivity.this, new String[]{"android.permission.CAMERA", "android.permission.READ_EXTERNAL_STORAGE"}, 200);
-                        // No explanation needed, we can request the permission.
-                    }
-                } else {
-                    selectImage();
-                }
             }
 
         });
@@ -221,20 +202,7 @@ public class AddPropertyActivity extends AppCompatActivity
         llImgThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(AddPropertyActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
-                        && ContextCompat.checkSelfPermission(AddPropertyActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
-                    // Should we show an explanation?
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(AddPropertyActivity.this, Manifest.permission.CAMERA)
-                            && ActivityCompat.shouldShowRequestPermissionRationale(AddPropertyActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                        selectImage();
-                    } else {
-                        ActivityCompat.requestPermissions(AddPropertyActivity.this, new String[]{"android.permission.CAMERA", "android.permission.READ_EXTERNAL_STORAGE"}, 200);
-                        // No explanation needed, we can request the permission.
-                    }
-                } else {
-                    selectImage();
-                }
             }
 
         });
@@ -345,7 +313,6 @@ public class AddPropertyActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (resultCode == Activity.RESULT_OK)
         {
             if (requestCode == REQUEST_CAMERA)
@@ -353,111 +320,39 @@ public class AddPropertyActivity extends AppCompatActivity
                 bitmap = (Bitmap) data.getExtras().get("data");
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-                File destination = new File(Environment.getExternalStorageDirectory(), System.currentTimeMillis() + ".jpg");
-                FileOutputStream fo;
-                try {
-                    destination.createNewFile();
-                    fo = new FileOutputStream(destination);
-                    fo.write(bytes.toByteArray());
-                    fo.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                Uri tempUri = getImageUri(AddPropertyActivity.this, bitmap);
-                str_imgpath = getRealPathFromURI(tempUri);
 
                 byte[] b = bytes.toByteArray();
-                encodedImgpathOne = Base64.encodeToString(b, Base64.DEFAULT);
+                encodedImgpath = Base64.encodeToString(b, Base64.DEFAULT);
 
-                ivImgOne.setImageBitmap(bitmap);
+                ivUserImg.setImageBitmap(bitmap);
+
+                GetSendImg sendImg = new GetSendImg(AddPropertyActivity.this,user_id,encodedImgpath);
+                sendImg.execute();
+
             }
             else if (requestCode == SELECT_FILE)
             {
-                Uri selectedImageUri = data.getData();
-
-                InputStream in = null;
+                Uri uri = data.getData();
                 try {
-                    final int IMAGE_MAX_SIZE = 1200000; // 1.2MP
-                    in = AddPropertyActivity.this.getContentResolver().openInputStream(selectedImageUri);
-
-                    // Decode image size
-                    BitmapFactory.Options o = new BitmapFactory.Options();
-                    o.inJustDecodeBounds = true;
-                    BitmapFactory.decodeStream(in, null, o);
-                    try {
-                        in.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    int scale = 1;
-                    while ((o.outWidth * o.outHeight) * (1 / Math.pow(scale, 2)) >
-                            IMAGE_MAX_SIZE) {
-                        scale++;
-
-                    }
-                    in = AddPropertyActivity.this.getContentResolver().openInputStream(selectedImageUri);
-                    if (scale > 1) {
-                        scale--;
-
-                        o = new BitmapFactory.Options();
-                        o.inSampleSize = scale;
-                        bitmap = BitmapFactory.decodeStream(in, null, o);
-
-                        // resize to desired dimensions
-                        int height = bitmap.getHeight();
-                        int width = bitmap.getWidth();
-
-                        double y = Math.sqrt(IMAGE_MAX_SIZE
-                                / (((double) width) / height));
-                        double x = (y / height) * width;
-
-                        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) x,
-                                (int) y, true);
-                        bitmap.recycle();
-                        bitmap = scaledBitmap;
-
-                        System.gc();
-                    } else {
-                        bitmap = BitmapFactory.decodeStream(in);
-                    }
-                    in.close();
-
-                } catch (Exception ignored) {
-
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
-                Uri tempUri = getImageUri(AddPropertyActivity.this, bitmap);
-                str_imgpath = getRealPathFromURI(tempUri);
-
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
 
                 byte[] b = bytes.toByteArray();
-                encodedImgpathOne = Base64.encodeToString(b, Base64.DEFAULT);
+                encodedImgpath = Base64.encodeToString(b, Base64.DEFAULT);
 
-                ivImgOne.setImageBitmap(bitmap);
+                ivUserImg.setImageBitmap(bitmap);
+
+                GetSendImg sendImg = new GetSendImg(AddPropertyActivity.this,user_id,encodedImgpath);
+                sendImg.execute();
 
             }
         }
     }
 
-    private Uri getImageUri(Context context, Bitmap bitmap) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null);
-        return Uri.parse(path);
-    }
-
-    private String getRealPathFromURI(Uri uri) {
-        Cursor cursor = AddPropertyActivity.this.getContentResolver().query(uri, null, null, null, null);
-        cursor.moveToFirst();
-        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-        return cursor.getString(idx);
-    }
 
     @Override
     public void onBackPressed() {
@@ -684,7 +579,7 @@ public class AddPropertyActivity extends AppCompatActivity
             JSONObject joUser=new JSONObject();
             try {
 
-                joUser.put("p_pimg_one",encodedImgpathOne);
+                //joUser.put("p_pimg_one",encodedImgpathOne);
                 joUser.put("p_prize",Prop_Prize);
                 joUser.put("p_bhk",Prop_BHK);
                 joUser.put("p_type_id",Prop_Type);

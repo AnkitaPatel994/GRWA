@@ -65,8 +65,9 @@ public class HomeActivity extends AppCompatActivity
     RecyclerView rvPropertyTypeList;
     ArrayList<HashMap<String,String>> PropertyTypeListArray = new ArrayList<>();
     SessionManager session;
+    CircleImageView ivUserImg;
     Bitmap bitmap = null;
-    String str_imgpath;
+    String encodedImgpath="",user_id;
     int REQUEST_CAMERA = 0, SELECT_FILE = 1;
 
     @Override
@@ -90,13 +91,13 @@ public class HomeActivity extends AppCompatActivity
         session.checkLogin();
 
         HashMap<String,String> user = session.getUserDetails();
-        String user_id = user.get(SessionManager.user_id);
+        user_id = user.get(SessionManager.user_id);
         String user_name = user.get(SessionManager.user_name);
         String user_email = user.get(SessionManager.user_email);
         String user_pic = user.get(SessionManager.user_pic);
 
         View headerview = navigationView.getHeaderView(0);
-        CircleImageView ivUserImg = (CircleImageView)headerview.findViewById(R.id.ivUserImg);
+        ivUserImg = (CircleImageView)headerview.findViewById(R.id.ivUserImg);
 
         GetProfilePic profilePic = new GetProfilePic(HomeActivity.this,user_id,ivUserImg);
         profilePic.execute();
@@ -105,8 +106,24 @@ public class HomeActivity extends AppCompatActivity
         llNavProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(HomeActivity.this,ProfileActivity.class);
-                startActivity(i);
+                if (ContextCompat.checkSelfPermission(getApplicationContext(),
+                        Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getApplicationContext(),
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    // Should we show an explanation?
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this,
+                            Manifest.permission.CAMERA) && ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this,
+                            Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        selectImage();
+                    } else {
+                        ActivityCompat.requestPermissions(HomeActivity.this, new String[]{"android.permission.CAMERA", "android.permission.READ_EXTERNAL_STORAGE"}, 200);
+                        // No explanation needed, we can request the permission.
+                    }
+                } else {
+                    selectImage();
+                }
             }
         });
 
@@ -129,20 +146,77 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
+    private void selectImage() {
+        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+        builder.setTitle("Add Photo!");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (options[item].equals("Take Photo")) {
 
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent, REQUEST_CAMERA);
 
-    private Uri getImageUri(Context context, Bitmap bitmap) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null);
-        return Uri.parse(path);
+                } else if (options[item].equals("Choose from Gallery")) {
+
+                    Intent intent = new Intent(
+                            Intent.ACTION_PICK,
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType("image/*");
+                    startActivityForResult(
+                            Intent.createChooser(intent, "Select File"),
+                            SELECT_FILE);
+
+                } else if (options[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
     }
 
-    private String getRealPathFromURI(Uri uri) {
-        Cursor cursor = HomeActivity.this.getContentResolver().query(uri, null, null, null, null);
-        cursor.moveToFirst();
-        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-        return cursor.getString(idx);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK)
+        {
+            if (requestCode == REQUEST_CAMERA)
+            {
+                bitmap = (Bitmap) data.getExtras().get("data");
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+                byte[] b = bytes.toByteArray();
+                encodedImgpath = Base64.encodeToString(b, Base64.DEFAULT);
+
+                ivUserImg.setImageBitmap(bitmap);
+
+                GetSendImg sendImg = new GetSendImg(HomeActivity.this,user_id,encodedImgpath);
+                sendImg.execute();
+
+            }
+            else if (requestCode == SELECT_FILE)
+            {
+                Uri uri = data.getData();
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+                byte[] b = bytes.toByteArray();
+                encodedImgpath = Base64.encodeToString(b, Base64.DEFAULT);
+
+                ivUserImg.setImageBitmap(bitmap);
+
+                GetSendImg sendImg = new GetSendImg(HomeActivity.this,user_id,encodedImgpath);
+                sendImg.execute();
+
+            }
+        }
     }
 
     @Override
