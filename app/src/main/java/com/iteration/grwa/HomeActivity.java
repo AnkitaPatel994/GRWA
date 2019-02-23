@@ -193,6 +193,11 @@ public class HomeActivity extends AppCompatActivity
             Intent i = new Intent(HomeActivity.this,MyPropertyActivity.class);
             startActivity(i);
         }
+        else if (id == R.id.nav_profile)
+        {
+            Intent i = new Intent(HomeActivity.this,ProfileActivity.class);
+            startActivity(i);
+        }
         else if (id == R.id.nav_notification)
         {
             Intent i = new Intent(HomeActivity.this,NotificationActivity.class);

@@ -485,6 +485,11 @@ public class AddPropertyActivity extends AppCompatActivity
             Intent i = new Intent(AddPropertyActivity.this,MyPropertyActivity.class);
             startActivity(i);
         }
+        else if (id == R.id.nav_profile)
+        {
+            Intent i = new Intent(AddPropertyActivity.this,ProfileActivity.class);
+            startActivity(i);
+        }
         else if (id == R.id.nav_notification)
         {
             Intent i = new Intent(AddPropertyActivity.this,NotificationActivity.class);

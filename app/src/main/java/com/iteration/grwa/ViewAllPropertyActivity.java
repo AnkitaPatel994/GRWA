@@ -188,6 +188,11 @@ public class ViewAllPropertyActivity extends AppCompatActivity
             Intent i = new Intent(ViewAllPropertyActivity.this,MyPropertyActivity.class);
             startActivity(i);
         }
+        else if (id == R.id.nav_profile)
+        {
+            Intent i = new Intent(ViewAllPropertyActivity.this,ProfileActivity.class);
+            startActivity(i);
+        }
         else if (id == R.id.nav_notification)
         {
             Intent i = new Intent(ViewAllPropertyActivity.this,NotificationActivity.class);
@@ -333,4 +338,5 @@ public class ViewAllPropertyActivity extends AppCompatActivity
             }
         }
     }
+
 }

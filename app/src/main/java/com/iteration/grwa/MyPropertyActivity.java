@@ -153,6 +153,11 @@ public class MyPropertyActivity extends AppCompatActivity
             i.putExtra("opt","add");
             startActivity(i);
         }
+        else if (id == R.id.nav_profile)
+        {
+            Intent i = new Intent(MyPropertyActivity.this,ProfileActivity.class);
+            startActivity(i);
+        }
         else if (id == R.id.nav_notification)
         {
             Intent i = new Intent(MyPropertyActivity.this,NotificationActivity.class);

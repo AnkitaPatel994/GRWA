@@ -178,7 +178,7 @@ class ListpropertyAdapter extends RecyclerView.Adapter<ListpropertyAdapter.ViewH
 
         ImageView ivPropertyImg;
         TextView txtPropertyName,txtPropertyLocation,txtPropertyPrice;
-        Button btnPropInquiry;
+        LinearLayout btnPropInquiry;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -187,7 +187,7 @@ class ListpropertyAdapter extends RecyclerView.Adapter<ListpropertyAdapter.ViewH
             txtPropertyName = (TextView)itemView.findViewById(R.id.txtPropertyName);
             txtPropertyLocation = (TextView)itemView.findViewById(R.id.txtPropertyLocation);
             txtPropertyPrice = (TextView)itemView.findViewById(R.id.txtPropertyPrice);
-            btnPropInquiry = (Button) itemView.findViewById(R.id.btnPropInquire);
+            btnPropInquiry = (LinearLayout) itemView.findViewById(R.id.btnPropInquire);
 
         }
     }

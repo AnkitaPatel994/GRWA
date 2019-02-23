@@ -58,7 +58,7 @@ public class NotificationActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        navigationView.getMenu().getItem(3).setChecked(true);
+        navigationView.getMenu().getItem(4).setChecked(true);
 
         session = new SessionManager(getApplicationContext());
 
@@ -129,6 +129,11 @@ public class NotificationActivity extends AppCompatActivity
         else if (id == R.id.nav_mp)
         {
             Intent i = new Intent(NotificationActivity.this,MyPropertyActivity.class);
+            startActivity(i);
+        }
+        else if (id == R.id.nav_profile)
+        {
+            Intent i = new Intent(NotificationActivity.this,ProfileActivity.class);
             startActivity(i);
         }
         else if (id == R.id.nav_share)
