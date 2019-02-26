@@ -358,6 +358,7 @@ public class MyPropertyActivity extends AppCompatActivity
                         String pbedroom =jo.getString("pbedroom");
                         String pbathroom =jo.getString("pbathroom");
                         String pdes =jo.getString("pdes");
+                        String pdate =jo.getString("p_date");
                         String username =jo.getString("username");
                         String userpic =jo.getString("userpic");
                         String useremail =jo.getString("useremail");
@@ -379,6 +380,7 @@ public class MyPropertyActivity extends AppCompatActivity
                         hashMap.put("pbedroom",pbedroom);
                         hashMap.put("pbathroom",pbathroom);
                         hashMap.put("pdes",pdes);
+                        hashMap.put("pdate",pdate);
                         hashMap.put("username",username);
                         hashMap.put("userpic",userpic);
                         hashMap.put("useremail",useremail);

@@ -61,14 +61,14 @@ public class AddPropertyActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     SessionManager session;
-    EditText txtAPId,txtAPPrize,txtAPBHK,txtAPArea,txtAPYearBuilt,txtAPPropDes,txtAPBedroom,txtAPCity,txtAPState,txtAPBathroom,txtAPAddress;
-    LinearLayout llImgOne,llImgTwo,llImgThree,llAPImg;
+    EditText txtAPId,txtAPPrize,txtAPFBlockno,txtAPFFloor,txtAPBHK,txtAPArea,txtAPYearBuilt,txtAPPropDes,txtAPBedroom,txtAPCity,txtAPState,txtAPBathroom,txtAPAddress;
+    LinearLayout llImgOne,llImgTwo,llImgThree,llAPImg,llFlatBox;
     ImageView ivImgOne,ivImgTwo,ivImgThree;
     Spinner spPType;
     ArrayList<String> spListTypeArray=new ArrayList<>();
     ArrayList<String> spListIdTypeArray=new ArrayList<>();
     Button btnAddProp;
-    String Prop_Id,Prop_Prize,Prop_BHK,Prop_Type,Prop_Area,Prop_YearBuilt,Prop_Bedroom,Prop_Bathroom,Prop_Address,Prop_City,Prop_State,Prop_PropDes;
+    String Prop_Id,Prop_Prize,Prop_BHK,Prop_Type,Prop_Flat_Floor,Prop_Flat_Blockno,Prop_Area,Prop_YearBuilt,Prop_Bedroom,Prop_Bathroom,Prop_Address,Prop_City,Prop_State,Prop_PropDes;
     String flag,typeId,user_id;
     String propId,pid,pprize,ppbhk,ptname,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,peid;
     CircleImageView ivUserImg;
@@ -153,6 +153,7 @@ public class AddPropertyActivity extends AppCompatActivity
         llImgThree = (LinearLayout)findViewById(R.id.llImgThree);
 
         llAPImg = (LinearLayout)findViewById(R.id.llAPImg);
+        llFlatBox = (LinearLayout)findViewById(R.id.llFlatBox);
 
         ivImgOne = (ImageView) findViewById(R.id.ivImgOne);
         ivImgTwo = (ImageView) findViewById(R.id.ivImgTwo);
@@ -162,11 +163,24 @@ public class AddPropertyActivity extends AppCompatActivity
         txtAPBHK = (EditText) findViewById(R.id.txtAPBHK);
 
         spPType = (Spinner) findViewById(R.id.spPType);
+        txtAPFFloor = (EditText) findViewById(R.id.txtAPFFloor);
+        txtAPFBlockno = (EditText) findViewById(R.id.txtAPFBlockno);
+
         spPType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 int pt = spPType.getSelectedItemPosition();
                 typeId = spListIdTypeArray.get(pt);
+
+                if (spPType.getSelectedItem().toString().equals("Flat"))
+                {
+                    llFlatBox.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    llFlatBox.setVisibility(View.GONE);
+                }
 
             }
 
@@ -255,8 +269,6 @@ public class AddPropertyActivity extends AppCompatActivity
         }
         else if(flag.equals("edit"))
         {
-            //Toast.makeText(getApplicationContext(),"edit",Toast.LENGTH_SHORT).show();
-
             llAPImg.setVisibility(View.GONE);
             propId = getIntent().getExtras().getString("propId");
             pid = getIntent().getExtras().getString("pid");
@@ -266,7 +278,6 @@ public class AddPropertyActivity extends AppCompatActivity
             ppbhk = getIntent().getExtras().getString("ppbhk");
             txtAPBHK.setText(ppbhk);
             ptname = getIntent().getExtras().getString("ptname");
-
             pparea = getIntent().getExtras().getString("pparea");
             txtAPArea.setText(pparea);
             pyearbuilt = getIntent().getExtras().getString("pyearbuilt");
@@ -346,16 +357,51 @@ public class AddPropertyActivity extends AppCompatActivity
                     Prop_State = txtAPState.getText().toString();
                     Prop_PropDes = txtAPPropDes.getText().toString();
 
-                    if(flag.equals("add"))
+                    if (spPType.getSelectedItem().toString().equals("Flat"))
                     {
-                        GetInsertProperty insertProperty = new GetInsertProperty();
-                        insertProperty.execute();
+                        if(txtAPFFloor.getText().toString().equals("") && txtAPFBlockno.getText().toString().equals(""))
+                        {
+                            Toast.makeText(AddPropertyActivity.this,"Enter Floor",Toast.LENGTH_SHORT).show();
+                        }
+                        else if(txtAPFBlockno.getText().toString().equals(""))
+                        {
+                            Toast.makeText(AddPropertyActivity.this,"Enter Floor Block no",Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Prop_Flat_Floor = txtAPFFloor.getText().toString();
+                            Prop_Flat_Blockno = txtAPFBlockno.getText().toString();
+
+                            if(flag.equals("add"))
+                            {
+                                GetInsertProperty insertProperty = new GetInsertProperty();
+                                insertProperty.execute();
+                            }
+                            else if(flag.equals("edit"))
+                            {
+                                GetEditProperty editProperty = new GetEditProperty();
+                                editProperty.execute();
+                            }
+                        }
                     }
-                    else if(flag.equals("edit"))
+                    else
                     {
-                        GetEditProperty editProperty = new GetEditProperty();
-                        editProperty.execute();
+                        Prop_Flat_Floor = "";
+                        Prop_Flat_Blockno = "";
+
+                        if(flag.equals("add"))
+                        {
+                            GetInsertProperty insertProperty = new GetInsertProperty();
+                            insertProperty.execute();
+                        }
+                        else if(flag.equals("edit"))
+                        {
+                            GetEditProperty editProperty = new GetEditProperty();
+                            editProperty.execute();
+                        }
                     }
+
+
                 }
             }
         });
@@ -606,7 +652,7 @@ public class AddPropertyActivity extends AppCompatActivity
                 joUser.put("p_pid",Prop_Id);
                 joUser.put("p_prize",Prop_Prize);
                 joUser.put("p_bhk",Prop_BHK);
-                joUser.put("p_type_id",Prop_Type);
+                joUser.put("p_block_no",Prop_Flat_Blockno);
                 joUser.put("p_area",Prop_Area);
                 joUser.put("p_yearbuilt",Prop_YearBuilt);
                 joUser.put("p_bedroom",Prop_Bedroom);
@@ -735,6 +781,8 @@ public class AddPropertyActivity extends AppCompatActivity
                 joUser.put("p_prize",Prop_Prize);
                 joUser.put("p_bhk",Prop_BHK);
                 joUser.put("p_type_id",Prop_Type);
+                joUser.put("p_floor",Prop_Flat_Floor);
+                joUser.put("p_block_no",Prop_Flat_Blockno);
                 joUser.put("p_area",Prop_Area);
                 joUser.put("p_yearbuilt",Prop_YearBuilt);
                 joUser.put("p_bedroom",Prop_Bedroom);

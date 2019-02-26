@@ -56,6 +56,7 @@ class MyPropertyListAdapter extends RecyclerView.Adapter<MyPropertyListAdapter.V
         final String pbedroom = myPropertiesListArray.get(position).get("pbedroom");
         final String pbathroom = myPropertiesListArray.get(position).get("pbathroom");
         final String pdes = myPropertiesListArray.get(position).get("pdes");
+        final String pdate = myPropertiesListArray.get(position).get("pdate");
         final String username = myPropertiesListArray.get(position).get("username");
         final String userpic = myPropertiesListArray.get(position).get("userpic");
         final String useremail = myPropertiesListArray.get(position).get("useremail");
@@ -89,6 +90,7 @@ class MyPropertyListAdapter extends RecyclerView.Adapter<MyPropertyListAdapter.V
                 i.putExtra("pbedroom",pbedroom);
                 i.putExtra("pbathroom",pbathroom);
                 i.putExtra("pdes",pdes);
+                i.putExtra("pdate",pdate);
                 i.putExtra("username",username);
                 i.putExtra("userpic",userpic);
                 i.putExtra("useremail",useremail);

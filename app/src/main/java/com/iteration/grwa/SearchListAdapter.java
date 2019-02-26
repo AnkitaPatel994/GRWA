@@ -64,6 +64,8 @@ class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolde
         final String pprize = SearchListArray.get(position).getPprize();
         final String ppbhk = SearchListArray.get(position).getPpbhk();
         final String ptname = SearchListArray.get(position).getPtname();
+        final String pfloor = SearchListArray.get(position).getPfloor();
+        final String pblockno = SearchListArray.get(position).getPblockno();
         final String pparea = SearchListArray.get(position).getPparea();
         final String pyearbuilt = SearchListArray.get(position).getPyearbuilt();
         final String pstate = SearchListArray.get(position).getPstate();
@@ -72,6 +74,7 @@ class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolde
         final String pbedroom = SearchListArray.get(position).getPbedroom();
         final String pbathroom = SearchListArray.get(position).getPbathroom();
         final String pdes = SearchListArray.get(position).getPdes();
+        final String pdate = SearchListArray.get(position).getPdate();
         final String eid = SearchListArray.get(position).getEid();
         final String username = SearchListArray.get(position).getUsername();
         final String userpic = SearchListArray.get(position).getUserpic();
@@ -83,6 +86,9 @@ class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolde
         holder.txtPropertyName.setText(ppbhk + " BHK " + ptname + " " + pcity);
         holder.txtPropertyPrice.setText(rs + " " + pprize);
         holder.txtPropertyLocation.setText(pparea+" Sq.Ft");
+
+        holder.txtPropertyDate.setText("Date "+pdate);
+        holder.txtPropertyViewCount.setText("View Count");
 
         String imgOne = MainActivity.BASE_URL + pimgone;
         Picasso.with(context).load(imgOne).into(holder.ivPropertyImg);
@@ -144,6 +150,8 @@ class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolde
                 i.putExtra("pprize", pprize);
                 i.putExtra("ppbhk", ppbhk);
                 i.putExtra("ptname", ptname);
+                i.putExtra("pfloor", pfloor);
+                i.putExtra("pblockno", pblockno);
                 i.putExtra("pparea", pparea);
                 i.putExtra("pyearbuilt", pyearbuilt);
                 i.putExtra("pstate", pstate);
@@ -152,6 +160,7 @@ class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolde
                 i.putExtra("pbedroom", pbedroom);
                 i.putExtra("pbathroom", pbathroom);
                 i.putExtra("pdes", pdes);
+                i.putExtra("pdate", pdate);
                 i.putExtra("eid", eid);
                 i.putExtra("username", username);
                 i.putExtra("userpic", userpic);
@@ -173,7 +182,7 @@ class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolde
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivPropertyImg;
-        TextView txtPropertyName, txtPropertyLocation, txtPropertyPrice;
+        TextView txtPropertyName, txtPropertyLocation, txtPropertyPrice,txtPropertyDate,txtPropertyViewCount;
         LinearLayout btnPropInquiry;
 
         public ViewHolder(View itemView) {
@@ -183,6 +192,8 @@ class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolde
             txtPropertyName = (TextView) itemView.findViewById(R.id.txtPropertyName);
             txtPropertyLocation = (TextView) itemView.findViewById(R.id.txtPropertyLocation);
             txtPropertyPrice = (TextView) itemView.findViewById(R.id.txtPropertyPrice);
+            txtPropertyDate = (TextView)itemView.findViewById(R.id.txtPropertyDate);
+            txtPropertyViewCount = (TextView)itemView.findViewById(R.id.txtPropertyViewCount);
             btnPropInquiry = (LinearLayout) itemView.findViewById(R.id.btnPropInquire);
 
         }

@@ -213,6 +213,9 @@ public class NotificationActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+
+        startActivity(new Intent(NotificationActivity.this,HomeActivity.class));
+        finishAffinity();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

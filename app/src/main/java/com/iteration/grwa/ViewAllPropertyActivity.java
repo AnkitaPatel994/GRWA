@@ -58,7 +58,7 @@ public class ViewAllPropertyActivity extends AppCompatActivity
 
     RecyclerView rvPropertyList;
     String typeId;
-    ArrayList<HashMap<String,String>> PropertiesListArray = new ArrayList<>();
+    ArrayList<ListPropertyModel> PropertiesListArray = new ArrayList<>();
     SessionManager session;
     ImageView ivList,ivGrid;
     CircleImageView ivUserImg;
@@ -382,6 +382,8 @@ public class ViewAllPropertyActivity extends AppCompatActivity
                         String pprize =jo.getString("pprize");
                         String ppbhk =jo.getString("ppbhk");
                         String ptname =jo.getString("ptname");
+                        String pfloor =jo.getString("p_floor");
+                        String pblockno =jo.getString("p_block_no");
                         String pparea =jo.getString("pparea");
                         String pyearbuilt =jo.getString("pyearbuilt");
                         String pstate =jo.getString("pstate");
@@ -390,35 +392,18 @@ public class ViewAllPropertyActivity extends AppCompatActivity
                         String pbedroom =jo.getString("pbedroom");
                         String pbathroom =jo.getString("pbathroom");
                         String pdes =jo.getString("pdes");
+                        String pdate =jo.getString("p_date");
                         String eid =jo.getString("userid");
                         String username =jo.getString("username");
                         String userpic =jo.getString("userpic");
                         String useremail =jo.getString("useremail");
                         String usermobile =jo.getString("usermobile");
 
-                        hashMap.put("id",id);
-                        hashMap.put("pid",pid);
-                        hashMap.put("pimgone",pimgone);
-                        hashMap.put("pimgtwo",pimgtwo);
-                        hashMap.put("pimgthree",pimgthree);
-                        hashMap.put("pprize",pprize);
-                        hashMap.put("ppbhk",ppbhk);
-                        hashMap.put("ptname",ptname);
-                        hashMap.put("pparea",pparea);
-                        hashMap.put("pyearbuilt",pyearbuilt);
-                        hashMap.put("pstate",pstate);
-                        hashMap.put("pcity",pcity);
-                        hashMap.put("paddress",paddress);
-                        hashMap.put("pbedroom",pbedroom);
-                        hashMap.put("pbathroom",pbathroom);
-                        hashMap.put("pdes",pdes);
-                        hashMap.put("eid",eid);
-                        hashMap.put("username",username);
-                        hashMap.put("userpic",userpic);
-                        hashMap.put("useremail",useremail);
-                        hashMap.put("usermobile",usermobile);
+                        String filter = pcity+""+pprize;
 
-                        PropertiesListArray.add(hashMap);
+                        ListPropertyModel listPropertyModel = new ListPropertyModel(id,pid,pimgone,pimgtwo,pimgthree,pprize,ppbhk,ptname,pfloor,pblockno,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,pdate,eid,username,userpic,useremail,usermobile,filter);
+                        PropertiesListArray.add(listPropertyModel);
+
                     }
                 }
                 else

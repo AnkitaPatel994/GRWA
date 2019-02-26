@@ -42,11 +42,11 @@ public class PropertyDetailsActivity extends AppCompatActivity {
 
     SliderLayout slSlider;
     ArrayList<String> SliderImgArray = new ArrayList<>();
-    TextView txtPDPrize,txtPDBHK,txtPDType,txtPDUserName,txtPDUserPhone,txtPDCity,txtPDBuiltArea,txtPDYearBuilt,txtPDBedroom,txtPDBathroom,txtPDPCity,txtPDState,txtPDAddress,txtPDPDescription;
+    TextView txtPDFFloor,txtPDFBlockNo,txtPDPrize,txtPDDate,txtPDBHK,txtPDType,txtPDUserName,txtPDUserPhone,txtPDCity,txtPDBuiltArea,txtPDYearBuilt,txtPDBedroom,txtPDBathroom,txtPDPCity,txtPDState,txtPDAddress,txtPDPDescription;
     String imgOne,imgTwo,imgThree;
     ImageView ivImg;
     String userPicUrl,usermobile,useremail,username,pdes,eid;
-    LinearLayout llPDViewCon,llPDSendMessage,llPDPhone;
+    LinearLayout llPDViewCon,llPDSendMessage,llPDPhone,llPDFlatBox;
     Dialog dialog,dialog_rm;
     EditText txtPDIName,txtPDIPhone,txtPDIEmail,txtPDIMessage;
     Button btnInquire;
@@ -84,6 +84,10 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         txtPDUserPhone = (TextView)findViewById(R.id.txtPDUserPhone);
         ivImg = (ImageView) findViewById(R.id.ivImg);
 
+        txtPDFBlockNo = (TextView)findViewById(R.id.txtPDFBlockNo);
+        txtPDFFloor = (TextView)findViewById(R.id.txtPDFFloor);
+        llPDFlatBox = (LinearLayout) findViewById(R.id.llPDFlatBox);
+
         String propId = getIntent().getExtras().getString("id");
         String pid = getIntent().getExtras().getString("pid");
         String pprize = getIntent().getExtras().getString("pprize");
@@ -91,7 +95,19 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         String ppbhk = getIntent().getExtras().getString("ppbhk");
         txtPDBHK.setText(ppbhk+" BHK");
         String ptname = getIntent().getExtras().getString("ptname");
+        String pfloor = getIntent().getExtras().getString("pfloor");
+        String pblockno = getIntent().getExtras().getString("pblockno");
         txtPDType.setText(ptname);
+        if(txtPDType.getText().toString().equals("Flat"))
+        {
+            txtPDFFloor.setText(pfloor);
+            txtPDFBlockNo.setText(pblockno);
+            llPDFlatBox.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            llPDFlatBox.setVisibility(View.GONE);
+        }
         String pparea = getIntent().getExtras().getString("pparea");
         txtPDBuiltArea.setText(pparea+" Sq.Ft");
         String pyearbuilt = getIntent().getExtras().getString("pyearbuilt");
@@ -118,6 +134,11 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         useremail = getIntent().getExtras().getString("useremail");
         usermobile = getIntent().getExtras().getString("usermobile");
         txtPDUserPhone.setText(usermobile);
+
+        txtPDDate = (TextView)findViewById(R.id.txtPDDate);
+        String pdate = getIntent().getExtras().getString("pdate");
+        txtPDDate.setText(pdate);
+
         txtPDUserPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

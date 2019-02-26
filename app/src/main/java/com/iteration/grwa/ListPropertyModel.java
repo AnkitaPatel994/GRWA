@@ -2,9 +2,9 @@ package com.iteration.grwa;
 
 class ListPropertyModel {
 
-    String id,pid,pimgone,pimgtwo,pimgthree,pprize,ppbhk,ptname,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,eid,username,userpic,useremail,usermobile,filter;
+    String id,pid,pimgone,pimgtwo,pimgthree,pprize,ppbhk,ptname,pfloor,pblockno,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,pdate,eid,username,userpic,useremail,usermobile,filter;
 
-    public ListPropertyModel(String id, String pid, String pimgone, String pimgtwo, String pimgthree, String pprize, String ppbhk, String ptname, String pparea, String pyearbuilt, String pstate, String pcity, String paddress, String pbedroom, String pbathroom, String pdes,String eid, String username, String userpic, String useremail, String usermobile, String filter) {
+    public ListPropertyModel(String id, String pid, String pimgone, String pimgtwo, String pimgthree, String pprize, String ppbhk, String ptname, String pfloor, String pblockno, String pparea, String pyearbuilt, String pstate, String pcity, String paddress, String pbedroom, String pbathroom, String pdes, String pdate, String eid, String username, String userpic, String useremail, String usermobile, String filter) {
 
         this.id = id;
         this.pid = pid;
@@ -14,6 +14,8 @@ class ListPropertyModel {
         this.pprize = pprize;
         this.ppbhk = ppbhk;
         this.ptname = ptname;
+        this.pfloor = pfloor;
+        this.pblockno = pblockno;
         this.pparea = pparea;
         this.pyearbuilt = pyearbuilt;
         this.pstate = pstate;
@@ -22,6 +24,7 @@ class ListPropertyModel {
         this.pbedroom = pbedroom;
         this.pbathroom = pbathroom;
         this.pdes = pdes;
+        this.pdate = pdate;
         this.eid = eid;
         this.username = username;
         this.userpic = userpic;
@@ -94,6 +97,22 @@ class ListPropertyModel {
         this.ptname = ptname;
     }
 
+    public String getPfloor() {
+        return pfloor;
+    }
+
+    public void setPfloor(String pfloor) {
+        this.pfloor = pfloor;
+    }
+
+    public String getPblockno() {
+        return pblockno;
+    }
+
+    public void setPblockno(String pblockno) {
+        this.pblockno = pblockno;
+    }
+
     public String getPparea() {
         return pparea;
     }
@@ -158,6 +177,14 @@ class ListPropertyModel {
         this.pdes = pdes;
     }
 
+    public String getPdate() {
+        return pdate;
+    }
+
+    public void setPdate(String pdate) {
+        this.pdate = pdate;
+    }
+
     public String getEid() {
         return eid;
     }
@@ -205,6 +232,4 @@ class ListPropertyModel {
     public void setFilter(String filter) {
         this.filter = filter;
     }
-
-
 }

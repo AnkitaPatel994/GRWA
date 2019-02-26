@@ -166,6 +166,49 @@
                 android:layout_marginTop="3dp"
                 android:background="@android:drawable/btn_dropdown" />
 
+            <LinearLayout
+                android:id="@+id/llFlatBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="Flat Floor:" />
+
+                <EditText
+                    android:id="@+id/txtAPFFloor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:padding="10dp"
+                    android:hint="Flat Floor"
+                    android:inputType="number"
+                    android:background="@drawable/textbox"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="Flat Block No:" />
+
+                <EditText
+                    android:id="@+id/txtAPFBlockno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:padding="10dp"
+                    android:hint="Flat Floor"
+                    android:background="@drawable/textbox"/>
+
+            </LinearLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

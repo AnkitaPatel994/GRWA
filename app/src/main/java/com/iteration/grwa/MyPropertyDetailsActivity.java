@@ -103,6 +103,10 @@ public class MyPropertyDetailsActivity extends AppCompatActivity {
         String userPicUrl = MainActivity.BASE_URL+userpic;
         Picasso.with(MyPropertyDetailsActivity.this).load(userPicUrl).into(ivMyImg);
 
+        TextView txtMyPDDate = (TextView)findViewById(R.id.txtMyPDDate);
+        String pdate = getIntent().getExtras().getString("pdate");
+        txtMyPDDate.setText(pdate);
+
         String useremail = getIntent().getExtras().getString("useremail");
         String usermobile = getIntent().getExtras().getString("usermobile");
         txtMyPDUserPhone.setText(usermobile);
