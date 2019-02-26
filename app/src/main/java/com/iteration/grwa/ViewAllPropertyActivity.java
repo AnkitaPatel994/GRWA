@@ -82,6 +82,8 @@ public class ViewAllPropertyActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        PropertiesListArray.clear();
+
         session = new SessionManager(getApplicationContext());
         HashMap<String,String> user = session.getUserDetails();
         String user_name = user.get(SessionManager.user_name);
@@ -357,6 +359,7 @@ public class ViewAllPropertyActivity extends AppCompatActivity
             JSONObject joUser=new JSONObject();
             try {
                 joUser.put("PropertyType",typeId);
+                joUser.put("UserId",user_id);
                 Postdata postdata = new Postdata();
                 String pdUser=postdata.post(MainActivity.BASE_URL+"Properties.php",joUser.toString());
                 JSONObject j = new JSONObject(pdUser);

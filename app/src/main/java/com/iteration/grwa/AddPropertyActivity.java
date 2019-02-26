@@ -291,31 +291,72 @@ public class AddPropertyActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                Prop_Id = txtAPId.getText().toString();
-                Prop_Prize = txtAPPrize.getText().toString();
-                Prop_BHK = txtAPBHK.getText().toString();
-                Prop_Type = typeId;
-                Prop_Area = txtAPArea.getText().toString();
-                Prop_YearBuilt = txtAPYearBuilt.getText().toString();
-                Prop_Bedroom = txtAPBedroom.getText().toString();
-                Prop_Bathroom = txtAPBathroom.getText().toString();
-                Prop_Address = txtAPAddress.getText().toString();
-                Prop_City = txtAPCity.getText().toString();
-                Prop_State = txtAPState.getText().toString();
-                Prop_PropDes = txtAPPropDes.getText().toString();
-
-                if(flag.equals("add"))
+                if(txtAPPrize.getText().toString().equals("") && txtAPBHK.getText().toString().equals("") && txtAPArea.getText().toString().equals("") && txtAPYearBuilt.getText().toString().equals("") && txtAPBedroom.getText().toString().equals("") && txtAPBathroom.getText().toString().equals("") && txtAPAddress.getText().toString().equals("") && txtAPCity.getText().toString().equals("") && txtAPState.getText().toString().equals("") && txtAPPropDes.getText().toString().equals(""))
                 {
-                    GetInsertProperty insertProperty = new GetInsertProperty();
-                    insertProperty.execute();
+                    Toast.makeText(AddPropertyActivity.this,"Enter Prize.",Toast.LENGTH_SHORT).show();
                 }
-                else if(flag.equals("edit"))
+                else if(txtAPBHK.getText().toString().equals("") && txtAPArea.getText().toString().equals("") && txtAPYearBuilt.getText().toString().equals("") && txtAPBedroom.getText().toString().equals("") && txtAPBathroom.getText().toString().equals("") && txtAPAddress.getText().toString().equals("") && txtAPCity.getText().toString().equals("") && txtAPState.getText().toString().equals("") && txtAPPropDes.getText().toString().equals(""))
                 {
-                    GetEditProperty editProperty = new GetEditProperty();
-                    editProperty.execute();
+                    Toast.makeText(AddPropertyActivity.this,"Enter BHK.",Toast.LENGTH_SHORT).show();
                 }
+                else if(txtAPArea.getText().toString().equals("") && txtAPYearBuilt.getText().toString().equals("") && txtAPBedroom.getText().toString().equals("") && txtAPBathroom.getText().toString().equals("") && txtAPAddress.getText().toString().equals("") && txtAPCity.getText().toString().equals("") && txtAPState.getText().toString().equals("") && txtAPPropDes.getText().toString().equals(""))
+                {
+                    Toast.makeText(AddPropertyActivity.this,"Enter Built-up Area",Toast.LENGTH_SHORT).show();
+                }
+                else if(txtAPYearBuilt.getText().toString().equals("") && txtAPBedroom.getText().toString().equals("") && txtAPBathroom.getText().toString().equals("") && txtAPAddress.getText().toString().equals("") && txtAPCity.getText().toString().equals("") && txtAPState.getText().toString().equals("") && txtAPPropDes.getText().toString().equals(""))
+                {
+                    Toast.makeText(AddPropertyActivity.this,"Enter Year Built",Toast.LENGTH_SHORT).show();
+                }
+                else if(txtAPBedroom.getText().toString().equals("") && txtAPBathroom.getText().toString().equals("") && txtAPAddress.getText().toString().equals("") && txtAPCity.getText().toString().equals("") && txtAPState.getText().toString().equals("") && txtAPPropDes.getText().toString().equals(""))
+                {
+                    Toast.makeText(AddPropertyActivity.this,"Enter Number of Bedroom",Toast.LENGTH_SHORT).show();
+                }
+                else if(txtAPBathroom.getText().toString().equals("") && txtAPAddress.getText().toString().equals("") && txtAPCity.getText().toString().equals("") && txtAPState.getText().toString().equals("") && txtAPPropDes.getText().toString().equals(""))
+                {
+                    Toast.makeText(AddPropertyActivity.this,"Enter Number of Bathroom",Toast.LENGTH_SHORT).show();
+                }
+                else if(txtAPAddress.getText().toString().equals("") && txtAPCity.getText().toString().equals("") && txtAPState.getText().toString().equals("") && txtAPPropDes.getText().toString().equals(""))
+                {
+                    Toast.makeText(AddPropertyActivity.this,"Enter Address",Toast.LENGTH_SHORT).show();
+                }
+                else if(txtAPCity.getText().toString().equals("") && txtAPState.getText().toString().equals("") && txtAPPropDes.getText().toString().equals(""))
+                {
+                    Toast.makeText(AddPropertyActivity.this,"Enter City",Toast.LENGTH_SHORT).show();
+                }
+                else if(txtAPState.getText().toString().equals("") && txtAPPropDes.getText().toString().equals(""))
+                {
+                    Toast.makeText(AddPropertyActivity.this,"Enter State",Toast.LENGTH_SHORT).show();
+                }
+                else if(txtAPPropDes.getText().toString().equals(""))
+                {
+                    Toast.makeText(AddPropertyActivity.this,"Enter Property Description",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Prop_Id = txtAPId.getText().toString();
+                    Prop_Prize = txtAPPrize.getText().toString();
+                    Prop_BHK = txtAPBHK.getText().toString();
+                    Prop_Type = typeId;
+                    Prop_Area = txtAPArea.getText().toString();
+                    Prop_YearBuilt = txtAPYearBuilt.getText().toString();
+                    Prop_Bedroom = txtAPBedroom.getText().toString();
+                    Prop_Bathroom = txtAPBathroom.getText().toString();
+                    Prop_Address = txtAPAddress.getText().toString();
+                    Prop_City = txtAPCity.getText().toString();
+                    Prop_State = txtAPState.getText().toString();
+                    Prop_PropDes = txtAPPropDes.getText().toString();
 
-
+                    if(flag.equals("add"))
+                    {
+                        GetInsertProperty insertProperty = new GetInsertProperty();
+                        insertProperty.execute();
+                    }
+                    else if(flag.equals("edit"))
+                    {
+                        GetEditProperty editProperty = new GetEditProperty();
+                        editProperty.execute();
+                    }
+                }
             }
         });
     }
@@ -727,10 +768,9 @@ public class AddPropertyActivity extends AppCompatActivity
             dialog.dismiss();
             if(status.equals("1"))
             {
-                /*Intent i = new Intent(getApplicationContext(),MyPropertyActivity.class);
+                Intent i = new Intent(getApplicationContext(),MyPropertyActivity.class);
                 startActivity(i);
-                finish();*/
-                Toast.makeText(AddPropertyActivity.this,message,Toast.LENGTH_SHORT).show();
+                finish();
             }
             else
             {

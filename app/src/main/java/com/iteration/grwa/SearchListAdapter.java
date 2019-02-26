@@ -96,8 +96,11 @@ class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolde
                 dialog.setCancelable(true);
 
                 txtInName = (EditText)dialog.findViewById(R.id.txtInName);
+                txtInName.setText(username);
                 txtInPhone = (EditText)dialog.findViewById(R.id.txtInPhone);
+                txtInPhone.setText(usermobile);
                 txtInEmail = (EditText)dialog.findViewById(R.id.txtInEmail);
+                txtInEmail.setText(useremail);
                 txtInMessage = (EditText)dialog.findViewById(R.id.txtInMessage);
 
                 Button btnInInquire = (Button)dialog.findViewById(R.id.btnInInquire);
@@ -105,19 +108,7 @@ class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolde
                     @Override
                     public void onClick(View v) {
 
-                        if(txtInName.getText().toString().equals("") && txtInPhone.getText().toString().equals("") && txtInEmail.getText().toString().equals("") && txtInMessage.getText().toString().equals(""))
-                        {
-                            Toast.makeText(context,"Enter Your Name.",Toast.LENGTH_SHORT).show();
-                        }
-                        else if (txtInPhone.getText().toString().equals("") && txtInEmail.getText().toString().equals("") && txtInMessage.getText().toString().equals(""))
-                        {
-                            Toast.makeText(context,"Enter Your Mobile.",Toast.LENGTH_SHORT).show();
-                        }
-                        else if (txtInEmail.getText().toString().equals("") && txtInMessage.getText().toString().equals(""))
-                        {
-                            Toast.makeText(context,"Enter Your Email.",Toast.LENGTH_SHORT).show();
-                        }
-                        else if (txtInMessage.getText().toString().equals(""))
+                        if (txtInMessage.getText().toString().equals(""))
                         {
                             Toast.makeText(context,"Enter Your Message.",Toast.LENGTH_SHORT).show();
                         }

@@ -41,7 +41,7 @@
             android:padding="10dp"
             android:drawableLeft="@drawable/ic_account"
             android:drawablePadding="25dp"
-            android:hint="@string/enter_name"
+            android:editable="false"
             android:background="@drawable/textbox"/>
 
         <EditText
@@ -53,9 +53,7 @@
             android:padding="10dp"
             android:drawableLeft="@drawable/ic_phone"
             android:drawablePadding="25dp"
-            android:hint="@string/enter_phone"
-            android:inputType="number"
-            android:maxLength="10"
+            android:editable="false"
             android:background="@drawable/textbox"/>
 
         <EditText
@@ -67,7 +65,7 @@
             android:padding="10dp"
             android:drawableLeft="@drawable/ic_email"
             android:drawablePadding="25dp"
-            android:hint="@string/enter_email"
+            android:editable="false"
             android:background="@drawable/textbox"/>
 
         <EditText

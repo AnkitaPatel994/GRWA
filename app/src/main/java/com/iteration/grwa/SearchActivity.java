@@ -24,8 +24,9 @@ import java.util.HashMap;
 public class SearchActivity extends AppCompatActivity {
 
     RecyclerView rvSearchList;
-    String typeId;
+    String typeId,user_id;
     EditText txtSearch;
+    SessionManager session;
     ImageView ivClose;
     SearchListAdapter searchListAdapter;
     ArrayList<ListPropertyModel> SearchListArray = new ArrayList<>();
@@ -45,6 +46,10 @@ public class SearchActivity extends AppCompatActivity {
 
         rvSearchList = (RecyclerView)findViewById(R.id.rvSearchList);
         rvSearchList.setHasFixedSize(true);
+
+        session = new SessionManager(getApplicationContext());
+        HashMap<String,String> user = session.getUserDetails();
+        user_id = user.get(SessionManager.user_id);
 
         RecyclerView.LayoutManager manager = new GridLayoutManager(getApplicationContext(),1);
         rvSearchList.setLayoutManager(manager);
@@ -98,6 +103,7 @@ public class SearchActivity extends AppCompatActivity {
             JSONObject joUser=new JSONObject();
             try {
                 joUser.put("PropertyType",typeId);
+                joUser.put("UserId",user_id);
                 Postdata postdata = new Postdata();
                 String pdUser=postdata.post(MainActivity.BASE_URL+"Properties.php",joUser.toString());
                 JSONObject j = new JSONObject(pdUser);

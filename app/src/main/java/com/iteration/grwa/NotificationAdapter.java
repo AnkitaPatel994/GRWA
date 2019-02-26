@@ -6,7 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,6 +47,7 @@ class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewH
         holder.txtNPhone.setText("+91 "+phone);
         holder.txtNEmail.setText(email);
         holder.txtNMessage.setText(message);
+
     }
 
     @Override
@@ -55,6 +58,7 @@ class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewH
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtNName,txtNPhone,txtNEmail,txtNMessage;
+        LinearLayout txtNReadMore;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,6 +67,7 @@ class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewH
             txtNPhone = (TextView)itemView.findViewById(R.id.txtNPhone);
             txtNEmail = (TextView)itemView.findViewById(R.id.txtNEmail);
             txtNMessage = (TextView)itemView.findViewById(R.id.txtNMessage);
+            txtNReadMore = (LinearLayout)itemView.findViewById(R.id.txtNReadMore);
 
         }
     }

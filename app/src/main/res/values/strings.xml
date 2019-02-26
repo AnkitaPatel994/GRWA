@@ -15,7 +15,7 @@
     <!--============ Property Details ==========-->
     <string name="RS">₹</string>
     <string name="enter_name">Enter Name</string>
-    <string name="enter_phone">Enter Phone</string>
+    <string name="enter_phone">Enter Mobile</string>
     <string name="enter_email">Enter Email</string>
     <string name="enter_message">Enter Message</string>
     <string name="title_activity_search">SearchActivity</string>

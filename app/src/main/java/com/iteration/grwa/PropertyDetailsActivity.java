@@ -220,24 +220,15 @@ public class PropertyDetailsActivity extends AppCompatActivity {
         txtPDIEmail = (EditText)findViewById(R.id.txtPDIEmail);
         txtPDIMessage = (EditText)findViewById(R.id.txtPDIMessage);
         btnInquire = (Button)findViewById(R.id.btnInquire);
+        txtPDIName.setText(username);
+        txtPDIPhone.setText(usermobile);
+        txtPDIEmail.setText(useremail);
 
         btnInquire.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(txtPDIName.getText().toString().equals("") && txtPDIPhone.getText().toString().equals("") && txtPDIEmail.getText().toString().equals("") && txtPDIMessage.getText().toString().equals(""))
-                {
-                    Toast.makeText(PropertyDetailsActivity.this,"Enter Your Name.",Toast.LENGTH_SHORT).show();
-                }
-                else if (txtPDIPhone.getText().toString().equals("") && txtPDIEmail.getText().toString().equals("") && txtPDIMessage.getText().toString().equals(""))
-                {
-                    Toast.makeText(PropertyDetailsActivity.this,"Enter Your Mobile.",Toast.LENGTH_SHORT).show();
-                }
-                else if (txtPDIEmail.getText().toString().equals("") && txtPDIMessage.getText().toString().equals(""))
-                {
-                    Toast.makeText(PropertyDetailsActivity.this,"Enter Your Email.",Toast.LENGTH_SHORT).show();
-                }
-                else if (txtPDIMessage.getText().toString().equals(""))
+                if (txtPDIMessage.getText().toString().equals(""))
                 {
                     Toast.makeText(PropertyDetailsActivity.this,"Enter Your Message.",Toast.LENGTH_SHORT).show();
                 }

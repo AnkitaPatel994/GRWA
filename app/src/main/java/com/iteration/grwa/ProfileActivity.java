@@ -232,13 +232,34 @@ public class ProfileActivity extends AppCompatActivity
             dialog.setCancelable(true);
 
             txtProfilePhone=(EditText) dialog.findViewById(R.id.txtProfilePhone);
+            LinearLayout llProfileDialog=(LinearLayout) dialog.findViewById(R.id.llProfileDialog);
+            llProfileDialog.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
 
             Button btnProfileSubmit=(Button) dialog.findViewById(R.id.btnProfileSubmit);
             btnProfileSubmit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    GetEditProfileMobile editProfileMobile = new GetEditProfileMobile();
-                    editProfileMobile.execute();
+
+                    String MobilePattern = "[0-9]{10}";
+                    if (txtProfilePhone.getText().toString().equals(""))
+                    {
+                        Toast.makeText(ProfileActivity.this,"Enter Mobile",Toast.LENGTH_SHORT).show();
+                    }
+                    else if (!txtProfilePhone.getText().toString().matches(MobilePattern))
+                    {
+                        Toast.makeText(ProfileActivity.this,"Enter 10 digit Mobile",Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        GetEditProfileMobile editProfileMobile = new GetEditProfileMobile();
+                        editProfileMobile.execute();
+                    }
+
                 }
             });
 
