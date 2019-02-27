@@ -372,8 +372,6 @@ public class ViewAllPropertyActivity extends AppCompatActivity
                     {
                         JSONObject jo=JsArry.getJSONObject(i);
 
-                        HashMap<String,String > hashMap = new HashMap<>();
-
                         String id =jo.getString("id");
                         String pid =jo.getString("pid");
                         String pimgone =jo.getString("pimgone");
@@ -392,16 +390,18 @@ public class ViewAllPropertyActivity extends AppCompatActivity
                         String pbedroom =jo.getString("pbedroom");
                         String pbathroom =jo.getString("pbathroom");
                         String pdes =jo.getString("pdes");
+                        String peid =jo.getString("p_e_id");
                         String pdate =jo.getString("p_date");
                         String eid =jo.getString("userid");
                         String username =jo.getString("username");
                         String userpic =jo.getString("userpic");
                         String useremail =jo.getString("useremail");
                         String usermobile =jo.getString("usermobile");
+                        String COUNT =jo.getString("COUNT");
 
                         String filter = pcity+""+pprize;
 
-                        ListPropertyModel listPropertyModel = new ListPropertyModel(id,pid,pimgone,pimgtwo,pimgthree,pprize,ppbhk,ptname,pfloor,pblockno,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,pdate,eid,username,userpic,useremail,usermobile,filter);
+                        ListPropertyModel listPropertyModel = new ListPropertyModel(id,pid,pimgone,pimgtwo,pimgthree,pprize,ppbhk,ptname,pfloor,pblockno,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,peid,pdate,eid,username,userpic,useremail,usermobile,COUNT,filter);
                         PropertiesListArray.add(listPropertyModel);
 
                     }

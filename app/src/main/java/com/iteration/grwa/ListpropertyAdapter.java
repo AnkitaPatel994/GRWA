@@ -73,19 +73,21 @@ class ListpropertyAdapter extends RecyclerView.Adapter<ListpropertyAdapter.ViewH
         final String pbedroom = propertiesListArray.get(position).getPbedroom();
         final String pbathroom = propertiesListArray.get(position).getPbathroom();
         final String pdes = propertiesListArray.get(position).getPdes();
+        final String peid = propertiesListArray.get(position).getPeid();
         final String pdate = propertiesListArray.get(position).getPdate();
         final String eid = propertiesListArray.get(position).getEid();
         final String username = propertiesListArray.get(position).getUsername();
         final String userpic = propertiesListArray.get(position).getUserpic();
         final String useremail = propertiesListArray.get(position).getUseremail();
         final String usermobile = propertiesListArray.get(position).getUsermobile();
+        final String COUNT = propertiesListArray.get(position).getCOUNT();
 
         holder.txtPropertyName.setText(ppbhk+" BHK "+ptname+" "+pcity);
         holder.txtPropertyPrice.setText(rs +" "+pprize);
         holder.txtPropertyLocation.setText(pparea+" Sq.Ft");
 
-        holder.txtPropertyDate.setText("Date "+pdate);
-        holder.txtPropertyViewCount.setText("View Count");
+        holder.txtPropertyDate.setText("Date: "+pdate);
+        holder.txtPropertyViewCount.setText("View: " + COUNT);
 
         String imgOne = MainActivity.BASE_URL+pimgone;
         Picasso.with(context).load(imgOne).into(holder.ivPropertyImg);
@@ -138,6 +140,10 @@ class ListpropertyAdapter extends RecyclerView.Adapter<ListpropertyAdapter.ViewH
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                GetInsertView insertView = new GetInsertView(context,pid,peid);
+                insertView.execute();
+
                 Intent i = new Intent(context,PropertyDetailsActivity.class);
                 i.putExtra("id",id);
                 i.putExtra("pid",pid);

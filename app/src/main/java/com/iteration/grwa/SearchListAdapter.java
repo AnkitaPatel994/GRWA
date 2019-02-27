@@ -74,12 +74,14 @@ class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolde
         final String pbedroom = SearchListArray.get(position).getPbedroom();
         final String pbathroom = SearchListArray.get(position).getPbathroom();
         final String pdes = SearchListArray.get(position).getPdes();
+        final String peid = SearchListArray.get(position).getPeid();
         final String pdate = SearchListArray.get(position).getPdate();
         final String eid = SearchListArray.get(position).getEid();
         final String username = SearchListArray.get(position).getUsername();
         final String userpic = SearchListArray.get(position).getUserpic();
         final String useremail = SearchListArray.get(position).getUseremail();
         final String usermobile = SearchListArray.get(position).getUsermobile();
+        final String COUNT = SearchListArray.get(position).getCOUNT();
 
         String filter = SearchListArray.get(position).getFilter();
 
@@ -87,8 +89,8 @@ class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolde
         holder.txtPropertyPrice.setText(rs + " " + pprize);
         holder.txtPropertyLocation.setText(pparea+" Sq.Ft");
 
-        holder.txtPropertyDate.setText("Date "+pdate);
-        holder.txtPropertyViewCount.setText("View Count");
+        holder.txtPropertyDate.setText("Date: "+pdate);
+        holder.txtPropertyViewCount.setText("View: " + COUNT);
 
         String imgOne = MainActivity.BASE_URL + pimgone;
         Picasso.with(context).load(imgOne).into(holder.ivPropertyImg);
@@ -141,6 +143,10 @@ class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolde
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                GetInsertView insertView = new GetInsertView(context,pid,peid);
+                insertView.execute();
+
                 Intent i = new Intent(context, PropertyDetailsActivity.class);
                 i.putExtra("id", id);
                 i.putExtra("pid", pid);

@@ -18,10 +18,10 @@ import java.util.HashMap;
 class MyPropertyListAdapter extends RecyclerView.Adapter<MyPropertyListAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<HashMap<String, String>> myPropertiesListArray;
+    ArrayList<ListPropertyModel> myPropertiesListArray;
     View v;
 
-    public MyPropertyListAdapter(Context context, ArrayList<HashMap<String, String>> myPropertiesListArray) {
+    public MyPropertyListAdapter(Context context, ArrayList<ListPropertyModel> myPropertiesListArray) {
         this.context = context;
         this.myPropertiesListArray = myPropertiesListArray;
     }
@@ -40,32 +40,40 @@ class MyPropertyListAdapter extends RecyclerView.Adapter<MyPropertyListAdapter.V
 
         String rs = context.getResources().getString(R.string.RS);
 
-        final String id = myPropertiesListArray.get(position).get("id");
-        final String pid = myPropertiesListArray.get(position).get("pid");
-        final String pimgone = myPropertiesListArray.get(position).get("pimgone");
-        final String pimgtwo = myPropertiesListArray.get(position).get("pimgtwo");
-        final String pimgthree = myPropertiesListArray.get(position).get("pimgthree");
-        final String pprize = myPropertiesListArray.get(position).get("pprize");
-        final String ppbhk = myPropertiesListArray.get(position).get("ppbhk");
-        final String ptname = myPropertiesListArray.get(position).get("ptname");
-        final String pparea = myPropertiesListArray.get(position).get("pparea");
-        final String pyearbuilt = myPropertiesListArray.get(position).get("pyearbuilt");
-        final String pstate = myPropertiesListArray.get(position).get("pstate");
-        final String pcity = myPropertiesListArray.get(position).get("pcity");
-        final String paddress = myPropertiesListArray.get(position).get("paddress");
-        final String pbedroom = myPropertiesListArray.get(position).get("pbedroom");
-        final String pbathroom = myPropertiesListArray.get(position).get("pbathroom");
-        final String pdes = myPropertiesListArray.get(position).get("pdes");
-        final String pdate = myPropertiesListArray.get(position).get("pdate");
-        final String username = myPropertiesListArray.get(position).get("username");
-        final String userpic = myPropertiesListArray.get(position).get("userpic");
-        final String useremail = myPropertiesListArray.get(position).get("useremail");
-        final String usermobile = myPropertiesListArray.get(position).get("usermobile");
+        final String id = myPropertiesListArray.get(position).getId();
+        final String pid = myPropertiesListArray.get(position).getPid();
+        final String pimgone = myPropertiesListArray.get(position).getPimgone();
+        final String pimgtwo = myPropertiesListArray.get(position).getPimgtwo();
+        final String pimgthree = myPropertiesListArray.get(position).getPimgthree();
+        final String pprize = myPropertiesListArray.get(position).getPprize();
+        final String ppbhk = myPropertiesListArray.get(position).getPpbhk();
+        final String ptname = myPropertiesListArray.get(position).getPtname();
+        final String pfloor = myPropertiesListArray.get(position).getPfloor();
+        final String pblockno = myPropertiesListArray.get(position).getPblockno();
+        final String pparea = myPropertiesListArray.get(position).getPparea();
+        final String pyearbuilt = myPropertiesListArray.get(position).getPyearbuilt();
+        final String pstate = myPropertiesListArray.get(position).getPstate();
+        final String pcity = myPropertiesListArray.get(position).getPcity();
+        final String paddress = myPropertiesListArray.get(position).getPaddress();
+        final String pbedroom = myPropertiesListArray.get(position).getPbedroom();
+        final String pbathroom = myPropertiesListArray.get(position).getPbathroom();
+        final String pdes = myPropertiesListArray.get(position).getPdes();
+        final String peid = myPropertiesListArray.get(position).getPeid();
+        final String pdate = myPropertiesListArray.get(position).getPdate();
+        final String eid = myPropertiesListArray.get(position).getEid();
+        final String username = myPropertiesListArray.get(position).getUsername();
+        final String userpic = myPropertiesListArray.get(position).getUserpic();
+        final String useremail = myPropertiesListArray.get(position).getUseremail();
+        final String usermobile = myPropertiesListArray.get(position).getUsermobile();
+        final String COUNT = myPropertiesListArray.get(position).getCOUNT();
 
         holder.txtMyPropertyName.setText(ppbhk+" BHK "+ptname+" "+pcity);
         holder.txtMyPropertyLocation.setText("Beds: "+pbedroom+"  Baths: "+pbathroom);
         holder.txtMyPropertyPrice.setText(rs +" "+pprize);
         holder.txtMyPropertyType.setText(pparea+" Sq.Ft");
+
+        holder.txtMyPropertyDate.setText("Date: "+pdate);
+        holder.txtMyPropertyViewCount.setText("View: " + COUNT);
 
         String imgOne = MainActivity.BASE_URL+pimgone;
         Picasso.with(context).load(imgOne).into(holder.ivMyPropertyImg);
@@ -82,6 +90,8 @@ class MyPropertyListAdapter extends RecyclerView.Adapter<MyPropertyListAdapter.V
                 i.putExtra("pprize",pprize);
                 i.putExtra("ppbhk",ppbhk);
                 i.putExtra("ptname",ptname);
+                i.putExtra("pfloor", pfloor);
+                i.putExtra("pblockno", pblockno);
                 i.putExtra("pparea",pparea);
                 i.putExtra("pyearbuilt",pyearbuilt);
                 i.putExtra("pstate",pstate);
@@ -90,7 +100,8 @@ class MyPropertyListAdapter extends RecyclerView.Adapter<MyPropertyListAdapter.V
                 i.putExtra("pbedroom",pbedroom);
                 i.putExtra("pbathroom",pbathroom);
                 i.putExtra("pdes",pdes);
-                i.putExtra("pdate",pdate);
+                i.putExtra("pdate", pdate);
+                i.putExtra("eid",eid);
                 i.putExtra("username",username);
                 i.putExtra("userpic",userpic);
                 i.putExtra("useremail",useremail);
@@ -108,7 +119,7 @@ class MyPropertyListAdapter extends RecyclerView.Adapter<MyPropertyListAdapter.V
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivMyPropertyImg;
-        TextView txtMyPropertyName,txtMyPropertyLocation,txtMyPropertyPrice,txtMyPropertyType;
+        TextView txtMyPropertyName,txtMyPropertyLocation,txtMyPropertyPrice,txtMyPropertyType,txtMyPropertyDate,txtMyPropertyViewCount;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -118,6 +129,8 @@ class MyPropertyListAdapter extends RecyclerView.Adapter<MyPropertyListAdapter.V
             txtMyPropertyLocation = (TextView)itemView.findViewById(R.id.txtMyPropertyLocation);
             txtMyPropertyPrice = (TextView)itemView.findViewById(R.id.txtMyPropertyPrice);
             txtMyPropertyType = (TextView)itemView.findViewById(R.id.txtMyPropertyType);
+            txtMyPropertyDate = (TextView)itemView.findViewById(R.id.txtMyPropertyDate);
+            txtMyPropertyViewCount = (TextView)itemView.findViewById(R.id.txtMyPropertyViewCount);
         }
     }
 }

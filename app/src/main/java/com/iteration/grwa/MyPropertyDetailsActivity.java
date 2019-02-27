@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +36,8 @@ public class MyPropertyDetailsActivity extends AppCompatActivity {
     String imgOne,imgTwo,imgThree;
     SessionManager session;
     Dialog dialog;
-    String propId,pid,pprize,ppbhk,ptname,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,user_id;
+    LinearLayout llMyPDFlatBox;
+    String propId,pid,pprize,ppbhk,ptname,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,user_id,pfloor,pblockno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +68,12 @@ public class MyPropertyDetailsActivity extends AppCompatActivity {
         TextView txtMyPDPDescription = (TextView)findViewById(R.id.txtMyPDPDescription);
         TextView txtMyPDUserName = (TextView)findViewById(R.id.txtMyPDUserName);
         TextView txtMyPDUserPhone = (TextView)findViewById(R.id.txtMyPDUserPhone);
+
         ImageView ivMyImg = (ImageView) findViewById(R.id.ivMyImg);
+        llMyPDFlatBox = (LinearLayout) findViewById(R.id.llMyPDFlatBox);
+
+        TextView txtMyPDFFloor = (TextView)findViewById(R.id.txtMyPDFFloor);
+        TextView txtMyPDFBlockNo = (TextView)findViewById(R.id.txtMyPDFBlockNo);
 
         session = new SessionManager(getApplicationContext());
         HashMap<String,String> user = session.getUserDetails();
@@ -77,7 +84,7 @@ public class MyPropertyDetailsActivity extends AppCompatActivity {
         pprize = getIntent().getExtras().getString("pprize");
         txtMyPDPrize.setText(pprize);
         ppbhk = getIntent().getExtras().getString("ppbhk");
-        txtMyPDBHK.setText(ppbhk);
+        txtMyPDBHK.setText(ppbhk+" BHK");
         ptname = getIntent().getExtras().getString("ptname");
         txtMyPDType.setText(ptname);
         pparea = getIntent().getExtras().getString("pparea");
@@ -102,6 +109,19 @@ public class MyPropertyDetailsActivity extends AppCompatActivity {
         String userpic = getIntent().getExtras().getString("userpic");
         String userPicUrl = MainActivity.BASE_URL+userpic;
         Picasso.with(MyPropertyDetailsActivity.this).load(userPicUrl).into(ivMyImg);
+
+        pfloor = getIntent().getExtras().getString("pfloor");
+        pblockno = getIntent().getExtras().getString("pblockno");
+        if(txtMyPDType.getText().toString().equals("Flat"))
+        {
+            txtMyPDFFloor.setText(pfloor);
+            txtMyPDFBlockNo.setText(pblockno);
+            llMyPDFlatBox.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            llMyPDFlatBox.setVisibility(View.GONE);
+        }
 
         TextView txtMyPDDate = (TextView)findViewById(R.id.txtMyPDDate);
         String pdate = getIntent().getExtras().getString("pdate");
@@ -147,6 +167,8 @@ public class MyPropertyDetailsActivity extends AppCompatActivity {
             i.putExtra("pprize",pprize);
             i.putExtra("ppbhk",ppbhk);
             i.putExtra("ptname",ptname);
+            i.putExtra("pfloor",pfloor);
+            i.putExtra("pblockno",pblockno);
             i.putExtra("pparea",pparea);
             i.putExtra("pyearbuilt",pyearbuilt);
             i.putExtra("pstate",pstate);

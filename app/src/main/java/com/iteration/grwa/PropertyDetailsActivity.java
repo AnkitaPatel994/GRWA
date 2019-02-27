@@ -51,7 +51,6 @@ public class PropertyDetailsActivity extends AppCompatActivity {
     EditText txtPDIName,txtPDIPhone,txtPDIEmail,txtPDIMessage;
     Button btnInquire;
     TextView txtReadMore;
-    Bitmap bitmapLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

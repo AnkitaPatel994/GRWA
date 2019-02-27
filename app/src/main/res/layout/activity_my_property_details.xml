@@ -85,6 +85,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="20dp"
                     android:gravity="center">
 
                     <TextView
@@ -131,11 +132,72 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/llMyPDFlatBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:background="@color/colorLL"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="5dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#8B8888"
+                            android:textSize="15dp"
+                            android:layout_marginBottom="5dp"
+                            android:text="Flat Floor" />
+
+                        <TextView
+                            android:id="@+id/txtMyPDFFloor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="15dp"
+                            android:text="2" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#8B8888"
+                            android:textSize="15dp"
+                            android:layout_marginBottom="5dp"
+                            android:text="Flat Block No" />
+
+                        <TextView
+                            android:id="@+id/txtMyPDFBlockNo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="15dp"
+                            android:text="2B" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/colorLL"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
                     android:paddingLeft="20dp"
@@ -474,7 +536,7 @@
                     android:textColor="@color/colorBlack"
                     android:textSize="15dp"
                     android:layout_marginTop="5dp"
-                    android:text="" />
+                    android:visibility="gone" />
 
             </LinearLayout>
         </LinearLayout>

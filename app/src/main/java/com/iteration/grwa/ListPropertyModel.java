@@ -2,9 +2,9 @@ package com.iteration.grwa;
 
 class ListPropertyModel {
 
-    String id,pid,pimgone,pimgtwo,pimgthree,pprize,ppbhk,ptname,pfloor,pblockno,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,pdate,eid,username,userpic,useremail,usermobile,filter;
+    String id,pid,pimgone,pimgtwo,pimgthree,pprize,ppbhk,ptname,pfloor,pblockno,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,peid,pdate,eid,username,userpic,useremail,usermobile,COUNT,filter;
 
-    public ListPropertyModel(String id, String pid, String pimgone, String pimgtwo, String pimgthree, String pprize, String ppbhk, String ptname, String pfloor, String pblockno, String pparea, String pyearbuilt, String pstate, String pcity, String paddress, String pbedroom, String pbathroom, String pdes, String pdate, String eid, String username, String userpic, String useremail, String usermobile, String filter) {
+    public ListPropertyModel(String id, String pid, String pimgone, String pimgtwo, String pimgthree, String pprize, String ppbhk, String ptname, String pfloor, String pblockno, String pparea, String pyearbuilt, String pstate, String pcity, String paddress, String pbedroom, String pbathroom, String pdes, String peid, String pdate, String eid, String username, String userpic, String useremail, String usermobile, String COUNT, String filter) {
 
         this.id = id;
         this.pid = pid;
@@ -24,12 +24,14 @@ class ListPropertyModel {
         this.pbedroom = pbedroom;
         this.pbathroom = pbathroom;
         this.pdes = pdes;
+        this.peid = peid;
         this.pdate = pdate;
         this.eid = eid;
         this.username = username;
         this.userpic = userpic;
         this.useremail = useremail;
         this.usermobile = usermobile;
+        this.COUNT = COUNT;
         this.filter = filter;
     }
 
@@ -177,6 +179,14 @@ class ListPropertyModel {
         this.pdes = pdes;
     }
 
+    public String getPeid() {
+        return peid;
+    }
+
+    public void setPeid(String peid) {
+        this.peid = peid;
+    }
+
     public String getPdate() {
         return pdate;
     }
@@ -223,6 +233,14 @@ class ListPropertyModel {
 
     public void setUsermobile(String usermobile) {
         this.usermobile = usermobile;
+    }
+
+    public String getCOUNT() {
+        return COUNT;
+    }
+
+    public void setCOUNT(String COUNT) {
+        this.COUNT = COUNT;
     }
 
     public String getFilter() {

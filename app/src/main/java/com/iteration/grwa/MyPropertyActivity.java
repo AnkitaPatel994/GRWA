@@ -57,7 +57,7 @@ public class MyPropertyActivity extends AppCompatActivity
     RecyclerView rvMyPropertyList;
     SessionManager session;
     Spinner spFilterType;
-    ArrayList<HashMap<String,String>> MyPropertiesListArray = new ArrayList<>();
+    ArrayList<ListPropertyModel> MyPropertiesListArray = new ArrayList<>();
     ArrayList<String> spListTypeArray=new ArrayList<>();
     ArrayList<String> spListIdTypeArray=new ArrayList<>();
     CircleImageView ivUserImg;
@@ -339,9 +339,6 @@ public class MyPropertyActivity extends AppCompatActivity
                     for (int i=0;i<JsArry.length();i++)
                     {
                         JSONObject jo=JsArry.getJSONObject(i);
-
-                        HashMap<String,String > hashMap = new HashMap<>();
-
                         String id =jo.getString("id");
                         String pid =jo.getString("pid");
                         String pimgone =jo.getString("pimgone");
@@ -350,6 +347,8 @@ public class MyPropertyActivity extends AppCompatActivity
                         String pprize =jo.getString("pprize");
                         String ppbhk =jo.getString("ppbhk");
                         String ptname =jo.getString("ptname");
+                        String pfloor =jo.getString("p_floor");
+                        String pblockno =jo.getString("p_block_no");
                         String pparea =jo.getString("pparea");
                         String pyearbuilt =jo.getString("pyearbuilt");
                         String pstate =jo.getString("pstate");
@@ -358,35 +357,20 @@ public class MyPropertyActivity extends AppCompatActivity
                         String pbedroom =jo.getString("pbedroom");
                         String pbathroom =jo.getString("pbathroom");
                         String pdes =jo.getString("pdes");
+                        String peid =jo.getString("p_e_id");
                         String pdate =jo.getString("p_date");
+                        String eid =jo.getString("userid");
                         String username =jo.getString("username");
                         String userpic =jo.getString("userpic");
                         String useremail =jo.getString("useremail");
                         String usermobile =jo.getString("usermobile");
+                        String COUNT =jo.getString("COUNT");
 
-                        hashMap.put("id",id);
-                        hashMap.put("pid",pid);
-                        hashMap.put("pimgone",pimgone);
-                        hashMap.put("pimgtwo",pimgtwo);
-                        hashMap.put("pimgthree",pimgthree);
-                        hashMap.put("pprize",pprize);
-                        hashMap.put("ppbhk",ppbhk);
-                        hashMap.put("ptname",ptname);
-                        hashMap.put("pparea",pparea);
-                        hashMap.put("pyearbuilt",pyearbuilt);
-                        hashMap.put("pstate",pstate);
-                        hashMap.put("pcity",pcity);
-                        hashMap.put("paddress",paddress);
-                        hashMap.put("pbedroom",pbedroom);
-                        hashMap.put("pbathroom",pbathroom);
-                        hashMap.put("pdes",pdes);
-                        hashMap.put("pdate",pdate);
-                        hashMap.put("username",username);
-                        hashMap.put("userpic",userpic);
-                        hashMap.put("useremail",useremail);
-                        hashMap.put("usermobile",usermobile);
+                        String filter = pcity+""+pprize;
 
-                        MyPropertiesListArray.add(hashMap);
+                        ListPropertyModel listPropertyModel = new ListPropertyModel(id,pid,pimgone,pimgtwo,pimgthree,pprize,ppbhk,ptname,pfloor,pblockno,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,peid,pdate,eid,username,userpic,useremail,usermobile,COUNT,filter);
+                        MyPropertiesListArray.add(listPropertyModel);
+
                     }
                 }
                 else

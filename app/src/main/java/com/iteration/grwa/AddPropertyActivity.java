@@ -70,7 +70,7 @@ public class AddPropertyActivity extends AppCompatActivity
     Button btnAddProp;
     String Prop_Id,Prop_Prize,Prop_BHK,Prop_Type,Prop_Flat_Floor,Prop_Flat_Blockno,Prop_Area,Prop_YearBuilt,Prop_Bedroom,Prop_Bathroom,Prop_Address,Prop_City,Prop_State,Prop_PropDes;
     String flag,typeId,user_id;
-    String propId,pid,pprize,ppbhk,ptname,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,peid;
+    String propId,pid,pprize,ppbhk,ptname,pfloor,pblockno,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,peid;
     CircleImageView ivUserImg;
     Bitmap bitmap = null;
     String encodedImgpath="";
@@ -264,11 +264,12 @@ public class AddPropertyActivity extends AppCompatActivity
         flag = getIntent().getExtras().getString("opt");
         if(flag.equals("add"))
         {
-            //Toast.makeText(getApplicationContext(),"add",Toast.LENGTH_SHORT).show();
+            btnAddProp.setText("Add Prpperty");
             llAPImg.setVisibility(View.VISIBLE);
         }
         else if(flag.equals("edit"))
         {
+            btnAddProp.setText("Edit Prpperty");
             llAPImg.setVisibility(View.GONE);
             propId = getIntent().getExtras().getString("propId");
             pid = getIntent().getExtras().getString("pid");
@@ -278,6 +279,11 @@ public class AddPropertyActivity extends AppCompatActivity
             ppbhk = getIntent().getExtras().getString("ppbhk");
             txtAPBHK.setText(ppbhk);
             ptname = getIntent().getExtras().getString("ptname");
+
+            pfloor = getIntent().getExtras().getString("pfloor");
+            txtAPFFloor.setText(pfloor);
+            pblockno = getIntent().getExtras().getString("pblockno");
+            txtAPFBlockno.setText(pblockno);
             pparea = getIntent().getExtras().getString("pparea");
             txtAPArea.setText(pparea);
             pyearbuilt = getIntent().getExtras().getString("pyearbuilt");
@@ -652,6 +658,8 @@ public class AddPropertyActivity extends AppCompatActivity
                 joUser.put("p_pid",Prop_Id);
                 joUser.put("p_prize",Prop_Prize);
                 joUser.put("p_bhk",Prop_BHK);
+                joUser.put("p_type_id",Prop_Type);
+                joUser.put("p_floor",Prop_Flat_Floor);
                 joUser.put("p_block_no",Prop_Flat_Blockno);
                 joUser.put("p_area",Prop_Area);
                 joUser.put("p_yearbuilt",Prop_YearBuilt);
