@@ -36,6 +36,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,20 +64,22 @@ public class AddPropertyActivity extends AppCompatActivity
 
     SessionManager session;
     EditText txtAPId,txtAPPrize,txtAPFBlockno,txtAPFFloor,txtAPBHK,txtAPArea,txtAPYearBuilt,txtAPPropDes,txtAPBedroom,txtAPCity,txtAPState,txtAPBathroom,txtAPAddress;
-    LinearLayout llImgOne,llImgTwo,llImgThree,llAPImg,llFlatBox;
+    LinearLayout llImgOne,llImgTwo,llImgThree,llAPImg,llFlatBox,llRoom;
     ImageView ivImgOne,ivImgTwo,ivImgThree;
     Spinner spPType;
     ArrayList<String> spListTypeArray=new ArrayList<>();
     ArrayList<String> spListIdTypeArray=new ArrayList<>();
     Button btnAddProp;
-    String Prop_Id,Prop_Prize,Prop_BHK,Prop_Type,Prop_Flat_Floor,Prop_Flat_Blockno,Prop_Area,Prop_YearBuilt,Prop_Bedroom,Prop_Bathroom,Prop_Address,Prop_City,Prop_State,Prop_PropDes;
+    String Prop_Id,Prop_Prize,Prop_BHK,Prop_Type,Prop_Flat_Floor,Prop_Flat_Blockno,Pro_Area,Prop_Area,Prop_YearBuilt,Prop_Bedroom,Prop_Bathroom,Prop_Address,Prop_City,Prop_State,Prop_PropDes;
     String flag,typeId,user_id;
     String propId,pid,pprize,ppbhk,ptname,pfloor,pblockno,pparea,pyearbuilt,pstate,pcity,paddress,pbedroom,pbathroom,pdes,peid;
     CircleImageView ivUserImg;
     Bitmap bitmap = null;
-    String encodedImgpath="";
+    String encodedImgpath="",Pro_Category,Pro_Cat;
     int REQUEST_CAMERA = 0, SELECT_FILE = 1;
-
+    RadioGroup rgProCate,rgHouseArea,rgPlotArea;
+    RadioButton rbFurnished,rbUnfurnished,rbSemifurnished,rbPlotArea,rbConstructionArea,rbCarpetArea,rbSuperArea;
+    TextView tvProCat,tvBHK,tvYearBuilt;
     Bitmap bitmapOne = null,bitmapTwo = null,bitmapThree = null;
     String encodedImgOne="",encodedImgTwo="",encodedImgThree="";
     int SELECT_FILE_ONE = 2,SELECT_FILE_TWO = 3,SELECT_FILE_THREE = 4;
@@ -166,6 +170,70 @@ public class AddPropertyActivity extends AppCompatActivity
         txtAPFFloor = (EditText) findViewById(R.id.txtAPFFloor);
         txtAPFBlockno = (EditText) findViewById(R.id.txtAPFBlockno);
 
+        tvProCat = (TextView) findViewById(R.id.tvProCat);
+        rgProCate = (RadioGroup) findViewById(R.id.rgProCate);
+        rbFurnished = (RadioButton) findViewById(R.id.rbFurnished);
+        rbUnfurnished = (RadioButton) findViewById(R.id.rbUnfurnished);
+        rbSemifurnished = (RadioButton) findViewById(R.id.rbSemifurnished);
+        Pro_Category = "Furnished";
+        rgProCate.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId)
+                {
+                    case R.id.rbFurnished:
+                        Pro_Cat = "Furnished";
+                        break;
+                    case R.id.rbUnfurnished:
+                        Pro_Cat = "Unfurnished";
+                        break;
+                    case R.id.rbSemifurnished:
+                        Pro_Cat = "Semifurnished";
+                        break;
+                }
+            }
+        });
+
+        rgHouseArea = (RadioGroup) findViewById(R.id.rgHouseArea);
+        rbPlotArea = (RadioButton) findViewById(R.id.rbPlotArea);
+        rbConstructionArea = (RadioButton) findViewById(R.id.rbConstructionArea);
+        rgHouseArea.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId)
+                {
+                    case R.id.rbPlotArea:
+                        Pro_Area = "Plot Area";
+                        break;
+                    case R.id.rbConstructionArea:
+                        Pro_Area = "Construction Area";
+                        break;
+                }
+            }
+        });
+
+        rgPlotArea = (RadioGroup) findViewById(R.id.rgPlotArea);
+        rbCarpetArea = (RadioButton) findViewById(R.id.rbCarpetArea);
+        rbSuperArea = (RadioButton) findViewById(R.id.rbSuperArea);
+        rgPlotArea.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId)
+                {
+                    case R.id.rbCarpetArea:
+                        Pro_Area = "Carpet Area";
+                        break;
+                    case R.id.rbSuperArea:
+                        Pro_Area = "Super Area";
+                        break;
+                }
+            }
+        });
+
+        llRoom = (LinearLayout)findViewById(R.id.llRoom);
+        tvBHK = (TextView) findViewById(R.id.tvBHK);
+        tvYearBuilt = (TextView) findViewById(R.id.tvYearBuilt);
+
         spPType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -176,10 +244,44 @@ public class AddPropertyActivity extends AppCompatActivity
                 if (spPType.getSelectedItem().toString().equals("Flat"))
                 {
                     llFlatBox.setVisibility(View.VISIBLE);
+                    tvProCat.setVisibility(View.VISIBLE);
+                    rgProCate.setVisibility(View.VISIBLE);
+                    txtAPArea.setVisibility(View.VISIBLE);
+                    llRoom.setVisibility(View.VISIBLE);
+                    tvBHK.setVisibility(View.VISIBLE);
+                    txtAPBHK.setVisibility(View.VISIBLE);
+                    txtAPYearBuilt.setVisibility(View.VISIBLE);
+                    tvYearBuilt.setVisibility(View.VISIBLE);
+                    rgHouseArea.setVisibility(View.GONE);
+                    rgPlotArea.setVisibility(View.GONE);
                 }
-                else
+                else if (spPType.getSelectedItem().toString().equals("House"))
                 {
                     llFlatBox.setVisibility(View.GONE);
+                    tvProCat.setVisibility(View.GONE);
+                    rgProCate.setVisibility(View.GONE);
+                    txtAPArea.setVisibility(View.GONE);
+                    rgPlotArea.setVisibility(View.GONE);
+                    rgHouseArea.setVisibility(View.VISIBLE);
+                    tvBHK.setVisibility(View.VISIBLE);
+                    txtAPBHK.setVisibility(View.VISIBLE);
+                    txtAPYearBuilt.setVisibility(View.VISIBLE);
+                    tvYearBuilt.setVisibility(View.VISIBLE);
+                    llRoom.setVisibility(View.VISIBLE);
+                }
+                else if (spPType.getSelectedItem().toString().equals("Plot"))
+                {
+                    llFlatBox.setVisibility(View.GONE);
+                    tvProCat.setVisibility(View.GONE);
+                    rgProCate.setVisibility(View.GONE);
+                    txtAPArea.setVisibility(View.GONE);
+                    rgHouseArea.setVisibility(View.GONE);
+                    llRoom.setVisibility(View.GONE);
+                    tvBHK.setVisibility(View.GONE);
+                    txtAPBHK.setVisibility(View.GONE);
+                    txtAPYearBuilt.setVisibility(View.GONE);
+                    tvYearBuilt.setVisibility(View.GONE);
+                    rgPlotArea.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -308,7 +410,100 @@ public class AddPropertyActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                if(txtAPPrize.getText().toString().equals("") && txtAPBHK.getText().toString().equals("") && txtAPArea.getText().toString().equals("") && txtAPYearBuilt.getText().toString().equals("") && txtAPBedroom.getText().toString().equals("") && txtAPBathroom.getText().toString().equals("") && txtAPAddress.getText().toString().equals("") && txtAPCity.getText().toString().equals("") && txtAPState.getText().toString().equals("") && txtAPPropDes.getText().toString().equals(""))
+                if (spPType.getSelectedItem().toString().equals("Flat"))
+                {
+                    Prop_Id = txtAPId.getText().toString();
+                    Prop_Prize = txtAPPrize.getText().toString();
+                    Prop_BHK = txtAPBHK.getText().toString();
+                    Prop_Type = typeId;
+                    Prop_Flat_Floor = txtAPFFloor.getText().toString();
+                    Prop_Flat_Blockno = txtAPFBlockno.getText().toString();
+                    Prop_Area = txtAPArea.getText().toString();
+                    Prop_YearBuilt = txtAPYearBuilt.getText().toString();
+                    Pro_Category = Pro_Cat;
+                    Prop_Bedroom = txtAPBedroom.getText().toString();
+                    Prop_Bathroom = txtAPBathroom.getText().toString();
+                    Prop_Address = txtAPAddress.getText().toString();
+                    Prop_City = txtAPCity.getText().toString();
+                    Prop_State = txtAPState.getText().toString();
+                    Prop_PropDes = txtAPPropDes.getText().toString();
+
+
+                    if(flag.equals("add"))
+                    {
+                        GetInsertProperty insertProperty = new GetInsertProperty();
+                        insertProperty.execute();
+                    }
+                    else if(flag.equals("edit"))
+                    {
+
+                        GetEditProperty editProperty = new GetEditProperty();
+                        editProperty.execute();
+                    }
+                }
+                else if (spPType.getSelectedItem().toString().equals("House"))
+                {
+                    Prop_Id = txtAPId.getText().toString();
+                    Prop_Prize = txtAPPrize.getText().toString();
+                    Prop_BHK = txtAPBHK.getText().toString();
+                    Prop_Type = typeId;
+                    Prop_Flat_Floor = "";
+                    Prop_Flat_Blockno = "";
+                    Prop_Area = Pro_Area;
+                    Prop_YearBuilt = txtAPYearBuilt.getText().toString();
+                    Pro_Category = "";
+                    Prop_Bedroom = txtAPBedroom.getText().toString();
+                    Prop_Bathroom = txtAPBathroom.getText().toString();
+                    Prop_Address = txtAPAddress.getText().toString();
+                    Prop_City = txtAPCity.getText().toString();
+                    Prop_State = txtAPState.getText().toString();
+                    Prop_PropDes = txtAPPropDes.getText().toString();
+
+                    if(flag.equals("add"))
+                    {
+                        GetInsertProperty insertProperty = new GetInsertProperty();
+                        insertProperty.execute();
+                    }
+                    else if(flag.equals("edit"))
+                    {
+                        GetEditProperty editProperty = new GetEditProperty();
+                        editProperty.execute();
+                    }
+                }
+                else if (spPType.getSelectedItem().toString().equals("Plot"))
+                {
+                    Prop_Id = txtAPId.getText().toString();
+                    Prop_Prize = txtAPPrize.getText().toString();
+                    Prop_BHK = "";
+                    Prop_Type = typeId;
+                    Prop_Flat_Floor = "";
+                    Prop_Flat_Blockno = "";
+                    Prop_Area = Pro_Area;
+                    Prop_YearBuilt = "";
+                    Pro_Category = "";
+                    Prop_Bedroom = "";
+                    Prop_Bathroom = "";
+                    Prop_Address = txtAPAddress.getText().toString();
+                    Prop_City = txtAPCity.getText().toString();
+                    Prop_State = txtAPState.getText().toString();
+                    Prop_PropDes = txtAPPropDes.getText().toString();
+
+
+                    if(flag.equals("add"))
+                    {
+                        GetInsertProperty insertProperty = new GetInsertProperty();
+                        insertProperty.execute();
+                    }
+                    else if(flag.equals("edit"))
+                    {
+                        GetEditProperty editProperty = new GetEditProperty();
+                        editProperty.execute();
+                    }
+                }
+
+
+
+                /*if(txtAPPrize.getText().toString().equals("") && txtAPBHK.getText().toString().equals("") && txtAPArea.getText().toString().equals("") && txtAPYearBuilt.getText().toString().equals("") && txtAPBedroom.getText().toString().equals("") && txtAPBathroom.getText().toString().equals("") && txtAPAddress.getText().toString().equals("") && txtAPCity.getText().toString().equals("") && txtAPState.getText().toString().equals("") && txtAPPropDes.getText().toString().equals(""))
                 {
                     Toast.makeText(AddPropertyActivity.this,"Enter Prize.",Toast.LENGTH_SHORT).show();
                 }
@@ -408,7 +603,7 @@ public class AddPropertyActivity extends AppCompatActivity
                     }
 
 
-                }
+                }*/
             }
         });
     }
@@ -663,6 +858,7 @@ public class AddPropertyActivity extends AppCompatActivity
                 joUser.put("p_block_no",Prop_Flat_Blockno);
                 joUser.put("p_area",Prop_Area);
                 joUser.put("p_yearbuilt",Prop_YearBuilt);
+                joUser.put("p_category",Pro_Category);
                 joUser.put("p_bedroom",Prop_Bedroom);
                 joUser.put("p_bathroom",Prop_Bathroom);
                 joUser.put("p_address",Prop_Address);
@@ -760,7 +956,6 @@ public class AddPropertyActivity extends AppCompatActivity
             {
                 Toast.makeText(AddPropertyActivity.this,message,Toast.LENGTH_SHORT).show();
             }
-
         }
     }
 
@@ -793,6 +988,7 @@ public class AddPropertyActivity extends AppCompatActivity
                 joUser.put("p_block_no",Prop_Flat_Blockno);
                 joUser.put("p_area",Prop_Area);
                 joUser.put("p_yearbuilt",Prop_YearBuilt);
+                joUser.put("p_category",Pro_Category);
                 joUser.put("p_bedroom",Prop_Bedroom);
                 joUser.put("p_bathroom",Prop_Bathroom);
                 joUser.put("p_address",Prop_Address);
@@ -818,6 +1014,7 @@ public class AddPropertyActivity extends AppCompatActivity
             }
             return null;
         }
+
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);

@@ -121,7 +121,22 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginBottom="5dp"
-                android:text="Property Prize:" />
+                android:text="Property Type:" />
+
+            <Spinner
+                android:id="@+id/spPType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:background="@android:drawable/btn_dropdown" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="Property Price:" />
 
             <EditText
                 android:id="@+id/txtAPPrize"
@@ -129,11 +144,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:padding="10dp"
-                android:hint="Property Prize"
+                android:hint="Property Price"
                 android:inputType="number"
                 android:background="@drawable/textbox"/>
 
             <TextView
+                android:id="@+id/tvBHK"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -151,20 +167,7 @@
                 android:inputType="number"
                 android:background="@drawable/textbox"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginBottom="5dp"
-                android:text="Property Type:" />
 
-            <Spinner
-                android:id="@+id/spPType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:background="@android:drawable/btn_dropdown" />
 
             <LinearLayout
                 android:id="@+id/llFlatBox"
@@ -207,6 +210,8 @@
                     android:hint="Flat Floor"
                     android:background="@drawable/textbox"/>
 
+
+
             </LinearLayout>
 
             <TextView
@@ -227,7 +232,48 @@
                 android:inputType="number"
                 android:background="@drawable/textbox"/>
 
+            <RadioGroup
+                android:id="@+id/rgHouseArea"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RadioButton
+                    android:id="@+id/rbPlotArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Plot Area"
+                    android:checked="true"/>
+
+                <RadioButton
+                    android:id="@+id/rbConstructionArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Construction Area" />
+
+            </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/rgPlotArea"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RadioButton
+                    android:id="@+id/rbCarpetArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Carpet Built-up Area"
+                    android:checked="true"/>
+
+                <RadioButton
+                    android:id="@+id/rbSuperArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Super Built-up Area" />
+
+            </RadioGroup>
+
             <TextView
+                android:id="@+id/tvYearBuilt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -245,7 +291,44 @@
                 android:inputType="number"
                 android:background="@drawable/textbox"/>
 
+            <TextView
+                android:id="@+id/tvProCat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="Property Category:" />
+
+
+            <RadioGroup
+                android:id="@+id/rgProCate"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RadioButton
+                    android:id="@+id/rbFurnished"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Furnished"
+                    android:checked="true"/>
+
+                <RadioButton
+                    android:id="@+id/rbUnfurnished"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Unfurnished" />
+
+                <RadioButton
+                    android:id="@+id/rbSemifurnished"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Semifurnished" />
+
+            </RadioGroup>
+
             <LinearLayout
+                android:id="@+id/llRoom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -306,12 +389,12 @@
             </LinearLayout>
 
             <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginBottom="5dp"
-            android:text="Address:" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="Address:  (Scheme name)" />
 
             <EditText
                 android:id="@+id/txtAPAddress"

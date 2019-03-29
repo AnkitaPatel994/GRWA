@@ -43,7 +43,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="30dp"
+            android:background="@drawable/textbox">
 
             <TextView
                 android:id="@+id/txtNo"
@@ -53,7 +54,7 @@
                 android:textSize="18dp"
                 android:gravity="center"
                 android:padding="10dp"
-                android:background="@color/colorPrimary"
+                android:textColor="@color/colorPrimary"
                 android:text="No"/>
 
             <View
@@ -69,7 +70,7 @@
                 android:textSize="18dp"
                 android:gravity="center"
                 android:padding="10dp"
-                android:background="@color/colorRed"
+                android:textColor="@color/colorRed"
                 android:text="Yes"/>
 
         </LinearLayout>
